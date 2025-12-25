@@ -1,10 +1,57 @@
 import { StudentDashboardResponse, StudyPlanItem, UpcomingExam, Subject, StudentStats } from '../types/dashboard.js';
 import { prisma } from "../prisma/client.js";
 
+interface Quiz {
+  id: string;
+  subject: string;
+  title: string;
+  questions: number;
+  difficulty: string;
+  score: number;
+}
+
+interface Flashcard {
+  id: string;
+  subject: string;
+  title: string;
+  cards: number;
+  mastered: number;
+}
+
+interface PracticeData {
+  quizzes: Quiz[];
+  flashcards: Flashcard[];
+}
+
+interface OverallProgress {
+  completed: number;
+  total: number;
+  percentage: number;
+}
+
+interface SubjectProgress {
+  name: string;
+  completed: number;
+  total: number;
+  percentage: number;
+}
+
+interface WeeklyProgress {
+  week: string;
+  hours: number;
+  topics: number;
+}
+
+interface ProgressData {
+  overall: OverallProgress;
+  subjects: SubjectProgress[];
+  weekly: WeeklyProgress[];
+}
+
 export class StudentService {
   static async getDashboard(userId: string): Promise<StudentDashboardResponse> {
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
 
     const [plan, subjects, user] = await Promise.all([
       prisma.studyPlan.findFirst({
@@ -15,7 +62,7 @@ export class StudentService {
       prisma.user.findUnique({ where: { id: userId } })
     ]);
 
-    const studyPlan = plan ? plan.items.map(item => ({
+    const studyPlan = plan ? plan.items.map((item: any) => ({
       topic: item.topic,
       subject: item.subject,
       time: item.time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
@@ -23,14 +70,14 @@ export class StudentService {
       completed: item.completed
     })) : [];
 
-    const upcomingExam = subjects.map(subj => ({
+    const upcomingExam = subjects.map((subj: any) => ({
       subject: subj.name,
       daysLeft: Math.ceil((subj.examDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
       readiness: 50, // placeholder
       date: subj.examDate.toDateString()
     }));
 
-    const subjList = subjects.map(subj => ({
+    const subjList = subjects.map((subj: any) => ({
       name: subj.name,
       icon: "📚", // placeholder
       progress: 50 // placeholder
@@ -71,34 +118,26 @@ export class StudentService {
     return subjects;
   }
 
-  static async saveSubjects(userId: string, subjects: any[]) {
+  static async saveSubjects(userId: string, payload: any) {
     const { subjects, hoursPerDay, examDate } = payload;
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
+
+    // Create subjects
+    await prisma.subject.createMany({
+      data: subjects.map((s: any) => ({ ...s, userId }))
+    });
 
     // Create plan
     const plan = await prisma.studyPlan.create({
       data: {
         date: today,
         userId,
-    const notes = await prisma.note.findMany({
-      where: { userId },
-      select: {
-        id: true,
-        title: true,
-        subject: true,
-        fileUrl: true,
-        type: true,
-        createdAt: true
-      }
-    });
-    return notes.map(note => ({
-      id: note.id,
-      title: note.title,
-      subject: note.subject,
-      date: note.createdAt.toISOString().split('T')[0],
-      type: note.type
-    }))       time: new Date(today.getTime() + index * 2 * 60 * 60 * 1000), // 2 hours apart
+        items: {
+          create: subjects.map((subj: any, index: number) => ({
+            subject: subj.name,
+            topic: 'Study ' + subj.name,
+            time: new Date(today.getTime() + index * 2 * 60 * 60 * 1000), // 2 hours apart
             duration: 60 // 1 hour
           }))
         }
@@ -108,29 +147,26 @@ export class StudentService {
 
     return {
       id: plan.id,
-      dailyPlan: plan.items.map(item => ({
+      dailyPlan: plan.items.map((item: any) => ({
         subject: item.subject,
         topic: item.topic,
         time: item.time.toISOString(),
         duration: item.duration
       })),
-      totalHours: plan.items.reduce((sum, item) => sum + item.duration / 60, 0),
-      subject.createMany({ data });
+      totalHours: plan.items.reduce((sum: number, item: any) => sum + item.duration / 60, 0),
+    };
   }
 
   static async generateStudyPlan(userId: string, payload: any) {
-    return {
-      dailyPlan: [
-        { day: "Monday", subjects: ["Mathematics", "Physics"], hours: 3 },
     const today = new Date();
-    today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     const plan = await prisma.studyPlan.findFirst({
       where: { userId, date: today },
       include: { items: true }
     });
     if (!plan) return { items: [] };
     return {
-      items: plan.items.map(item => ({
+      items: plan.items.map((item: any) => ({
         subject: item.subject,
         topic: item.topic,
         time: item.time,
@@ -213,7 +249,7 @@ export class StudentService {
 
   static async getExams(userId: string) {
     const subjects = await prisma.subject.findMany({ where: { userId } });
-    return subjects.map(subj => ({
+    return subjects.map((subj: any) => ({
       id: subj.id,
       subject: subj.name,
       date: subj.examDate.toISOString().split('T')[0],
@@ -223,7 +259,7 @@ export class StudentService {
     }));
   }
 
-  static async getPractice(userId: string) {
+  static async getPractice(userId: string): Promise<PracticeData> {
     return {
       quizzes: [
         { id: "1", subject: "Mathematics", title: "Calculus Quiz", questions: 20, difficulty: "Hard", score: 85 },
@@ -236,7 +272,7 @@ export class StudentService {
     };
   }
 
-  static async getProgress(userId: string) {
+  static async getProgress(userId: string): Promise<ProgressData> {
     return {
       overall: { completed: 75, total: 100, percentage: 75 },
       subjects: [
@@ -317,10 +353,10 @@ export class StudentService {
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (user) {
       const today = new Date();
-      today.setHours(0,0,0,0);
+      today.setHours(0, 0, 0, 0);
       const lastActive = user.lastActiveAt ? new Date(user.lastActiveAt) : null;
       if (lastActive) {
-        lastActive.setHours(0,0,0,0);
+        lastActive.setHours(0, 0, 0, 0);
         const diffDays = (today.getTime() - lastActive.getTime()) / (1000 * 60 * 60 * 24);
         if (diffDays === 1) {
           await prisma.user.update({
@@ -362,10 +398,10 @@ export class StudentService {
       },
       orderBy: { createdAt: 'desc' }
     });
-    return sessions.map(session => ({
+    return sessions.map((session: any) => ({
       id: session.id,
       title: session.title,
-      messages: session.messages.map(msg => ({
+      messages: session.messages.map((msg: any) => ({
         role: msg.role,
         content: msg.content,
         createdAt: msg.createdAt
