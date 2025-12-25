@@ -1,0 +1,267 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String    @id @default(uuid())
+  name        String
+  email       String    @unique
+  password    String
+  role        Role
+  avatar      String?
+  requests    Int      @default(0)
+  streak      Int      @default(0)
+  hoursStudied Float   @default(0)
+  topicsCompleted Int @default(0)
+  questionsAsked Int  @default(0)
+  averageScore Float   @default(0)
+  lastActiveAt   DateTime?
+  createdAt    DateTime  @default(now())
+  disabled    Boolean  @default(false)
+
+  aiLogs     AiLog[]
+  subjects   Subject[]
+  studyPlans StudyPlan[]
+  notes      Note[]
+  chatSessions ChatSession[]
+  exams      Exam[]
+  milestones  Milestone[]
+  okrs        OKR[]
+  roadmapItems RoadmapItem[]
+  teamMembers TeamMember[]
+  businessTasks BusinessTask[]
+  businessGoals BusinessGoal[]
+  customers   Customer[]
+}
+
+model AiLog {
+  id        String     @id @default(uuid())
+  prompt    String
+  response  String
+  provider  Aiprovider
+  createdAt  DateTime  @default(now())
+
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model Subject {
+  id          String @id @default(uuid())
+  name        String
+  difficulty  String
+  hoursPerWeek Int
+  examDate    DateTime
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  @@unique([name, userId])
+}
+
+model StudyPlan {
+  id        String @id @default(uuid())
+  date      DateTime
+  userId    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     StudyPlanItem[]
+  createdAt DateTime @default(now())
+}
+
+model StudyPlanItem {
+  id          String @id @default(uuid())
+  subject     String
+  topic       String
+  time        DateTime
+  duration    Int
+  completed   Boolean @default(false)
+  planId      String
+  plan        StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id        String @id @default(uuid())
+  title     String
+  subject   String
+  fileUrl   String
+  type      NoteType
+  userId    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model ChatSession {
+  id        String @id @default(uuid())
+  title     String?
+  userId    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+  createdAt DateTime @default(now())
+}
+
+model ChatMessage {
+  id        String @id @default(uuid())
+  role      MessageRole
+  content   String
+  sessionId String
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Exam {
+  id          String @id @default(uuid())
+  subject     String
+  questions   Json
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attempts    ExamAttempt[]
+  createdAt   DateTime @default(now())
+}
+
+model ExamAttempt {
+  id        String @id @default(uuid())
+  answers   Json
+  score     Float
+  duration  Int
+  examId    String
+  exam      Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Milestone {
+  id          String @id @default(uuid())
+  name        String
+  date        DateTime
+  status      MilestoneStatus
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model OKR {
+  id          String @id @default(uuid())
+  objective   String
+  keyResults  Json // array of key results
+  status      OKRStatus
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model RoadmapItem {
+  id          String @id @default(uuid())
+  feature     String
+  status      RoadmapStatus
+  priority    String
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model TeamMember {
+  id          String @id @default(uuid())
+  name        String
+  role        String
+  avatar      String?
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model BusinessTask {
+  id          String @id @default(uuid())
+  title       String
+  description String?
+  status      TaskStatus
+  priority    String
+  dueDate     DateTime?
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model BusinessGoal {
+  id          String @id @default(uuid())
+  title       String
+  description String?
+  target      String
+  current     String
+  status      GoalStatus
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model Customer {
+  id          String @id @default(uuid())
+  name        String
+  email       String?
+  company     String?
+  status      CustomerStatus
+  userId      String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+enum Role {
+  STUDENT
+  BUSINESS
+  FOUNDER
+  ADMIN
+}
+
+enum Aiprovider {
+  OPENAI
+  GROK
+}
+
+enum NoteType {
+  NOTE
+  PDF
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum OKRStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum RoadmapStatus {
+  PENDING
+  IN_PROGRESS
+  DONE
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum GoalStatus {
+  ACTIVE
+  ACHIEVED
+  CANCELLED
+}
+
+enum CustomerStatus {
+  LEAD
+  CUSTOMER
+  INACTIVE
+}

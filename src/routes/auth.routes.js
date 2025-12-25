@@ -1,0 +1,8 @@
+import { Router } from "express";
+import { register, login, } from "../controllers/auth.controller.js";
+const router = Router();
+// Auth
+router.post("/register", register);
+router.post("/login", login);
+export default router;
+//# sourceMappingURL=auth.routes.js.map

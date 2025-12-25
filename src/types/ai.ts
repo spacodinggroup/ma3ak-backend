@@ -1,0 +1,1 @@
+export type Aiprovider = "OPENAI" | "GROK";

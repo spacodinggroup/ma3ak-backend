@@ -1,0 +1,20 @@
+import { Router } from "express";
+import { protect } from "../middlewares/auth.middleware.js";
+import { getStudentDashboard, getStudentSubjects, generateStudyPlan, getStudentCourses, sendStudentMessage, getStudentNotes, getStudentPlan, getStudentExams, getStudentPractice, getStudentProgress, getStudentSettings, updateStudentSettings, getStudentTimer, uploadStudentNote, } from "../controllers/student.controller.js";
+const router = Router();
+router.get("/dashboard", protect, getStudentDashboard);
+router.get("/subjects", protect, getStudentSubjects);
+router.post("/generate-plan", protect, generateStudyPlan);
+router.get("/courses", protect, getStudentCourses);
+router.post("/chat", protect, sendStudentMessage);
+router.get("/notes", protect, getStudentNotes);
+router.get("/plan", protect, getStudentPlan);
+router.get("/exams", protect, getStudentExams);
+router.get("/practice", protect, getStudentPractice);
+router.get("/progress", protect, getStudentProgress);
+router.get("/settings", protect, getStudentSettings);
+router.put("/settings", protect, updateStudentSettings);
+router.get("/timer", protect, getStudentTimer);
+router.post("/notes/upload", protect, uploadStudentNote);
+export default router;
+//# sourceMappingURL=student.routes.js.map
