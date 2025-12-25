@@ -1,4 +1,5 @@
-import Module = require("node:module");
+import Module from "node:module";
+
 
 export const AI_CONFIG = {
     FREE_REQUESTS_LIMIT: 10,
