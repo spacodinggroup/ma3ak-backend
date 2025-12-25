@@ -210,6 +210,9 @@ export const completeStudyPlanItem = async (req: AuthenticatedRequest, res: Resp
             return errorResponse(res, "Unauthorized", 401);
         }
         const { itemId } = req.params;
+        if (!itemId) {
+            return errorResponse(res, "Item ID required", 400);
+        }
         await StudentService.completeItem(userId, itemId);
         successResponse(res, { message: "Item completed" });
     } catch (error) {

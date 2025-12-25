@@ -48,6 +48,150 @@ interface ProgressData {
   weekly: WeeklyProgress[];
 }
 
+interface SubjectData {
+  id: string;
+  name: string;
+  difficulty: string;
+  hoursPerWeek: number;
+  examDate: Date;
+  createdAt: Date;
+}
+
+interface SaveSubjectsPayload {
+  subjects: any[];
+  hoursPerDay?: number;
+  examDate?: Date;
+}
+
+interface SaveSubjectsResponse {
+  id: string;
+  dailyPlan: {
+    subject: string;
+    topic: string;
+    time: string;
+    duration: number;
+  }[];
+  totalHours: number;
+}
+
+interface StudyPlanResponse {
+  items: StudyPlanItem[];
+}
+
+interface Course {
+  id: string;
+  name: string;
+  instructor: string;
+  progress: number;
+  nextLesson: string;
+}
+
+interface MessageResponse {
+  message: string;
+  suggestions: string[];
+}
+
+interface Note {
+  id: string;
+  title: string;
+  subject: string;
+  date: string;
+  pages: number;
+}
+
+interface WeeklyTask {
+  day: string;
+  tasks: string[];
+  completed: number;
+}
+
+interface Goals {
+  weeklyHours: number;
+  currentHours: number;
+  subjects: number;
+  completedSubjects: number;
+}
+
+interface PlanResponse {
+  weekly: WeeklyTask[];
+  goals: Goals;
+}
+
+interface Exam {
+  id: string;
+  subject: string;
+  date: string;
+  time: string;
+  readiness: number;
+  topics: string[];
+}
+
+interface Settings {
+  notifications: boolean;
+  reminders: boolean;
+  studyReminders: boolean;
+  language: string;
+  theme: string;
+}
+
+interface UpdateSettingsResponse {
+  message: string;
+  settings: Settings;
+}
+
+interface Timer {
+  currentSession: {
+    subject: string;
+    time: number;
+    goal: number;
+  };
+  today: {
+    total: number;
+    goal: number;
+  };
+  week: {
+    total: number;
+    goal: number;
+  };
+}
+
+interface UploadNoteData {
+  title: string;
+  subject: string;
+  fileUrl: string;
+  type?: string;
+}
+
+interface NoteData {
+  id: string;
+  title: string;
+  subject: string;
+  fileUrl: string;
+  type: string;
+  createdAt: Date;
+}
+
+interface ExamData {
+  id: string;
+  subject: string;
+  questions: any;
+  userId: string;
+  createdAt: Date;
+}
+
+interface ChatMessage {
+  role: string;
+  content: string;
+  createdAt: Date;
+}
+
+interface ChatSession {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  createdAt: Date;
+}
+
 export class StudentService {
   static async getDashboard(userId: string): Promise<StudentDashboardResponse> {
     const today = new Date();
@@ -103,7 +247,7 @@ export class StudentService {
     };
   }
 
-  static async getSubjects(userId: string) {
+  static async getSubjects(userId: string): Promise<SubjectData[]> {
     const subjects = await prisma.subject.findMany({
       where: { userId },
       select: {
@@ -118,7 +262,7 @@ export class StudentService {
     return subjects;
   }
 
-  static async saveSubjects(userId: string, payload: any) {
+  static async saveSubjects(userId: string, payload: SaveSubjectsPayload): Promise<SaveSubjectsResponse> {
     const { subjects, hoursPerDay, examDate } = payload;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -157,7 +301,7 @@ export class StudentService {
     };
   }
 
-  static async generateStudyPlan(userId: string, payload: any) {
+  static async generateStudyPlan(userId: string, payload?: any): Promise<StudyPlanResponse> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const plan = await prisma.studyPlan.findFirst({
@@ -176,7 +320,7 @@ export class StudentService {
     };
   }
 
-  static async getCourses(userId: string) {
+  static async getCourses(userId: string): Promise<Course[]> {
     return [
       { id: "1", name: "Advanced Calculus", instructor: "Dr. Smith", progress: 75, nextLesson: "Integration Techniques" },
       { id: "2", name: "Quantum Physics", instructor: "Prof. Johnson", progress: 60, nextLesson: "Wave Functions" },
@@ -184,7 +328,7 @@ export class StudentService {
     ];
   }
 
-  static async sendMessage(userId: string, message: string) {
+  static async sendMessage(userId: string, message: string): Promise<MessageResponse> {
     // Find or create session
     let session = await prisma.chatSession.findFirst({
       where: { userId },
@@ -228,7 +372,7 @@ export class StudentService {
     };
   }
 
-  static async getNotes(userId: string) {
+  static async getNotes(userId: string): Promise<Note[]> {
     return [
       { id: "1", title: "Calculus Notes", subject: "Mathematics", date: "2024-12-20", pages: 5 },
       { id: "2", title: "Physics Formulas", subject: "Physics", date: "2024-12-18", pages: 3 },
@@ -236,7 +380,7 @@ export class StudentService {
     ];
   }
 
-  static async getPlan(userId: string) {
+  static async getPlan(userId: string): Promise<PlanResponse> {
     return {
       weekly: [
         { day: "Monday", tasks: ["Math homework", "Physics reading"], completed: 2 },
@@ -247,7 +391,7 @@ export class StudentService {
     };
   }
 
-  static async getExams(userId: string) {
+  static async getExams(userId: string): Promise<Exam[]> {
     const subjects = await prisma.subject.findMany({ where: { userId } });
     return subjects.map((subj: any) => ({
       id: subj.id,
@@ -288,7 +432,7 @@ export class StudentService {
     };
   }
 
-  static async getSettings(userId: string) {
+  static async getSettings(userId: string): Promise<Settings> {
     return {
       notifications: true,
       reminders: true,
@@ -298,11 +442,11 @@ export class StudentService {
     };
   }
 
-  static async updateSettings(userId: string, settings: any) {
+  static async updateSettings(userId: string, settings: Settings): Promise<UpdateSettingsResponse> {
     return { message: "Settings updated", settings };
   }
 
-  static async getTimer(userId: string) {
+  static async getTimer(userId: string): Promise<Timer> {
     return {
       currentSession: { subject: "Mathematics", time: 0, goal: 90 },
       today: { total: 240, goal: 300 },
@@ -310,14 +454,14 @@ export class StudentService {
     };
   }
 
-  static async uploadNote(userId: string, formData: any) {
+  static async uploadNote(userId: string, formData: UploadNoteData): Promise<NoteData> {
     const { title, subject, fileUrl, type } = formData;
     const note = await prisma.note.create({
       data: {
         title,
         subject,
         fileUrl,
-        type: type || 'NOTE',
+        type: (type || 'NOTE') as any,
         userId
       }
     });
@@ -331,7 +475,7 @@ export class StudentService {
     };
   }
 
-  static async completeItem(userId: string, itemId: string) {
+  static async completeItem(userId: string, itemId: string): Promise<void> {
     const item = await prisma.studyPlanItem.update({
       where: { id: itemId },
       data: { completed: true },
@@ -378,7 +522,7 @@ export class StudentService {
     }
   }
 
-  static async saveExam(userId: string, subject: string, questions: any) {
+  static async saveExam(userId: string, subject: string, questions: any): Promise<ExamData> {
     return await prisma.exam.create({
       data: {
         subject,
@@ -388,7 +532,7 @@ export class StudentService {
     });
   }
 
-  static async getChatSessions(userId: string) {
+  static async getChatSessions(userId: string): Promise<ChatSession[]> {
     const sessions = await prisma.chatSession.findMany({
       where: { userId },
       include: {

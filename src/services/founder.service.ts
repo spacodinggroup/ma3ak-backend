@@ -61,23 +61,23 @@ export class FounderService {
     return {
       startupStage,
       metrics,
-      roadmapItems: roadmapItems.map(item => ({
+      roadmapItems: roadmapItems.map((item: any) => ({
         id: item.id,
         feature: item.feature,
         status: item.status.toLowerCase() as any,
         priority: item.priority
       })),
-      milestones: milestones.map(item => ({
+      milestones: milestones.map((item: any) => ({
         id: item.id,
         name: item.name,
         date: item.date.toISOString().split('T')[0],
         status: item.status.toLowerCase() as any
       })),
-      teamMembers: teamMembers.map(member => ({
+      teamMembers: teamMembers.map((member: any) => ({
         id: member.id,
         name: member.name,
         role: member.role,
-        avatar: member.avatar || member.name.split(' ').map(n => n[0]).join('')
+        avatar: member.avatar || member.name.split(' ').map((n: string) => n[0]).join('')
       }))
     };
   }
@@ -97,7 +97,7 @@ export class FounderService {
       where: { userId },
       orderBy: { date: 'asc' }
     });
-    return milestones.map(item => ({
+    return milestones.map((item: any) => ({
       id: item.id,
       name: item.name,
       date: item.date.toISOString().split('T')[0],
@@ -110,7 +110,7 @@ export class FounderService {
       where: { userId },
       orderBy: { createdAt: 'desc' }
     });
-    return okrs.map(okr => ({
+    return okrs.map((okr: any) => ({
       id: okr.id,
       objective: okr.objective,
       keyResults: okr.keyResults as string[],
@@ -134,7 +134,7 @@ export class FounderService {
       where: { userId },
       orderBy: { priority: 'asc' }
     });
-    return items.map(item => ({
+    return items.map((item: any) => ({
       id: item.id,
       feature: item.feature,
       status: item.status.toLowerCase() as any,
@@ -159,11 +159,11 @@ export class FounderService {
 
   static async getTeam(userId: string): Promise<TeamMember[]> {
     const members = await prisma.teamMember.findMany({ where: { userId } });
-    return members.map(member => ({
+    return members.map((member: any) => ({
       id: member.id,
       name: member.name,
       role: member.role,
-      avatar: member.avatar || member.name.split(' ').map(n => n[0]).join('')
+      avatar: member.avatar || member.name.split(' ').map((n: string) => n[0]).join('')
     }));
   }
 

@@ -16,7 +16,7 @@ export const buildPrompt = (
     Explain concepts clearly.
     Help with summaries, studying, and projects.`,
 
-    STARTUP: `
+    FOUNDER: `
     You are a startup mentor and entrepreneur.
     Help with ideas, MVP planning, validation, and pitching.`,
 

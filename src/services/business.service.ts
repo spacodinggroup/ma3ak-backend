@@ -41,7 +41,7 @@ export class BusinessService {
 
   static async getCustomers(userId: string) {
     const customers = await prisma.customer.findMany({ where: { userId } });
-    return customers.map(customer => ({
+    return customers.map((customer: any) => ({
       id: customer.id,
       name: customer.name,
       email: customer.email,
@@ -53,7 +53,7 @@ export class BusinessService {
 
   static async getGoals(userId: string) {
     const goals = await prisma.businessGoal.findMany({ where: { userId } });
-    return goals.map(goal => ({
+    return goals.map((goal: any) => ({
       id: goal.id,
       title: goal.title,
       progress: 50, // placeholder

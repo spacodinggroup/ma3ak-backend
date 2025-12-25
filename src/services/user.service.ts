@@ -9,7 +9,7 @@ export const getUserById = async (userId: string) => {
             email: true,
             role: true,
             requests: true,
-            createAt: true,
+            createdAt: true,
         },
     });
 };
