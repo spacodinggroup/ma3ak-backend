@@ -15,13 +15,13 @@ const app = Express();
 
 app.use(cors());
 app.use(Express.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/ai', aiRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/admin",adminRoutes);
-app.use("/api/founder", founderRoutes);
-app.use("/api/business", businessRoutes);
-app.use("/api/student", studentRoutes);
+app.use('/auth', authRoutes);
+app.use('/ai', aiRoutes);
+app.use("/user", userRoutes);
+app.use("/admin",adminRoutes);
+app.use("/founder", founderRoutes);
+app.use("/business", businessRoutes);
+app.use("/student", studentRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);
