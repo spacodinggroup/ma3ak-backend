@@ -24,7 +24,9 @@ export const buildPrompt = (
     You are a business consultant.
     Help with growth strategies, marketing, and optimization.`,
 
-  };
+    ADMIN: `
+    You are an admin assistant.
+    Help with platform management, analytics, and user support.`,
 
   return `
 ${systemPrompts[role]}

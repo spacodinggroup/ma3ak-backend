@@ -12,7 +12,7 @@ export const getFounderDashboard = async (req: AuthenticatedRequest, res: Respon
         const data = await FounderService.getDashboard(userId);
         successResponse(res, data);
     } catch (error) {
-        errorResponse(res, "Failed to get founder dashboard");
+        errorResponse(res, "Failed to get founder dashboard", 500);
     }
 };
 
@@ -25,7 +25,7 @@ export const getFounderMetrics = async (req: AuthenticatedRequest, res: Response
         const metrics = await FounderService.getMetrics(userId);
         successResponse(res, metrics);
     } catch (error) {
-        errorResponse(res, "Failed to get founder metrics");
+        errorResponse(res, "Failed to get founder metrics", 500);
     }
 };
 
@@ -38,7 +38,7 @@ export const getFounderMilestones = async (req: AuthenticatedRequest, res: Respo
         const milestones = await FounderService.getMilestones(userId);
         successResponse(res, milestones);
     } catch (error) {
-        errorResponse(res, "Failed to get founder milestones");
+        errorResponse(res, "Failed to get founder milestones", 500);
     }
 };
 
@@ -51,7 +51,7 @@ export const getFounderOKRs = async (req: AuthenticatedRequest, res: Response) =
         const okrs = await FounderService.getOKRs(userId);
         successResponse(res, okrs);
     } catch (error) {
-        errorResponse(res, "Failed to get founder OKRs");
+        errorResponse(res, "Failed to get founder OKRs", 500);
     }
 };
 
@@ -64,7 +64,7 @@ export const getFounderPitch = async (req: AuthenticatedRequest, res: Response) 
         const pitch = await FounderService.getPitch(userId);
         successResponse(res, pitch);
     } catch (error) {
-        errorResponse(res, "Failed to get founder pitch");
+        errorResponse(res, "Failed to get founder pitch", 500);
     }
 };
 
@@ -77,7 +77,7 @@ export const getFounderRoadmap = async (req: AuthenticatedRequest, res: Response
         const roadmap = await FounderService.getRoadmap(userId);
         successResponse(res, roadmap);
     } catch (error) {
-        errorResponse(res, "Failed to get founder roadmap");
+        errorResponse(res, "Failed to get founder roadmap", 500);
     }
 };
 
@@ -90,7 +90,7 @@ export const getFounderSettings = async (req: AuthenticatedRequest, res: Respons
         const settings = await FounderService.getSettings(userId);
         successResponse(res, settings);
     } catch (error) {
-        errorResponse(res, "Failed to get founder settings");
+        errorResponse(res, "Failed to get founder settings", 500);
     }
 };
 
@@ -104,7 +104,7 @@ export const updateFounderSettings = async (req: AuthenticatedRequest, res: Resp
         const result = await FounderService.updateSettings(userId, settings);
         successResponse(res, result);
     } catch (error) {
-        errorResponse(res, "Failed to update founder settings");
+        errorResponse(res, "Failed to update founder settings", 500);
     }
 };
 
@@ -117,7 +117,7 @@ export const getFounderTeam = async (req: AuthenticatedRequest, res: Response) =
         const team = await FounderService.getTeam(userId);
         successResponse(res, team);
     } catch (error) {
-        errorResponse(res, "Failed to get founder team");
+        errorResponse(res, "Failed to get founder team", 500);
     }
 };
 
@@ -130,7 +130,7 @@ export const getFounderTech = async (req: AuthenticatedRequest, res: Response) =
         const tech = await FounderService.getTech(userId);
         successResponse(res, tech);
     } catch (error) {
-        errorResponse(res, "Failed to get founder tech");
+        errorResponse(res, "Failed to get founder tech", 500);
     }
 };
 
@@ -143,6 +143,6 @@ export const getFounderValidate = async (req: AuthenticatedRequest, res: Respons
         const validation = await FounderService.getValidate(userId);
         successResponse(res, validation);
     } catch (error) {
-        errorResponse(res, "Failed to get founder validation");
+        errorResponse(res, "Failed to get founder validation", 500);
     }
 };

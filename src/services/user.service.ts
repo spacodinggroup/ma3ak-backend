@@ -11,21 +11,7 @@ export const getUserById = async (userId: string) => {
             requests: true,
             createdAt: true,
         },
-    });
-};
-
-export const incrementUserRequqsts = async (userId: string) => {
-    return prisma.user.update({
-        where: { id: userId },
-        data: {
-            requests: {
-                increment: 1,
-            },
-        },
-    });
-};
-
-export const getUserUsage = async (userId: string) => {
+        });\n};\n\nexport const getUserUsage = async (userId: string) => {
     const user = await prisma.user.findUnique({
         where: { id: userId },
         select: {

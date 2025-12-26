@@ -1,1 +1,1 @@
-export type Role = "STUDENT" | "BUSINESS" | "FOUNDER";
+export type Role = "STUDENT" | "BUSINESS" | "FOUNDER" | "ADMIN";

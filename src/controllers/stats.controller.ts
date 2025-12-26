@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../prisma/client.js";
+import { prisma } from "../prisma/client.js";
 import { AuthenticatedRequest } from "../types/request.js";
+import { successResponse, errorResponse } from "../utils/response.js";
 
 export const getMyStats = async (req: AuthenticatedRequest, res: Response) => {
     const userId = req.user!.id;
@@ -17,5 +18,5 @@ export const getMyStats = async (req: AuthenticatedRequest, res: Response) => {
             },
         },
     });
-    res.json({ total, today });
+    successResponse(res, { total, today });
 };

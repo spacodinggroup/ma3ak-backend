@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { signToken } from "../utils/jwt.js";
 import { Request, Response } from "express";
-import { PrismaClient } from "../prisma/client.js";
+import { prisma } from "../prisma/client.js";
 import { successResponse, errorResponse } from "../utils/response.js";
 
 export const register = async (req: Request, res: Response) => {
@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
             token,
         });
     } catch (err) {
-        errorResponse(res, "Registration failed");
+        errorResponse(res, "Registration failed", 500);
     }
 };
 
@@ -73,6 +73,6 @@ export const login = async (req: Request, res: Response) => {
             token,
         });
     } catch {
-        errorResponse(res, "Login failed");
+        errorResponse(res, "Login failed", 500);
     }
 };

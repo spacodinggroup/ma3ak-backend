@@ -20,12 +20,12 @@ export const getStudentSubjects = async (req: AuthenticatedRequest, res: Respons
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const subjects = await StudentService.getSubjects(userId);
-        res.json({ success: true, data: subjects });
+        successResponse(res, subjects);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student subjects" });
+        errorResponse(res, "Failed to get student subjects", 500);
     }
 };
 
@@ -33,13 +33,13 @@ export const generateStudyPlan = async (req: AuthenticatedRequest, res: Response
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const { subjects, hoursPerDay, examDate } = req.body;
         const plan = await StudentService.generateStudyPlan(userId, { subjects, hoursPerDay, examDate });
-        res.json({ success: true, data: plan });
+        successResponse(res, plan);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to generate study plan" });
+        errorResponse(res, "Failed to generate study plan", 500);
     }
 };
 
@@ -47,12 +47,12 @@ export const getStudentCourses = async (req: AuthenticatedRequest, res: Response
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const courses = await StudentService.getCourses(userId);
-        res.json({ success: true, data: courses });
+        successResponse(res, courses);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student courses" });
+        errorResponse(res, "Failed to get student courses", 500);
     }
 };
 
@@ -60,13 +60,13 @@ export const sendStudentMessage = async (req: AuthenticatedRequest, res: Respons
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const { message } = req.body;
         const response = await StudentService.sendMessage(userId, message);
-        res.json({ success: true, data: response });
+        successResponse(res, response);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to send message" });
+        errorResponse(res, "Failed to send message", 500);
     }
 };
 
@@ -74,12 +74,12 @@ export const getStudentNotes = async (req: AuthenticatedRequest, res: Response) 
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const notes = await StudentService.getNotes(userId);
-        res.json({ success: true, data: notes });
+        successResponse(res, notes);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student notes" });
+        errorResponse(res, "Failed to get student notes", 500);
     }
 };
 
@@ -87,12 +87,12 @@ export const getStudentPlan = async (req: AuthenticatedRequest, res: Response) =
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const plan = await StudentService.getPlan(userId);
-        res.json({ success: true, data: plan });
+        successResponse(res, plan);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student plan" });
+        errorResponse(res, "Failed to get student plan", 500);
     }
 };
 
@@ -100,12 +100,12 @@ export const getStudentExams = async (req: AuthenticatedRequest, res: Response) 
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const exams = await StudentService.getExams(userId);
-        res.json({ success: true, data: exams });
+        successResponse(res, exams);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student exams" });
+        errorResponse(res, "Failed to get student exams", 500);
     }
 };
 
@@ -113,12 +113,12 @@ export const getStudentPractice = async (req: AuthenticatedRequest, res: Respons
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const practice = await StudentService.getPractice(userId);
-        res.json({ success: true, data: practice });
+        successResponse(res, practice);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student practice" });
+        errorResponse(res, "Failed to get student practice", 500);
     }
 };
 
@@ -126,12 +126,12 @@ export const getStudentProgress = async (req: AuthenticatedRequest, res: Respons
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const progress = await StudentService.getProgress(userId);
-        res.json({ success: true, data: progress });
+        successResponse(res, progress);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student progress" });
+        errorResponse(res, "Failed to get student progress", 500);
     }
 };
 
@@ -139,12 +139,12 @@ export const getStudentSettings = async (req: AuthenticatedRequest, res: Respons
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const settings = await StudentService.getSettings(userId);
-        res.json({ success: true, data: settings });
+        successResponse(res, settings);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student settings" });
+        errorResponse(res, "Failed to get student settings", 500);
     }
 };
 
@@ -152,13 +152,13 @@ export const updateStudentSettings = async (req: AuthenticatedRequest, res: Resp
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const settings = req.body;
         const result = await StudentService.updateSettings(userId, settings);
-        res.json({ success: true, data: result });
+        successResponse(res, result);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to update student settings" });
+        errorResponse(res, "Failed to update student settings", 500);
     }
 };
 
@@ -166,12 +166,12 @@ export const getStudentTimer = async (req: AuthenticatedRequest, res: Response) 
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const timer = await StudentService.getTimer(userId);
-        res.json({ success: true, data: timer });
+        successResponse(res, timer);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get student timer" });
+        errorResponse(res, "Failed to get student timer", 500);
     }
 };
 
@@ -185,7 +185,7 @@ export const uploadStudentNote = async (req: FileUploadRequest, res: Response) =
         const result = await StudentService.uploadNote(userId, req.file || req.body);
         successResponse(res, result);
     } catch (error) {
-        errorResponse(res, "Failed to upload note");
+        errorResponse(res, "Failed to upload note", 500);
     }
 };
 
@@ -199,7 +199,7 @@ export const saveStudentSubjects = async (req: AuthenticatedRequest, res: Respon
         await StudentService.saveSubjects(userId, subjects);
         successResponse(res, { message: "Subjects saved" });
     } catch (error) {
-        errorResponse(res, "Failed to save subjects");
+        errorResponse(res, "Failed to save subjects", 500);
     }
 };
 
@@ -216,7 +216,7 @@ export const completeStudyPlanItem = async (req: AuthenticatedRequest, res: Resp
         await StudentService.completeItem(userId, itemId);
         successResponse(res, { message: "Item completed" });
     } catch (error) {
-        errorResponse(res, "Failed to complete item");
+        errorResponse(res, "Failed to complete item", 500);
     }
 };
 
@@ -230,7 +230,7 @@ export const saveExam = async (req: AuthenticatedRequest, res: Response) => {
         const exam = await StudentService.saveExam(userId, subject, questions);
         successResponse(res, exam);
     } catch (error) {
-        errorResponse(res, "Failed to save exam");
+        errorResponse(res, "Failed to save exam", 500);
     }
 };
 
@@ -243,6 +243,6 @@ export const getChatSessions = async (req: AuthenticatedRequest, res: Response) 
         const sessions = await StudentService.getChatSessions(userId);
         successResponse(res, sessions);
     } catch (error) {
-        errorResponse(res, "Failed to get chat sessions");
+        errorResponse(res, "Failed to get chat sessions", 500);
     }
 };

@@ -59,12 +59,12 @@ export const getBusinessCustomers = async (req: AuthenticatedRequest, res: Respo
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const customers = await BusinessService.getCustomers(userId);
-        res.json({ success: true, data: customers });
+        successResponse(res, customers);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business customers" });
+        errorResponse(res, "Failed to get business customers", 500);
     }
 };
 
@@ -72,12 +72,12 @@ export const getBusinessGoals = async (req: AuthenticatedRequest, res: Response)
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const goals = await BusinessService.getGoals(userId);
-        res.json({ success: true, data: goals });
+        successResponse(res, goals);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business goals" });
+        errorResponse(res, "Failed to get business goals", 500);
     }
 };
 
@@ -85,12 +85,12 @@ export const getBusinessMarketing = async (req: AuthenticatedRequest, res: Respo
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const marketing = await BusinessService.getMarketing(userId);
-        res.json({ success: true, data: marketing });
+        successResponse(res, marketing);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business marketing" });
+        errorResponse(res, "Failed to get business marketing", 500);
     }
 };
 
@@ -98,12 +98,12 @@ export const getBusinessReports = async (req: AuthenticatedRequest, res: Respons
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const reports = await BusinessService.getReports(userId);
-        res.json({ success: true, data: reports });
+        successResponse(res, reports);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business reports" });
+        errorResponse(res, "Failed to get business reports", 500);
     }
 };
 
@@ -111,12 +111,12 @@ export const getBusinessSales = async (req: AuthenticatedRequest, res: Response)
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const sales = await BusinessService.getSales(userId);
-        res.json({ success: true, data: sales });
+        successResponse(res, sales);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business sales" });
+        errorResponse(res, "Failed to get business sales", 500);
     }
 };
 
@@ -124,12 +124,12 @@ export const getBusinessSettings = async (req: AuthenticatedRequest, res: Respon
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const settings = await BusinessService.getSettings(userId);
-        res.json({ success: true, data: settings });
+        successResponse(res, settings);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business settings" });
+        errorResponse(res, "Failed to get business settings", 500);
     }
 };
 
@@ -137,12 +137,12 @@ export const updateBusinessSettings = async (req: AuthenticatedRequest, res: Res
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const settings = req.body;
         const result = await BusinessService.updateSettings(userId, settings);
-        res.json({ success: true, data: result });
+        successResponse(res, result);
     } catch (error) {
-        res.status(500).json({ success: false, message: "Failed to update business settings" });
+        errorResponse(res, "Failed to update business settings", 500);
     }
 };
