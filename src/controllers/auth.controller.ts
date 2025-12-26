@@ -7,7 +7,7 @@ import { successResponse, errorResponse } from "../utils/response.js";
 export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, password, role } = req.body;
-        if (!name || !email || !password || !role ) {
+        if (!name || !email || !password || !role) {
             return errorResponse(res, "Missing required fields", 400);
         }
         const exists = await prisma.user.findUnique({ where: { email } });
@@ -37,8 +37,11 @@ export const register = async (req: Request, res: Response) => {
                 createdAt: user.createdAt,
             },
             token,
-        });
+        }, 201);
     } catch (err) {
+        if (err instanceof Error && err.message.includes("JWT_SECRET")) {
+            return errorResponse(res, "Server configuration error: JWT_SECRET missing", 500);
+        }
         errorResponse(res, "Registration failed", 500);
     }
 };
@@ -46,12 +49,12 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
-        
+
         if (!email || !password) {
             return errorResponse(res, "Missing fields", 400);
         }
         const user = await prisma.user.findUnique({ where: { email } });
-        if (!user){
+        if (!user) {
             return errorResponse(res, "Invalid credentials", 401);
         }
         const valid = await bcrypt.compare(password, user.password);
@@ -59,8 +62,8 @@ export const login = async (req: Request, res: Response) => {
             return errorResponse(res, "Invalid credentials", 401);
         }
 
-        const token = signToken ({ id: user.id });
-        
+        const token = signToken({ id: user.id });
+
         successResponse(res, {
             user: {
                 id: user.id,
@@ -72,7 +75,10 @@ export const login = async (req: Request, res: Response) => {
             },
             token,
         });
-    } catch {
+    } catch (err) {
+        if (err instanceof Error && err.message.includes("JWT_SECRET")) {
+            return errorResponse(res, "Server configuration error: JWT_SECRET missing", 500);
+        }
         errorResponse(res, "Login failed", 500);
     }
 };
