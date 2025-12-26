@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prisma } from "../prisma/client.js";
+import { PrismaClient } from "../prisma/client.js";
 import { AuthenticatedRequest } from "../types/request.js";
 import { successResponse, errorResponse } from "../utils/response.js";
 

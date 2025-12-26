@@ -1,4 +1,4 @@
-import { prisma } from "../prisma/client.js";
+import { PrismaClient } from "../prisma/client.js";
 export const getMyStats = async (req, res) => {
     const userId = req.user.id;
     const total = await prisma.aiLog.count({
