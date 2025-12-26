@@ -11,7 +11,10 @@ export const getUserById = async (userId: string) => {
             requests: true,
             createdAt: true,
         },
-        });\n};\n\nexport const getUserUsage = async (userId: string) => {
+    });
+};
+
+export const getUserUsage = async (userId: string) => {
     const user = await prisma.user.findUnique({
         where: { id: userId },
         select: {

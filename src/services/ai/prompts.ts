@@ -6,9 +6,7 @@ export const buildPrompt = (
   role: Role,
   tool: string,
   userPrompt: string
-):
-
- string => {
+): string => {
 
   const systemPrompts: Record<Role, string> = {
     STUDENT: `
@@ -27,6 +25,7 @@ export const buildPrompt = (
     ADMIN: `
     You are an admin assistant.
     Help with platform management, analytics, and user support.`,
+  };
 
   return `
 ${systemPrompts[role]}
