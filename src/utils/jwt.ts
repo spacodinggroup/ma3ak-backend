@@ -10,9 +10,12 @@ export const signToken = (payload: object) => {
     });
 };
 
+
 export const verifyToken = (token: string) => {
     if (!ENV.JWT_SECRET) {
         throw new Error("JWT_SECRET is not defined in environment variables");
     }
     return jwt.verify(token, ENV.JWT_SECRET);
 };
+
+console.log("JWT_SECRET loaded:", ENV.JWT_SECRET ? "YES" : "NO");
