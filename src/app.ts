@@ -26,13 +26,13 @@ app.get("/", (req, res) => {
 
 app.use(cors());
 app.use(Express.json());
-app.use('/auth', authRoutes);
-app.use('/ai', aiRoutes);
-app.use("/user", userRoutes);
-app.use("/admin",adminRoutes);
-app.use("/founder", founderRoutes);
-app.use("/business", businessRoutes);
-app.use("/student", studentRoutes);
+app.use('https://ma3ak-backend.onrender.com/api/auth', authRoutes);
+app.use('https://ma3ak-backend.onrender.com/api/ai', aiRoutes);
+app.use("https://ma3ak-backend.onrender.com/api/user", userRoutes);
+app.use("https://ma3ak-backend.onrender.com/api/admin",adminRoutes);
+app.use("https://ma3ak-backend.onrender.com/api/founder", founderRoutes);
+app.use("https://ma3ak-backend.onrender.com/api/business", businessRoutes);
+app.use("https://ma3ak-backend.onrender.com/api/student", studentRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);
