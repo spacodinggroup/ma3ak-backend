@@ -15,6 +15,17 @@ const app = Express();
 
 app.use(cors());
 app.use(Express.json());
+
+// Root route
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to Ma3ak Backend!",
+    status: "OK"
+  });
+});
+
+app.use(cors());
+app.use(Express.json());
 app.use('/auth', authRoutes);
 app.use('/ai', aiRoutes);
 app.use("/user", userRoutes);

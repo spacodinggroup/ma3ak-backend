@@ -18,4 +18,3 @@ export const verifyToken = (token: string) => {
     return jwt.verify(token, ENV.JWT_SECRET);
 };
 
-console.log("JWT_SECRET loaded:", ENV.JWT_SECRET ? "YES" : "NO");

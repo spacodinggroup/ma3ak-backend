@@ -11,6 +11,11 @@ import { errorHandler } from "./middlewares/error.middleware.js";
 const app = Express();
 app.use(cors());
 app.use(Express.json());
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Welcome to Ma3ak Backend API" });
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/ai', aiRoutes);
 app.use("/api/user", userRoutes);
