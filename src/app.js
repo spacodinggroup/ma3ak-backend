@@ -16,13 +16,13 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "Welcome to Ma3ak Backend API" });
 });
 
-app.use('https://ma3ak-backend.onrender.com/api/auth', authRoutes);
-app.use('https://ma3ak-backend.onrender.com/api/ai', aiRoutes);
-app.use("https://ma3ak-backend.onrender.com/api/user", userRoutes);
-app.use("https://ma3ak-backend.onrender.com/api/admin", adminRoutes);
-app.use("https://ma3ak-backend.onrender.com/api/founder", founderRoutes);
-app.use("https://ma3ak-backend.onrender.com/api/business", businessRoutes);
-app.use("https://ma3ak-backend.onrender.com/api/student", studentRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/ai', aiRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/founder", founderRoutes);
+app.use("/api/business", businessRoutes);
+app.use("/api/student", studentRoutes);
 // Error handling middleware (must be last)
 app.use(errorHandler);
 export default app;
