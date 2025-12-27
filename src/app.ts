@@ -1,5 +1,4 @@
-import Express from "express";
-declare module "cors";
+import express from "express";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
@@ -11,30 +10,47 @@ import businessRoutes from "./routes/business.routes.js";
 import studentRoutes from "./routes/student.routes.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 
-const app = Express();
+const app = express();
 
-app.use(cors());
-app.use(Express.json());
+/**
+ * CORS
+ * خليها مفتوحة مؤقتًا
+ * بعدين نحدد vercel domain
+ */
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
 
-// Root route
+app.use(express.json());
+
+/**
+ * Health check / Root
+ */
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "Welcome to Ma3ak Backend!",
-    status: "OK"
+    status: "OK",
   });
 });
 
-app.use(cors());
-app.use(Express.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/ai', aiRoutes);
+/**
+ * Routes
+ */
+app.use("/api/auth", authRoutes);
+app.use("/api/ai", aiRoutes);
 app.use("/api/user", userRoutes);
-app.use("/api/admin",adminRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/founder", founderRoutes);
 app.use("/api/business", businessRoutes);
 app.use("/api/student", studentRoutes);
 
-// Error handling middleware (must be last)
+/**
+ * Error handler (لازم يكون آخر حاجة)
+ */
 app.use(errorHandler);
 
-export default app; 
+export default app;

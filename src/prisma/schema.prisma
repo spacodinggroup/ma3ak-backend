@@ -1,7 +1,6 @@
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated"
+  provider      = "prisma-client"
+  output        = "../generated"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -11,35 +10,34 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(uuid())
-  name        String
-  email       String    @unique
-  password    String
-  role        Role
-  avatar      String?
-  requests    Int      @default(0)
-  streak      Int      @default(0)
-  hoursStudied Float   @default(0)
-  topicsCompleted Int @default(0)
-  questionsAsked Int  @default(0)
-  averageScore Float   @default(0)
-  lastActiveAt   DateTime?
-  createdAt    DateTime  @default(now())
-  disabled    Boolean  @default(false)
-
-  aiLogs     AiLog[]
-  subjects   Subject[]
-  studyPlans StudyPlan[]
-  notes      Note[]
-  chatSessions ChatSession[]
-  exams      Exam[]
-  milestones  Milestone[]
-  okrs        OKR[]
-  roadmapItems RoadmapItem[]
-  teamMembers TeamMember[]
-  businessTasks BusinessTask[]
-  businessGoals BusinessGoal[]
-  customers   Customer[]
+  id              String         @id @default(uuid())
+  name            String
+  email           String         @unique
+  password        String
+  role            Role
+  avatar          String?
+  requests        Int            @default(0)
+  streak          Int            @default(0)
+  hoursStudied    Float          @default(0)
+  topicsCompleted Int            @default(0)
+  questionsAsked  Int            @default(0)
+  averageScore    Float          @default(0)
+  lastActiveAt    DateTime?
+  createdAt       DateTime       @default(now())
+  disabled        Boolean        @default(false)
+  aiLogs          AiLog[]
+  businessGoals   BusinessGoal[]
+  businessTasks   BusinessTask[]
+  chatSessions    ChatSession[]
+  customers       Customer[]
+  exams           Exam[]
+  milestones      Milestone[]
+  notes           Note[]
+  okrs            OKR[]
+  roadmapItems    RoadmapItem[]
+  studyPlans      StudyPlan[]
+  subjects        Subject[]
+  teamMembers     TeamMember[]
 }
 
 model AiLog {
@@ -47,167 +45,166 @@ model AiLog {
   prompt    String
   response  String
   provider  Aiprovider
-  createdAt  DateTime  @default(now())
-
+  createdAt DateTime   @default(now())
   userId    String
-  user      User      @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
 }
 
 model Subject {
-  id          String @id @default(uuid())
-  name        String
-  difficulty  String
+  id           String   @id @default(uuid())
+  name         String
+  difficulty   String
   hoursPerWeek Int
-  examDate    DateTime
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  examDate     DateTime
+  userId       String
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([name, userId])
 }
 
 model StudyPlan {
-  id        String @id @default(uuid())
+  id        String          @id @default(uuid())
   date      DateTime
   userId    String
-  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   items     StudyPlanItem[]
-  createdAt DateTime @default(now())
 }
 
 model StudyPlanItem {
-  id          String @id @default(uuid())
-  subject     String
-  topic       String
-  time        DateTime
-  duration    Int
-  completed   Boolean @default(false)
-  planId      String
-  plan        StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  id        String    @id @default(uuid())
+  subject   String
+  topic     String
+  time      DateTime
+  duration  Int
+  completed Boolean   @default(false)
+  planId    String
+  plan      StudyPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
 }
 
 model Note {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   title     String
   subject   String
   fileUrl   String
   type      NoteType
   userId    String
-  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ChatSession {
-  id        String @id @default(uuid())
+  id        String        @id @default(uuid())
   title     String?
   userId    String
-  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
   messages  ChatMessage[]
-  createdAt DateTime @default(now())
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model ChatMessage {
-  id        String @id @default(uuid())
+  id        String      @id @default(uuid())
   role      MessageRole
   content   String
   sessionId String
+  createdAt DateTime    @default(now())
   session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
 }
 
 model Exam {
-  id          String @id @default(uuid())
-  subject     String
-  questions   Json
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  attempts    ExamAttempt[]
-  createdAt   DateTime @default(now())
+  id        String        @id @default(uuid())
+  subject   String
+  questions Json
+  userId    String
+  createdAt DateTime      @default(now())
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attempts  ExamAttempt[]
 }
 
 model ExamAttempt {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   answers   Json
   score     Float
   duration  Int
   examId    String
-  exam      Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
 }
 
 model Milestone {
-  id          String @id @default(uuid())
-  name        String
-  date        DateTime
-  status      MilestoneStatus
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  id        String          @id @default(uuid())
+  name      String
+  date      DateTime
+  status    MilestoneStatus
+  userId    String
+  createdAt DateTime        @default(now())
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model OKR {
-  id          String @id @default(uuid())
-  objective   String
-  keyResults  Json // array of key results
-  status      OKRStatus
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  id         String    @id @default(uuid())
+  objective  String
+  keyResults Json
+  status     OKRStatus
+  userId     String
+  createdAt  DateTime  @default(now())
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model RoadmapItem {
-  id          String @id @default(uuid())
-  feature     String
-  status      RoadmapStatus
-  priority    String
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  id        String        @id @default(uuid())
+  feature   String
+  status    RoadmapStatus
+  priority  String
+  userId    String
+  createdAt DateTime      @default(now())
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TeamMember {
-  id          String @id @default(uuid())
-  name        String
-  role        String
-  avatar      String?
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  role      String
+  avatar    String?
+  userId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model BusinessTask {
-  id          String @id @default(uuid())
+  id          String     @id @default(uuid())
   title       String
   description String?
   status      TaskStatus
   priority    String
   dueDate     DateTime?
   userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  createdAt   DateTime   @default(now())
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model BusinessGoal {
-  id          String @id @default(uuid())
+  id          String     @id @default(uuid())
   title       String
   description String?
   target      String
   current     String
   status      GoalStatus
   userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  createdAt   DateTime   @default(now())
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Customer {
-  id          String @id @default(uuid())
-  name        String
-  email       String?
-  company     String?
-  status      CustomerStatus
-  userId      String
-  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  id        String         @id @default(uuid())
+  name      String
+  email     String?
+  company   String?
+  status    CustomerStatus
+  userId    String
+  createdAt DateTime       @default(now())
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
