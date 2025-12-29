@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const pdf = require('pdf-parse');
+
 import { StudentService } from '../services/student.service.js';
 import { AuthenticatedRequest, FileUploadRequest } from '../types/request.js';
 import { successResponse, errorResponse } from "../utils/response.js";
+import { aiService } from '../services/ai/ai.service.js';
 
 export const getStudentDashboard = async (req: AuthenticatedRequest, res: Response) => {
     try {
@@ -35,11 +40,93 @@ export const generateStudyPlan = async (req: AuthenticatedRequest, res: Response
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
-        const { subjects, hoursPerDay, examDate } = req.body;
-        const plan = await StudentService.generateStudyPlan(userId, { subjects, hoursPerDay, examDate });
-        successResponse(res, plan);
+
+        const { subjects, hoursPerDay = 4, examDate } = req.body;
+
+        // 1. Validate Request
+        if (!subjects || !Array.isArray(subjects) || subjects.length === 0) {
+            return errorResponse(res, "Subjects must be a non-empty array", 400);
+        }
+
+        // 2. Build Strong AI Prompt
+        const buildStudyPlanPrompt = (subs: string[]) => `
+You are an expert academic planner. Create a realistic daily study plan for a student.
+Subjects to cover: ${subs.join(", ")}
+Available hours per day: ${hoursPerDay}
+Target Exam Date: ${examDate || 'Next month'}
+
+STRICT RULES:
+- Return ONLY valid JSON.
+- No meta-talk or introduction.
+- The output MUST be a JSON object with a "studyPlan" key.
+- Each item must have: "subject", "date" (e.g., "Day 1"), and "tasks" (array of strings).
+
+Format Example:
+{
+  "studyPlan": [
+    {
+      "subject": "Math",
+      "date": "Day 1",
+      "tasks": ["Algebra Review", "Practice Equations"]
+    }
+  ]
+}
+`.trim();
+
+        const prompt = buildStudyPlanPrompt(subjects);
+
+        // 3. AI Generation with Retry Logic
+        let studyPlan: any[] = [];
+        let attempts = 0;
+        const maxAttempts = 2;
+
+        while (attempts < maxAttempts && studyPlan.length === 0) {
+            attempts++;
+            try {
+                const result = await aiService({
+                    user: req.user,
+                    tool: 'study-plan',
+                    prompt
+                });
+
+                const aiResponse = result.reply || '';
+
+                // Parse JSON safely
+                try {
+                    const parsed = JSON.parse(aiResponse);
+                    studyPlan = parsed.studyPlan || [];
+                } catch (e) {
+                    // Try to extract JSON if AI included text
+                    const jsonMatch = aiResponse.match(/\{[^]*\}/);
+                    if (jsonMatch) {
+                        const extracted = JSON.parse(jsonMatch[0]);
+                        studyPlan = extracted.studyPlan || [];
+                    }
+                }
+            } catch (err) {
+                console.warn(`[Study Plan] AI attempt ${attempts} failed:`, err);
+            }
+        }
+
+        // 4. Fallback if AI truly fails
+        if (studyPlan.length === 0) {
+            console.info("[Study Plan] AI failed all attempts. Using fallback.");
+            studyPlan = subjects.map((sub, index) => ({
+                subject: sub,
+                date: `Day ${index + 1}`,
+                tasks: [`Introduction to ${sub}`, `Core concepts of ${sub}`, `Practice problems`]
+            }));
+        }
+
+        // 5. Final Response
+        return res.status(200).json({
+            success: true,
+            studyPlan
+        });
+
     } catch (error) {
-        errorResponse(res, "Failed to generate study plan", 500);
+        console.error('[Study Plan] Controller error:', error);
+        return errorResponse(res, "Failed to generate study plan", 500);
     }
 };
 
@@ -273,126 +360,107 @@ export const processPDFNotes = async (req: FileUploadRequest, res: Response) => 
     const startTime = Date.now();
 
     try {
-        // 1. Validate user
+        // 1. Validate User
         const userId = req.user?.id;
         if (!userId) {
-            console.warn('[PDF Notes] Unauthorized access attempt');
-            return res.status(401).json({ notes: [] });
+            return res.status(401).json({
+                success: false,
+                notes: [],
+                error: "Unauthorized"
+            });
         }
 
-        // 2. Validate PDF file
+        // 2. Validate File
         if (!req.file) {
-            console.warn('[PDF Notes] No file uploaded');
-            return res.status(400).json({ notes: [] });
+            return res.status(400).json({
+                success: false,
+                notes: [],
+                error: "No file uploaded. Please use the 'file' field."
+            });
         }
 
-        // 3. Extract text from PDF
+        // 3. Extract Text from PDF
         let pdfText = '';
         try {
-            // Import pdf-parse as namespace (ESM compatible)
-            const pdfParseModule = await import('pdf-parse');
-            // pdf-parse is a CommonJS module, access the function directly
-            const pdfParse = (pdfParseModule as any) as (dataBuffer: Buffer) => Promise<{ text: string; numpages: number; info: any }>;
-            const pdfData = await pdfParse(req.file.buffer);
-            pdfText = pdfData.text || '';
+            const data = await pdf(req.file.buffer);
+            pdfText = data.text || '';
         } catch (pdfError: any) {
-            console.error('[PDF Notes] PDF parsing error:', pdfError.message);
-            return res.status(200).json({ notes: [] });
+            console.error('[PDF Notes] PDF parse error:', pdfError);
+            return res.status(500).json({
+                success: false,
+                notes: [],
+                error: "Failed to parse PDF content."
+            });
         }
 
-        // 4. Handle empty PDF
-        if (!pdfText || pdfText.trim().length === 0) {
-            console.warn('[PDF Notes] Empty PDF content');
-            return res.status(200).json({ notes: [] });
+        // 4. Validate Extracted Text
+        if (!pdfText.trim()) {
+            return res.status(400).json({
+                success: false,
+                notes: [],
+                error: "The PDF contains no readable text."
+            });
         }
 
-        // 5. Build AI prompt for structured notes
-        const prompt = `Extract and convert the following text into clear, actionable bullet points.
+        // 5. Build AI Prompt
+        const prompt = `Convert the following text into clear bullet points. 
+Return ONLY a JSON object with a "notes" array of strings.
+Text: ${pdfText.substring(0, 8000)}`;
 
-STRICT RULES:
-- Return ONLY valid JSON, no extra text
-- Do NOT include phrases like "I understand" or "Here are the notes"
-- Each bullet point must be clear, concise, and actionable
-- Remove redundant information
-- Focus on key concepts and important details
-
-Required output format:
-{
-  "notes": [
-    "Clear actionable point 1",
-    "Clear actionable point 2",
-    "Clear actionable point 3"
-  ]
-}
-
-Text to process:
-${pdfText.slice(0, 8000)}`; // Limit to 8000 chars to avoid token limits
-
-        // 6. Call AI service with fallback
-        let aiResponse = '';
+        // 6. Call AI Service
         try {
-            console.info(`[PDF Notes] Processing PDF (${pdfText.length} chars) for user ${userId}`);
-            const { aiService } = await import('../services/ai/ai.service.js');
             const result = await aiService({
                 user: req.user,
                 tool: 'pdf-notes',
                 prompt
             });
-            aiResponse = result.reply || '';
+
+            const aiResponse = result.reply || '';
+
+            // 7. Parse and Validate AI Response
+            let notes: string[] = [];
+            try {
+                const parsed = JSON.parse(aiResponse);
+                notes = parsed.notes || [];
+            } catch (pError) {
+                // If it's not JSON, try to split by lines or bullet points
+                notes = aiResponse.split('\n')
+                    .map(line => line.replace(/^[-*•]\s*/, '').trim())
+                    .filter(line => line.length > 0);
+            }
+
+            if (notes.length === 0) {
+                return res.status(200).json({
+                    success: false,
+                    notes: [],
+                    error: "Could not extract notes from the content."
+                });
+            }
+
+            const duration = Date.now() - startTime;
+            console.info(`[PDF Notes] Success in ${duration}ms`);
+
+            return res.status(200).json({
+                success: true,
+                notes
+            });
+
         } catch (aiError: any) {
-            console.error('[PDF Notes] AI service error:', aiError.message || aiError);
-            const duration = Date.now() - startTime;
-            console.warn(`[PDF Notes] Returning empty notes after ${duration}ms`);
-            return res.status(200).json({ notes: [] });
+            console.error('[PDF Notes] AI Error:', aiError);
+            return res.status(500).json({
+                success: false,
+                notes: [],
+                error: "AI processing failed."
+            });
         }
-
-        // 7. Parse AI response
-        let notes: string[] = [];
-        try {
-            const parsed = JSON.parse(aiResponse);
-            if (Array.isArray(parsed)) {
-                notes = parsed.filter((n: any) => typeof n === 'string');
-            } else if (parsed.notes && Array.isArray(parsed.notes)) {
-                notes = parsed.notes.filter((n: any) => typeof n === 'string');
-            }
-        } catch (parseError) {
-            // Try to extract JSON array from text
-            const jsonMatch = aiResponse.match(/\{[^]*"notes"[^]*\[[^]*\][^]*\}/s);
-            if (jsonMatch) {
-                try {
-                    const extracted = JSON.parse(jsonMatch[0]);
-                    if (extracted.notes && Array.isArray(extracted.notes)) {
-                        notes = extracted.notes.filter((n: any) => typeof n === 'string');
-                    }
-                } catch (e) {
-                    console.error('[PDF Notes] Could not parse extracted JSON');
-                }
-            }
-        }
-
-        // 8. Validate result
-        if (!Array.isArray(notes) || notes.length === 0) {
-            console.warn('[PDF Notes] No valid notes extracted from AI response');
-            const duration = Date.now() - startTime;
-            console.warn(`[PDF Notes] Returning empty notes after ${duration}ms`);
-            return res.status(200).json({ notes: [] });
-        }
-
-        // 9. Success
-        const duration = Date.now() - startTime;
-        console.info(`[PDF Notes] Success - extracted ${notes.length} notes in ${duration}ms`);
-
-        return res.status(200).json({ notes });
 
     } catch (error: any) {
-        const duration = Date.now() - startTime;
-        console.error('[PDF Notes] Unexpected error:', {
-            error: error.message || error,
-            stack: error.stack,
-            duration: `${duration}ms`
+        console.error('[PDF Notes] Global Error:', error);
+        return res.status(500).json({
+            success: false,
+            notes: [],
+            error: "An unexpected error occurred."
         });
-
-        return res.status(200).json({ notes: [] });
     }
 };
 

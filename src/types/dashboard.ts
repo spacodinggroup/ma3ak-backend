@@ -55,11 +55,9 @@ export interface BusinessDashboardResponse {
 }
 
 export interface StudyPlanItem {
-  topic: string;
   subject: string;
-  time: string;
-  duration: string;
-  completed: boolean;
+  date: string;
+  tasks: string[];
 }
 
 export interface UpcomingExam {

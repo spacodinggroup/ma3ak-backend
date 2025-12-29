@@ -205,12 +205,10 @@ export class StudentService {
       prisma.user.findUnique({ where: { id: userId } })
     ]);
 
-    const studyPlan = plan ? plan.items.map((item: any) => ({
-      topic: item.topic,
+    const studyPlan: StudyPlanItem[] = plan ? plan.items.map((item: any) => ({
       subject: item.subject,
-      time: item.time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
-      duration: `${Math.floor(item.duration / 60)}h ${item.duration % 60}m`,
-      completed: item.completed
+      date: item.time.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }),
+      tasks: [item.topic] // mapping topic to a single-item tasks array for legacy compatibility
     })) : [];
 
     const upcomingExam = subjects.map((subj: any) => ({
@@ -300,21 +298,19 @@ export class StudentService {
     };
   }
 
-  static async generateStudyPlan(userId: string, payload?: any): Promise<StudyPlanResponse> {
+  static async generateStudyPlan(userId: string, payload?: any): Promise<{ studyPlan: StudyPlanItem[] }> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const plan = await prisma.studyPlan.findFirst({
       where: { userId, date: today },
       include: { items: true }
     });
-    if (!plan) return { items: [] };
+    if (!plan) return { studyPlan: [] };
     return {
-      items: plan.items.map((item: any) => ({
+      studyPlan: plan.items.map((item: any) => ({
         subject: item.subject,
-        topic: item.topic,
-        time: item.time,
-        duration: item.duration,
-        completed: item.completed
+        date: item.time.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }),
+        tasks: [item.topic]
       }))
     };
   }

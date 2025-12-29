@@ -1,6 +1,6 @@
 import multer from 'multer';
 
-// Configure multer for memory storage (no disk write)
+// Configure multer for memory storage
 const storage = multer.memoryStorage();
 
 // File filter - only accept PDFs
@@ -12,15 +12,34 @@ const fileFilter = (
     if (file.mimetype === 'application/pdf') {
         cb(null, true);
     } else {
-        cb(new Error('Only PDF files are allowed'));
+        cb(new Error('Only PDF files are allowed') as any);
     }
 };
 
-// Create upload middleware
-export const uploadPDF = multer({
+const upload = multer({
     storage,
     fileFilter,
     limits: {
-        fileSize: 10 * 1024 * 1024, // 10MB max
+        fileSize: 10 * 1024 * 1024, // 10MB limit
     },
-}).single('pdf'); // Expects field name 'pdf'
+}).single('file');
+
+// Create upload middleware with error handling
+export const uploadPDF = (req: any, res: any, next: any) => {
+    upload(req, res, (err: any) => {
+        if (err instanceof multer.MulterError) {
+            return res.status(400).json({
+                success: false,
+                notes: [],
+                error: `Upload error: ${err.message}`
+            });
+        } else if (err) {
+            return res.status(400).json({
+                success: false,
+                notes: [],
+                error: err.message
+            });
+        }
+        next();
+    });
+};
