@@ -18,36 +18,41 @@ export const aiService = async ({
 }) => {
     const finalPromt = buildPrompt(user.role, tool, prompt);
 
-    const selectedProvider = provider ?? AI_CONFIG.DEFAULT_PROVIDER;
-
+    let currentProvider = provider ?? AI_CONFIG.DEFAULT_PROVIDER;
     let response = "";
-    const MAX_RETRIES = 2;
 
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    // Helper to attempt generation
+    const tryGenerate = async (prov: string) => {
+        if (prov === "GROK") return grokGenerate(finalPromt);
+        return openaiGenerate(finalPromt);
+    };
+
+    try {
+        response = await tryGenerate(currentProvider);
+    } catch (error) {
+        console.warn(`Provider ${currentProvider} failed:`, error);
+        response = ""; // Ensure empty so we trigger fallback if applicable
+    }
+
+    // Fallback Logic: If failed/empty AND we started with OPENAI (default), try GROK
+    if ((!response || response.trim() === "") && currentProvider === "OPENAI") {
+        console.info("Switching to fallback provider: GROK");
         try {
-            if (selectedProvider === "GROK") {
-                response = await grokGenerate(finalPromt);
-            } else {
-                response = await openaiGenerate(finalPromt);
-            }
-
-            if (response && response.trim().length > 0) {
-                break; // Success
-            }
-        } catch (error) {
-            console.error(`AI Generation Attempt ${attempt} failed:`, error);
-            if (attempt === MAX_RETRIES) {
-                // Return empty string to let controller handle fallback if all retries fail
-                response = "";
-            }
+            currentProvider = "GROK";
+            response = await tryGenerate(currentProvider);
+        } catch (fallbackError) {
+            console.error("Fallback provider GROK failed:", fallbackError);
+            response = "";
         }
     }
+
+    // If response is still empty, the controller handles the fallback message.
 
     await prisma.aiLog.create({
         data: {
             prompt: finalPromt,
-            response,
-            provider: selectedProvider,
+            response: response || "FAILED",
+            provider: currentProvider,
             userId: user.id,
         },
     });
