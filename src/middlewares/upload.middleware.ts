@@ -6,7 +6,7 @@ const storage = multer.memoryStorage();
 // File filter - only accept PDFs
 const fileFilter = (
     req: any,
-    file: multer.File,
+    file: Express.Multer.File,
     cb: multer.FileFilterCallback
 ) => {
     if (file.mimetype === 'application/pdf') {
