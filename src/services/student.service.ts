@@ -362,8 +362,8 @@ export class StudentService {
       const result = await aiService({
         user,
         tool: 'chat',
-        prompt: message,
-        provider: undefined // Let service choose default + fallback
+        prompt: message
+        // provider omitted - defaults to OpenAI with automatic Grok fallback
       });
 
       aiResponse = result.reply || '';

@@ -220,8 +220,8 @@ export class FounderService {
       const result = await aiService({
         user,
         tool: 'chat',
-        prompt: message,
-        provider: undefined
+        prompt: message
+        // provider omitted - defaults to OpenAI with automatic Grok fallback
       });
 
       aiResponse = result.reply || '';
