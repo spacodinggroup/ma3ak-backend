@@ -14,18 +14,33 @@ export const aiService = async ({
     user: any;
     tool: string;
     prompt: string;
-    provider?: "OPENAI"  | "GROK";
+    provider?: "OPENAI" | "GROK";
 }) => {
     const finalPromt = buildPrompt(user.role, tool, prompt);
 
     const selectedProvider = provider ?? AI_CONFIG.DEFAULT_PROVIDER;
 
     let response = "";
+    const MAX_RETRIES = 2;
 
-    if (selectedProvider === "GROK") {
-        response = await grokGenerate(finalPromt);
-    } else {
-        response = await openaiGenerate(finalPromt);
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+            if (selectedProvider === "GROK") {
+                response = await grokGenerate(finalPromt);
+            } else {
+                response = await openaiGenerate(finalPromt);
+            }
+
+            if (response && response.trim().length > 0) {
+                break; // Success
+            }
+        } catch (error) {
+            console.error(`AI Generation Attempt ${attempt} failed:`, error);
+            if (attempt === MAX_RETRIES) {
+                // Return empty string to let controller handle fallback if all retries fail
+                response = "";
+            }
+        }
     }
 
     await prisma.aiLog.create({

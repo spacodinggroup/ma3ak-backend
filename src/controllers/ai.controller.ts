@@ -18,13 +18,13 @@ export const generateAI = async (req: any, res: any) => {
 
         // Ensure result has reply, fallback if something weird happens
         if (!result || typeof result.reply !== 'string') {
-            return res.json({ reply: "Sorry, I couldn't generate a response right now." });
+            return res.json({ reply: "Sorry, the AI could not generate a response. Please try again." });
         }
 
         return res.json(result);
     } catch (err) {
         // Catch ALL errors and return a safe fallback message
         console.error("AI Generation Error:", err);
-        return res.json({ reply: "Sorry, I couldn't generate a response right now." });
+        return res.json({ reply: "Sorry, the AI could not generate a response. Please try again." });
     }
 };
