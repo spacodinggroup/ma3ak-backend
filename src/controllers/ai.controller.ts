@@ -54,11 +54,27 @@ export const generateStudyPlan = async (req: any, res: any) => {
             });
         }
 
-        // 2. Build prompt for AI
-        const prompt = `Generate a detailed study plan for the following subjects: ${subjects.join(', ')}. 
-Return a JSON array with this exact format:
-[{"subject": "SubjectName", "date": "YYYY-MM-DD", "tasks": ["task1", "task2", "task3"]}]
-Each subject should have a date and at least 3 specific study tasks.`;
+        // 2. Build strict JSON-only prompt for AI
+        const prompt = `Input: {"subjects": ${JSON.stringify(subjects)}}
+
+STRICT RULES:
+- Return ONLY valid JSON, no extra text
+- Do NOT include phrases like "I understand" or "Here is"
+- Each task must be actionable and realistic for the subject
+- Each subject gets its own study plan item
+
+Required output format:
+{
+  "studyPlan": [
+    {
+      "subject": "SubjectName",
+      "date": "YYYY-MM-DD",
+      "tasks": ["Actionable task 1", "Actionable task 2", "Actionable task 3"]
+    }
+  ]
+}
+
+Generate study plan for: ${subjects.join(', ')}`;
 
         // 3. Call AI service with fallback
         let aiResponse = '';
