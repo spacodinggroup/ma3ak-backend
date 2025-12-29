@@ -1,4 +1,4 @@
-import { PrismaClient } from "../prisma/client.js";
+import { prisma } from "../prisma/client.js";
 import { successResponse } from "../utils/response.js";
 export const getWeeklyUsage = async (req, res) => {
     const userId = req.user.id;

@@ -1,3 +1,4 @@
+import { prisma } from "../prisma/client.js";
 export class BusinessService {
     static async getDashboard(userId) {
         // Mock data
@@ -33,18 +34,26 @@ export class BusinessService {
         ];
     }
     static async getCustomers(userId) {
-        return [
-            { id: "1", name: "Acme Corp", email: "contact@acme.com", value: 5000, status: "active" },
-            { id: "2", name: "TechStart Inc", email: "hello@techstart.com", value: 3200, status: "active" },
-            { id: "3", name: "Global Solutions", email: "info@global.com", value: 1800, status: "trial" }
-        ];
+        const customers = await prisma.customer.findMany({ where: { userId } });
+        return customers.map((customer) => ({
+            id: customer.id,
+            name: customer.name,
+            email: customer.email,
+            company: customer.company,
+            value: 5000, // placeholder
+            status: customer.status.toLowerCase()
+        }));
     }
     static async getGoals(userId) {
-        return [
-            { id: "1", title: "Increase MRR by 20%", progress: 81, target: 60000, current: 48520, deadline: "2024-12-31" },
-            { id: "2", title: "Acquire 200 new customers", progress: 62, target: 200, current: 124, deadline: "2025-01-31" },
-            { id: "3", title: "Improve retention to 85%", progress: 92, target: 85, current: 78, deadline: "2025-02-28" }
-        ];
+        const goals = await prisma.businessGoal.findMany({ where: { userId } });
+        return goals.map((goal) => ({
+            id: goal.id,
+            title: goal.title,
+            progress: 50, // placeholder
+            target: goal.target,
+            current: goal.current,
+            deadline: "2024-12-31" // placeholder
+        }));
     }
     static async getMarketing(userId) {
         return {
@@ -87,6 +96,62 @@ export class BusinessService {
     }
     static async updateSettings(userId, settings) {
         return { message: "Settings updated", settings };
+    }
+    static async sendMessage(userId, message) {
+        const { prisma } = await import('../prisma/client.js');
+        // Find or create chat session
+        let session = await prisma.chatSession.findFirst({
+            where: { userId },
+            orderBy: { createdAt: 'desc' }
+        });
+        if (!session) {
+            session = await prisma.chatSession.create({
+                data: { userId, title: 'Business Chat' }
+            });
+        }
+        // Add user message
+        await prisma.chatMessage.create({
+            data: {
+                sessionId: session.id,
+                role: 'USER',
+                content: message
+            }
+        });
+        // Get user for AI service
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        // Call AI service for real response
+        const { aiService } = await import('./ai/ai.service.js');
+        let aiResponse = '';
+        try {
+            const result = await aiService({
+                user,
+                tool: 'chat',
+                prompt: message
+                // provider omitted - defaults to OpenAI with automatic Grok fallback
+            });
+            aiResponse = result.reply || '';
+        }
+        catch (aiError) {
+            console.error('[BusinessService] AI service error:', aiError.message || aiError);
+            throw new Error('AI service unavailable');
+        }
+        // Save AI response
+        await prisma.chatMessage.create({
+            data: {
+                sessionId: session.id,
+                role: 'ASSISTANT',
+                content: aiResponse
+            }
+        });
+        // Update user stats
+        await prisma.user.update({
+            where: { id: userId },
+            data: { questionsAsked: { increment: 1 } }
+        });
+        return { reply: aiResponse };
     }
 }
 //# sourceMappingURL=business.service.js.map

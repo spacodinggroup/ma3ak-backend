@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { protect } from "../middlewares/auth.middleware.js";
-import { getBusinessDashboard, getBusinessAnalytics, getBusinessCalendar, getBusinessContent, getBusinessCustomers, getBusinessGoals, getBusinessMarketing, getBusinessReports, getBusinessSales, getBusinessSettings, updateBusinessSettings, } from "../controllers/business.controller.js";
+import { getBusinessDashboard, getBusinessAnalytics, getBusinessCalendar, getBusinessContent, getBusinessCustomers, getBusinessGoals, getBusinessMarketing, getBusinessReports, getBusinessSales, getBusinessSettings, updateBusinessSettings, sendBusinessMessage, } from "../controllers/business.controller.js";
 const router = Router();
 router.get("/dashboard", protect, getBusinessDashboard);
 router.get("/analytics", protect, getBusinessAnalytics);
@@ -13,5 +13,6 @@ router.get("/reports", protect, getBusinessReports);
 router.get("/sales", protect, getBusinessSales);
 router.get("/settings", protect, getBusinessSettings);
 router.put("/settings", protect, updateBusinessSettings);
+router.post("/chat", protect, sendBusinessMessage);
 export default router;
 //# sourceMappingURL=business.routes.js.map

@@ -4,7 +4,6 @@ export declare const aiService: ({ user, tool, prompt, provider, }: {
     prompt: string;
     provider?: "OPENAI" | "GROK";
 }) => Promise<{
-    provider: "OPENAI" | "GROK";
-    response: string;
+    reply: string;
 }>;
 //# sourceMappingURL=ai.service.d.ts.map

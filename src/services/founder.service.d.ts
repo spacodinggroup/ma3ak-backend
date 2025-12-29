@@ -9,8 +9,8 @@ export declare class FounderService {
     static getMetrics(userId: string): Promise<Metric[]>;
     static getMilestones(userId: string): Promise<MilestoneItem[]>;
     static getOKRs(userId: string): Promise<{
-        id: string;
-        objective: string;
+        id: any;
+        objective: any;
         keyResults: string[];
         progress: number;
     }[]>;
@@ -43,6 +43,9 @@ export declare class FounderService {
         strengths: string[];
         weaknesses: string[];
         recommendations: string[];
+    }>;
+    static sendMessage(userId: string, message: string): Promise<{
+        reply: string;
     }>;
 }
 //# sourceMappingURL=founder.service.d.ts.map

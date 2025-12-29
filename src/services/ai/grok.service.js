@@ -5,7 +5,7 @@ export const grokGenerate = async (prompt) => {
     const res = await axios.post('https://api.x.ai/v1/chat/completions', {
         model: AI_CONFIG.MODELS.GROK,
         messages: [
-            { role: 'system', content: "You are a helpful AI assistant." },
+            { role: 'system', content: "You are a professional assistant. Be concise and follow the system instructions provided." },
             { role: 'user', content: prompt }
         ],
     }, {

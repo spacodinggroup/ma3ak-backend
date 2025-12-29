@@ -289,7 +289,10 @@ export const processPDFNotes = async (req: FileUploadRequest, res: Response) => 
         // 3. Extract text from PDF
         let pdfText = '';
         try {
-            const pdfParse = (await import('pdf-parse')).default;
+            // Import pdf-parse as namespace (ESM compatible)
+            const pdfParseModule = await import('pdf-parse');
+            // pdf-parse is a CommonJS module, access the function directly
+            const pdfParse = (pdfParseModule as any) as (dataBuffer: Buffer) => Promise<{ text: string; numpages: number; info: any }>;
             const pdfData = await pdfParse(req.file.buffer);
             pdfText = pdfData.text || '';
         } catch (pdfError: any) {

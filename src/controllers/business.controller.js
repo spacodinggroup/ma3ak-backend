@@ -56,92 +56,168 @@ export const getBusinessCustomers = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const customers = await BusinessService.getCustomers(userId);
-        res.json({ success: true, data: customers });
+        successResponse(res, customers);
     }
     catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business customers" });
+        errorResponse(res, "Failed to get business customers", 500);
     }
 };
 export const getBusinessGoals = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const goals = await BusinessService.getGoals(userId);
-        res.json({ success: true, data: goals });
+        successResponse(res, goals);
     }
     catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business goals" });
+        errorResponse(res, "Failed to get business goals", 500);
     }
 };
 export const getBusinessMarketing = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const marketing = await BusinessService.getMarketing(userId);
-        res.json({ success: true, data: marketing });
+        successResponse(res, marketing);
     }
     catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business marketing" });
+        errorResponse(res, "Failed to get business marketing", 500);
     }
 };
 export const getBusinessReports = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const reports = await BusinessService.getReports(userId);
-        res.json({ success: true, data: reports });
+        successResponse(res, reports);
     }
     catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business reports" });
+        errorResponse(res, "Failed to get business reports", 500);
     }
 };
 export const getBusinessSales = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const sales = await BusinessService.getSales(userId);
-        res.json({ success: true, data: sales });
+        successResponse(res, sales);
     }
     catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business sales" });
+        errorResponse(res, "Failed to get business sales", 500);
     }
 };
 export const getBusinessSettings = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const settings = await BusinessService.getSettings(userId);
-        res.json({ success: true, data: settings });
+        successResponse(res, settings);
     }
     catch (error) {
-        res.status(500).json({ success: false, message: "Failed to get business settings" });
+        errorResponse(res, "Failed to get business settings", 500);
     }
 };
 export const updateBusinessSettings = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            return errorResponse(res, "Unauthorized", 401);
         }
         const settings = req.body;
         const result = await BusinessService.updateSettings(userId, settings);
-        res.json({ success: true, data: result });
+        successResponse(res, result);
     }
     catch (error) {
-        res.status(500).json({ success: false, message: "Failed to update business settings" });
+        errorResponse(res, "Failed to update business settings", 500);
+    }
+};
+export const sendBusinessMessage = async (req, res) => {
+    const startTime = Date.now();
+    try {
+        // 1. Validate User Authorization
+        const userId = req.user?.id;
+        if (!userId) {
+            console.warn('[Business Chat] Unauthorized access attempt');
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        // 2. Validate Request Payload
+        const { messages } = req.body;
+        if (!messages || !Array.isArray(messages) || messages.length === 0) {
+            console.warn(`[Business Chat] Invalid messages array from user ${userId}`);
+            return res.status(400).json({ error: "Invalid messages array" });
+        }
+        // 3. Validate Message Content Length (prevent payload abuse)
+        const MAX_MESSAGE_LENGTH = 10000; // 10k characters
+        const lastMessage = messages[messages.length - 1];
+        if (!lastMessage || typeof lastMessage.content !== 'string') {
+            console.warn(`[Business Chat] Invalid message format from user ${userId}`);
+            return res.status(400).json({ error: "Invalid message format" });
+        }
+        if (lastMessage.content.length > MAX_MESSAGE_LENGTH) {
+            console.warn(`[Business Chat] Message too long (${lastMessage.content.length} chars) from user ${userId}`);
+            return res.status(400).json({ error: "Message too long. Maximum 10,000 characters." });
+        }
+        // 4. Call Business Service with AI Integration
+        let result;
+        try {
+            console.info(`[Business Chat] Processing request for user ${userId}`);
+            result = await BusinessService.sendMessage(userId, lastMessage.content);
+        }
+        catch (serviceError) {
+            console.error('[Business Chat] Service error:', {
+                userId,
+                error: serviceError.message || serviceError,
+                stack: serviceError.stack
+            });
+            if (serviceError.message?.includes('Prisma') || serviceError.message?.includes('database')) {
+                console.error('[Business Chat] Database error detected');
+            }
+            else if (serviceError.message?.includes('network') || serviceError.message?.includes('ECONNREFUSED')) {
+                console.error('[Business Chat] Network error detected');
+            }
+            const duration = Date.now() - startTime;
+            console.warn(`[Business Chat] Returning fallback message after ${duration}ms`);
+            return res.status(200).json({
+                reply: "Sorry, the AI could not generate a response. Please try again."
+            });
+        }
+        // 5. Validate and Normalize Response
+        if (!result || typeof result.reply !== 'string' || result.reply.trim() === '') {
+            console.warn(`[Business Chat] Invalid or empty response from service for user ${userId}`);
+            const duration = Date.now() - startTime;
+            console.warn(`[Business Chat] Returning fallback message after ${duration}ms`);
+            return res.status(200).json({
+                reply: "Sorry, the AI could not generate a response. Please try again."
+            });
+        }
+        // 6. Success - Log and Return
+        const duration = Date.now() - startTime;
+        console.info(`[Business Chat] Success for user ${userId} in ${duration}ms`);
+        return res.status(200).json({ reply: result.reply });
+    }
+    catch (error) {
+        const duration = Date.now() - startTime;
+        console.error('[Business Chat] Unexpected error:', {
+            error: error.message || error,
+            stack: error.stack,
+            duration: `${duration}ms`
+        });
+        return res.status(200).json({
+            reply: "Sorry, the AI could not generate a response. Please try again."
+        });
     }
 };
 //# sourceMappingURL=business.controller.js.map

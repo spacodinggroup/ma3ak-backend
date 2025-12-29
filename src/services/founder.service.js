@@ -1,3 +1,4 @@
+import { prisma } from "../prisma/client.js";
 export class FounderService {
     // Mock data - in production, this would query the database
     static mockStartupStage = {
@@ -30,14 +31,44 @@ export class FounderService {
         { id: "3", name: "Bob Wilson", role: "Designer", avatar: "BW" }
     ];
     static async getDashboard(userId) {
-        // In production, calculate based on user data
-        // For now, return mock data
+        const [milestones, roadmapItems, teamMembers] = await Promise.all([
+            prisma.milestone.findMany({ where: { userId }, orderBy: { date: 'asc' } }),
+            prisma.roadmapItem.findMany({ where: { userId }, orderBy: { priority: 'asc' } }),
+            prisma.teamMember.findMany({ where: { userId } })
+        ]);
+        // Mock metrics and stage for now, can be calculated later
+        const metrics = [
+            { label: "Revenue", value: "$12,500", change: "+15%", target: "$15,000" },
+            { label: "Users", value: "1,247", change: "+8%", target: "2,000" },
+            { label: "Conversion", value: "3.2%", change: "-0.5%" },
+            { label: "Retention", value: "78%", change: "+2%" }
+        ];
+        const startupStage = {
+            current: "MVP",
+            progress: 65,
+            stages: ["Idea", "MVP", "Growth", "Scale"]
+        };
         return {
-            startupStage: this.mockStartupStage,
-            metrics: this.mockMetrics,
-            roadmapItems: this.mockRoadmapItems,
-            milestones: this.mockMilestones,
-            teamMembers: this.mockTeamMembers
+            startupStage,
+            metrics,
+            roadmapItems: roadmapItems.map((item) => ({
+                id: item.id,
+                feature: item.feature,
+                status: item.status.toLowerCase(),
+                priority: item.priority
+            })),
+            milestones: milestones.map((item) => ({
+                id: item.id,
+                name: item.name,
+                date: item.date.toISOString().split('T')[0],
+                status: item.status.toLowerCase()
+            })),
+            teamMembers: teamMembers.map((member) => ({
+                id: member.id,
+                name: member.name,
+                role: member.role,
+                avatar: member.avatar || member.name.split(' ').map((n) => n[0]).join('')
+            }))
         };
     }
     static async getMetrics(userId) {
@@ -50,13 +81,28 @@ export class FounderService {
         ];
     }
     static async getMilestones(userId) {
-        return this.mockMilestones;
+        const milestones = await prisma.milestone.findMany({
+            where: { userId },
+            orderBy: { date: 'asc' }
+        });
+        return milestones.map((item) => ({
+            id: item.id,
+            name: item.name,
+            date: item.date.toISOString().split('T')[0],
+            status: item.status.toLowerCase()
+        }));
     }
     static async getOKRs(userId) {
-        return [
-            { id: "1", objective: "Launch MVP", keyResults: ["Complete core features", "Get 100 beta users"], progress: 75 },
-            { id: "2", objective: "Achieve product-market fit", keyResults: ["80% retention", "$10k MRR"], progress: 60 }
-        ];
+        const okrs = await prisma.oKR.findMany({
+            where: { userId },
+            orderBy: { createdAt: 'desc' }
+        });
+        return okrs.map((okr) => ({
+            id: okr.id,
+            objective: okr.objective,
+            keyResults: okr.keyResults,
+            progress: 50 // placeholder
+        }));
     }
     static async getPitch(userId) {
         return {
@@ -69,9 +115,16 @@ export class FounderService {
         };
     }
     static async getRoadmap(userId) {
-        return this.mockRoadmapItems.map(item => ({
-            ...item,
-            quarter: "Q1 2025" // Add computed field
+        const items = await prisma.roadmapItem.findMany({
+            where: { userId },
+            orderBy: { priority: 'asc' }
+        });
+        return items.map((item) => ({
+            id: item.id,
+            feature: item.feature,
+            status: item.status.toLowerCase(),
+            priority: item.priority,
+            quarter: "Q1 2025"
         }));
     }
     static async getSettings(userId) {
@@ -87,7 +140,13 @@ export class FounderService {
         return { message: "Settings updated", settings };
     }
     static async getTeam(userId) {
-        return this.mockTeamMembers;
+        const members = await prisma.teamMember.findMany({ where: { userId } });
+        return members.map((member) => ({
+            id: member.id,
+            name: member.name,
+            role: member.role,
+            avatar: member.avatar || member.name.split(' ').map((n) => n[0]).join('')
+        }));
     }
     static async getTech(userId) {
         return {
@@ -102,6 +161,62 @@ export class FounderService {
             weaknesses: ["Limited traction", "Competitive market"],
             recommendations: ["Focus on user acquisition", "Validate pricing"]
         };
+    }
+    static async sendMessage(userId, message) {
+        const { prisma } = await import('../prisma/client.js');
+        // Find or create chat session
+        let session = await prisma.chatSession.findFirst({
+            where: { userId },
+            orderBy: { createdAt: 'desc' }
+        });
+        if (!session) {
+            session = await prisma.chatSession.create({
+                data: { userId, title: 'Founder Chat' }
+            });
+        }
+        // Add user message
+        await prisma.chatMessage.create({
+            data: {
+                sessionId: session.id,
+                role: 'USER',
+                content: message
+            }
+        });
+        // Get user for AI service
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        // Call AI service for real response
+        const { aiService } = await import('./ai/ai.service.js');
+        let aiResponse = '';
+        try {
+            const result = await aiService({
+                user,
+                tool: 'chat',
+                prompt: message
+                // provider omitted - defaults to OpenAI with automatic Grok fallback
+            });
+            aiResponse = result.reply || '';
+        }
+        catch (aiError) {
+            console.error('[FounderService] AI service error:', aiError.message || aiError);
+            throw new Error('AI service unavailable');
+        }
+        // Save AI response
+        await prisma.chatMessage.create({
+            data: {
+                sessionId: session.id,
+                role: 'ASSISTANT',
+                content: aiResponse
+            }
+        });
+        // Update user stats
+        await prisma.user.update({
+            where: { id: userId },
+            data: { questionsAsked: { increment: 1 } }
+        });
+        return { reply: aiResponse };
     }
 }
 //# sourceMappingURL=founder.service.js.map

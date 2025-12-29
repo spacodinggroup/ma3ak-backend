@@ -11,4 +11,5 @@ export declare const getBusinessReports: (req: AuthenticatedRequest, res: Respon
 export declare const getBusinessSales: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const getBusinessSettings: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const updateBusinessSettings: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const sendBusinessMessage: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
 //# sourceMappingURL=business.controller.d.ts.map

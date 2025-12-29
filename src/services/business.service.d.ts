@@ -36,18 +36,19 @@ export declare class BusinessService {
         status: string;
     }[]>;
     static getCustomers(userId: string): Promise<{
-        id: string;
-        name: string;
-        email: string;
+        id: any;
+        name: any;
+        email: any;
+        company: any;
         value: number;
-        status: string;
+        status: any;
     }[]>;
     static getGoals(userId: string): Promise<{
-        id: string;
-        title: string;
+        id: any;
+        title: any;
         progress: number;
-        target: number;
-        current: number;
+        target: any;
+        current: any;
         deadline: string;
     }[]>;
     static getMarketing(userId: string): Promise<{
@@ -105,6 +106,9 @@ export declare class BusinessService {
     static updateSettings(userId: string, settings: any): Promise<{
         message: string;
         settings: any;
+    }>;
+    static sendMessage(userId: string, message: string): Promise<{
+        reply: string;
     }>;
 }
 //# sourceMappingURL=business.service.d.ts.map

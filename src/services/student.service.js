@@ -1,56 +1,118 @@
+import { prisma } from "../prisma/client.js";
 export class StudentService {
     static async getDashboard(userId) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const [plan, subjects, user] = await Promise.all([
+            prisma.studyPlan.findFirst({
+                where: { userId, date: today },
+                include: { items: true }
+            }),
+            prisma.subject.findMany({ where: { userId } }),
+            prisma.user.findUnique({ where: { id: userId } })
+        ]);
+        const studyPlan = plan ? plan.items.map((item) => ({
+            topic: item.topic,
+            subject: item.subject,
+            time: item.time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+            duration: `${Math.floor(item.duration / 60)}h ${item.duration % 60}m`,
+            completed: item.completed
+        })) : [];
+        const upcomingExam = subjects.map((subj) => ({
+            subject: subj.name,
+            daysLeft: Math.ceil((subj.examDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
+            readiness: 50, // placeholder
+            date: subj.examDate.toDateString()
+        }));
+        const subjList = subjects.map((subj) => ({
+            name: subj.name,
+            icon: "📚", // placeholder
+            progress: 50 // placeholder
+        }));
+        const stats = user ? {
+            streak: user.streak,
+            hours: user.hoursStudied,
+            topics: user.topicsCompleted,
+            questions: user.questionsAsked,
+            avgScore: user.averageScore,
+            hoursThisWeek: 0, // placeholder
+            topicsThisWeek: 0,
+            questionsThisWeek: 0,
+            avgScoreChange: 0
+        } : { streak: 0, hours: 0, topics: 0, questions: 0, avgScore: 0, hoursThisWeek: 0, topicsThisWeek: 0, questionsThisWeek: 0, avgScoreChange: 0 };
         return {
-            studyPlan: [
-                { topic: "Calculus Integration", subject: "Mathematics", time: "9:00 AM", duration: "1h 30m", completed: false },
-                { topic: "World War II Overview", subject: "History", time: "11:00 AM", duration: "45m", completed: true },
-                { topic: "Organic Chemistry Reactions", subject: "Chemistry", time: "2:00 PM", duration: "2h", completed: false },
-                { topic: "Shakespeare Analysis", subject: "English Literature", time: "4:30 PM", duration: "1h", completed: false }
-            ],
-            upcomingExam: [
-                { subject: "Mathematics", daysLeft: 5, readiness: 75, date: "Dec 30, 2024" },
-                { subject: "Physics", daysLeft: 12, readiness: 60, date: "Jan 6, 2025" },
-                { subject: "Chemistry", daysLeft: 18, readiness: 45, date: "Jan 12, 2025" }
-            ],
-            subjects: [
-                { name: "Mathematics", icon: "📐", progress: 75 },
-                { name: "Physics", icon: "⚛️", progress: 60 },
-                { name: "Chemistry", icon: "🧪", progress: 45 },
-                { name: "English", icon: "📚", progress: 80 },
-                { name: "History", icon: "🏛️", progress: 55 }
-            ],
-            Stats: {
-                streak: 7,
-                hours: 42,
-                topics: 28,
-                questions: 156,
-                avgScore: 85,
-                hoursThisWeek: 12,
-                topicsThisWeek: 8,
-                questionsThisWeek: 45,
-                avgScoreChange: 5
-            }
+            studyPlan,
+            upcomingExam,
+            subjects: subjList,
+            Stats: stats
         };
     }
     static async getSubjects(userId) {
-        return [
-            { id: "1", name: "Mathematics", progress: 75, topics: 45, completed: 34 },
-            { id: "2", name: "Physics", progress: 60, topics: 38, completed: 23 },
-            { id: "3", name: "Chemistry", progress: 45, topics: 52, completed: 23 },
-            { id: "4", name: "English Literature", progress: 80, topics: 28, completed: 22 }
-        ];
+        const subjects = await prisma.subject.findMany({
+            where: { userId },
+            select: {
+                id: true,
+                name: true,
+                difficulty: true,
+                hoursPerWeek: true,
+                examDate: true,
+                createdAt: true
+            }
+        });
+        return subjects;
+    }
+    static async saveSubjects(userId, payload) {
+        const { subjects, hoursPerDay, examDate } = payload;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        // Create subjects
+        await prisma.subject.createMany({
+            data: subjects.map((s) => ({ ...s, userId }))
+        });
+        // Create plan
+        const plan = await prisma.studyPlan.create({
+            data: {
+                date: today,
+                userId,
+                items: {
+                    create: subjects.map((subj, index) => ({
+                        subject: subj.name,
+                        topic: 'Study ' + subj.name,
+                        time: new Date(today.getTime() + index * 2 * 60 * 60 * 1000), // 2 hours apart
+                        duration: 60 // 1 hour
+                    }))
+                }
+            },
+            include: { items: true }
+        });
+        return {
+            id: plan.id,
+            dailyPlan: plan.items.map((item) => ({
+                subject: item.subject,
+                topic: item.topic,
+                time: item.time.toISOString(),
+                duration: item.duration
+            })),
+            totalHours: plan.items.reduce((sum, item) => sum + item.duration / 60, 0),
+        };
     }
     static async generateStudyPlan(userId, payload) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const plan = await prisma.studyPlan.findFirst({
+            where: { userId, date: today },
+            include: { items: true }
+        });
+        if (!plan)
+            return { items: [] };
         return {
-            dailyPlan: [
-                { day: "Monday", subjects: ["Mathematics", "Physics"], hours: 3 },
-                { day: "Tuesday", subjects: ["Chemistry", "English"], hours: 2.5 },
-                { day: "Wednesday", subjects: ["Mathematics", "History"], hours: 3 },
-                { day: "Thursday", subjects: ["Physics", "Chemistry"], hours: 2.5 },
-                { day: "Friday", subjects: ["English", "Review"], hours: 2 }
-            ],
-            totalHours: 13,
-            examDate: payload.examDate
+            items: plan.items.map((item) => ({
+                subject: item.subject,
+                topic: item.topic,
+                time: item.time,
+                duration: item.duration,
+                completed: item.completed
+            }))
         };
     }
     static async getCourses(userId) {
@@ -61,9 +123,61 @@ export class StudentService {
         ];
     }
     static async sendMessage(userId, message) {
+        // Find or create session
+        let session = await prisma.chatSession.findFirst({
+            where: { userId },
+            orderBy: { createdAt: 'desc' }
+        });
+        if (!session) {
+            session = await prisma.chatSession.create({
+                data: { userId, title: 'Study Chat' }
+            });
+        }
+        // Add user message
+        await prisma.chatMessage.create({
+            data: {
+                sessionId: session.id,
+                role: 'USER',
+                content: message
+            }
+        });
+        // Get user for AI service
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        // Call AI service for real response
+        const { aiService } = await import('./ai/ai.service.js');
+        let aiResponse = '';
+        try {
+            const result = await aiService({
+                user,
+                tool: 'chat',
+                prompt: message
+                // provider omitted - defaults to OpenAI with automatic Grok fallback
+            });
+            aiResponse = result.reply || '';
+        }
+        catch (aiError) {
+            console.error('[StudentService] AI service error:', aiError.message || aiError);
+            // If AI fails completely, throw error to be caught by controller
+            throw new Error('AI service unavailable');
+        }
+        // Save AI response to database
+        await prisma.chatMessage.create({
+            data: {
+                sessionId: session.id,
+                role: 'ASSISTANT',
+                content: aiResponse
+            }
+        });
+        // Update user stats
+        await prisma.user.update({
+            where: { id: userId },
+            data: { questionsAsked: { increment: 1 } }
+        });
         return {
-            message: `I understand you're asking about: "${message}". Here's a detailed explanation...`,
-            suggestions: ["Try this practice problem", "Watch this video", "Read this chapter"]
+            reply: aiResponse
         };
     }
     static async getNotes(userId) {
@@ -84,11 +198,15 @@ export class StudentService {
         };
     }
     static async getExams(userId) {
-        return [
-            { id: "1", subject: "Mathematics", date: "2024-12-30", time: "10:00 AM", readiness: 75, topics: ["Calculus", "Algebra"] },
-            { id: "2", subject: "Physics", date: "2025-01-06", time: "2:00 PM", readiness: 60, topics: ["Mechanics", "Thermodynamics"] },
-            { id: "3", subject: "Chemistry", date: "2025-01-12", time: "9:00 AM", readiness: 45, topics: ["Organic", "Inorganic"] }
-        ];
+        const subjects = await prisma.subject.findMany({ where: { userId } });
+        return subjects.map((subj) => ({
+            id: subj.id,
+            subject: subj.name,
+            date: subj.examDate.toISOString().split('T')[0],
+            time: "10:00 AM", // placeholder
+            readiness: 50, // placeholder
+            topics: [subj.name] // placeholder
+        }));
     }
     static async getPractice(userId) {
         return {
@@ -137,14 +255,101 @@ export class StudentService {
         };
     }
     static async uploadNote(userId, formData) {
+        const { title, subject, fileUrl, type } = formData;
+        const note = await prisma.note.create({
+            data: {
+                title,
+                subject,
+                fileUrl,
+                type: (type || 'NOTE'),
+                userId
+            }
+        });
         return {
-            id: "new-note-123",
-            title: "Uploaded Notes",
-            subject: "General",
-            pages: 3,
-            processed: true,
-            summary: "Notes have been processed and organized by the AI."
+            id: note.id,
+            title: note.title,
+            subject: note.subject,
+            fileUrl: note.fileUrl,
+            type: note.type,
+            createdAt: note.createdAt
         };
+    }
+    static async completeItem(userId, itemId) {
+        const item = await prisma.studyPlanItem.update({
+            where: { id: itemId },
+            data: { completed: true },
+            include: { plan: true }
+        });
+        if (item.plan.userId !== userId)
+            throw new Error('Unauthorized');
+        // Update user stats
+        await prisma.user.update({
+            where: { id: userId },
+            data: {
+                topicsCompleted: { increment: 1 },
+                hoursStudied: { increment: item.duration / 60 },
+                lastActiveAt: new Date()
+            }
+        });
+        // Update streak
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (user) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const lastActive = user.lastActiveAt ? new Date(user.lastActiveAt) : null;
+            if (lastActive) {
+                lastActive.setHours(0, 0, 0, 0);
+                const diffDays = (today.getTime() - lastActive.getTime()) / (1000 * 60 * 60 * 24);
+                if (diffDays === 1) {
+                    await prisma.user.update({
+                        where: { id: userId },
+                        data: { streak: { increment: 1 } }
+                    });
+                }
+                else if (diffDays > 1) {
+                    await prisma.user.update({
+                        where: { id: userId },
+                        data: { streak: 1 }
+                    });
+                }
+            }
+            else {
+                await prisma.user.update({
+                    where: { id: userId },
+                    data: { streak: 1 }
+                });
+            }
+        }
+    }
+    static async saveExam(userId, subject, questions) {
+        return await prisma.exam.create({
+            data: {
+                subject,
+                questions,
+                userId
+            }
+        });
+    }
+    static async getChatSessions(userId) {
+        const sessions = await prisma.chatSession.findMany({
+            where: { userId },
+            include: {
+                messages: {
+                    orderBy: { createdAt: 'asc' }
+                }
+            },
+            orderBy: { createdAt: 'desc' }
+        });
+        return sessions.map((session) => ({
+            id: session.id,
+            title: session.title,
+            messages: session.messages.map((msg) => ({
+                role: msg.role,
+                content: msg.content,
+                createdAt: msg.createdAt
+            })),
+            createdAt: session.createdAt
+        }));
     }
 }
 //# sourceMappingURL=student.service.js.map

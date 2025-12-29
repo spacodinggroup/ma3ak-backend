@@ -6,26 +6,113 @@ import { AI_CONFIG } from "../../config/ai.config.js";
 import { incrementUserRequests } from "../user.service.js";
 export const aiService = async ({ user, tool, prompt, provider, }) => {
     const finalPromt = buildPrompt(user.role, tool, prompt);
-    const selectedProvider = provider ?? AI_CONFIG.DEFAULT_PROVIDER;
+    let currentProvider = provider ?? AI_CONFIG.DEFAULT_PROVIDER;
+    // 1️⃣ UNIVERSAL AI RESPONSE NORMALIZER
+    const normalizeAIResponse = (raw) => {
+        // Extraction priority (top → bottom)
+        // 1. raw.reply
+        if (raw?.reply && typeof raw.reply === 'string')
+            return raw.reply;
+        // 2. raw.message
+        if (raw?.message && typeof raw.message === 'string')
+            return raw.message;
+        // 3. raw.data?.reply
+        if (raw?.data?.reply && typeof raw.data.reply === 'string')
+            return raw.data.reply;
+        // 4. raw.data?.message
+        if (raw?.data?.message && typeof raw.data.message === 'string')
+            return raw.data.message;
+        // 5. raw.choices?.[0]?.message?.content
+        if (raw?.choices?.[0]?.message?.content && typeof raw.choices[0].message.content === 'string') {
+            return raw.choices[0].message.content;
+        }
+        // 6. raw.text
+        if (raw?.text && typeof raw.text === 'string')
+            return raw.text;
+        // If raw is JSON string → parse & retry
+        if (typeof raw === 'string') {
+            try {
+                const parsed = JSON.parse(raw);
+                // Recursively check the parsed object (but prevent infinite loop if parsed is same string)
+                if (typeof parsed === 'object' && parsed !== null) {
+                    return normalizeAIResponse(parsed);
+                }
+            }
+            catch (e) {
+                // If raw is plain string -> return it (last resort for string input that isn't JSON)
+                // BUT the requirement says: "If raw is plain string → return it"
+                // So if it fails JSON parse, we treat it as the content itself if it's not empty?
+                // Actually the prompt says: "If raw is plain string → return it" (meaning if it's just a string node?)
+                // Let's assume if it reached here as a string and failed JSON parse, it IS the response text.
+                if (raw.trim().length > 0)
+                    return raw;
+            }
+            // If it was a string that successfully parsed, the recursive call handled it.
+            // If it was a string that failed parsing, we returned it above.
+        }
+        return "";
+    };
+    // Helper to attempt generation and normalize
+    const attemptGenerate = async (prov) => {
+        let rawResponse;
+        if (prov === "GROK") {
+            rawResponse = await grokGenerate(finalPromt);
+        }
+        else {
+            rawResponse = await openaiGenerate(finalPromt);
+        }
+        return normalizeAIResponse(rawResponse);
+    };
     let response = "";
-    if (selectedProvider === "GROK") {
-        response = await grokGenerate(finalPromt);
+    // 2️⃣ PROVIDER FALLBACK (MANDATORY)
+    // Try OpenAI (or requested provider)
+    try {
+        response = await attemptGenerate(currentProvider);
     }
-    else {
-        response = await openaiGenerate(finalPromt);
+    catch (error) {
+        console.warn(`Provider ${currentProvider} failed:`, error);
+        response = "";
+    }
+    // If empty → switch to fallback (Grok) if we haven't tried it yet
+    if (!response || response.trim() === "") {
+        // Only fallback if we started with OpenAI (as per requirements/logic implied: Try OpenAI -> If empty -> Try Grok)
+        // If the user specifically requested GROK, maybe we shouldn't fallback to OpenAI? 
+        // The prompt says: "Try OpenAI -> Normalize -> If empty -> try Grok -> Normalize -> If still empty -> throw error"
+        // It implies a hardcoded preference available in the service logic or just a general fallback strategy.
+        // I will implement: If first attempt fails/empty, try the OTHER provider.
+        const fallbackProvider = currentProvider === "OPENAI" ? "GROK" : "OPENAI";
+        // However, the prompt specifically says: "Try OpenAI ... If empty -> try Grok"
+        // I will stick to the specific instruction: "Try OpenAI ... If empty -> try Grok"
+        // But since `currentProvider` can be dynamic, I'll assume if the current one failed, try the *other* one if possible.
+        // Actually, let's strictly follow "Try OpenAI... If empty -> try Grok" as the primary flow.
+        if (currentProvider === "OPENAI") {
+            console.info("Primary provider (OPENAI) empty/failed. Switching to fallback: GROK");
+            try {
+                // Update current provider for logging purposes
+                currentProvider = "GROK";
+                response = await attemptGenerate("GROK");
+            }
+            catch (fallbackError) {
+                console.error("Fallback provider (GROK) failed:", fallbackError);
+                response = "";
+            }
+        }
+    }
+    // If still empty → throw error (to be caught by controller)
+    if (!response || response.trim() === "") {
+        throw new Error("All AI providers failed to generate a valid response.");
     }
     await prisma.aiLog.create({
         data: {
             prompt: finalPromt,
-            response,
-            provider: selectedProvider,
+            response: response,
+            provider: currentProvider,
             userId: user.id,
         },
     });
     await incrementUserRequests(user.id);
     return {
-        provider: selectedProvider,
-        response,
+        reply: response,
     };
 };
 //# sourceMappingURL=ai.service.js.map

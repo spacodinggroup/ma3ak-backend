@@ -1,4 +1,19 @@
 export type * from './models/User.js';
 export type * from './models/AiLog.js';
+export type * from './models/Subject.js';
+export type * from './models/StudyPlan.js';
+export type * from './models/StudyPlanItem.js';
+export type * from './models/Note.js';
+export type * from './models/ChatSession.js';
+export type * from './models/ChatMessage.js';
+export type * from './models/Exam.js';
+export type * from './models/ExamAttempt.js';
+export type * from './models/Milestone.js';
+export type * from './models/OKR.js';
+export type * from './models/RoadmapItem.js';
+export type * from './models/TeamMember.js';
+export type * from './models/BusinessTask.js';
+export type * from './models/BusinessGoal.js';
+export type * from './models/Customer.js';
 export type * from './commonInputTypes.js';
 //# sourceMappingURL=models.d.ts.map

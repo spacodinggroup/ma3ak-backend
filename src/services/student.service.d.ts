@@ -1,129 +1,187 @@
-import { StudentDashboardResponse } from '../types/dashboard.js';
+import { StudentDashboardResponse, StudyPlanItem } from '../types/dashboard.js';
+interface Quiz {
+    id: string;
+    subject: string;
+    title: string;
+    questions: number;
+    difficulty: string;
+    score: number;
+}
+interface Flashcard {
+    id: string;
+    subject: string;
+    title: string;
+    cards: number;
+    mastered: number;
+}
+interface PracticeData {
+    quizzes: Quiz[];
+    flashcards: Flashcard[];
+}
+interface OverallProgress {
+    completed: number;
+    total: number;
+    percentage: number;
+}
+interface SubjectProgress {
+    name: string;
+    completed: number;
+    total: number;
+    percentage: number;
+}
+interface WeeklyProgress {
+    week: string;
+    hours: number;
+    topics: number;
+}
+interface ProgressData {
+    overall: OverallProgress;
+    subjects: SubjectProgress[];
+    weekly: WeeklyProgress[];
+}
+interface SubjectData {
+    id: string;
+    name: string;
+    difficulty: string;
+    hoursPerWeek: number;
+    examDate: Date;
+    createdAt: Date;
+}
+interface SaveSubjectsPayload {
+    subjects: any[];
+    hoursPerDay?: number;
+    examDate?: Date;
+}
+interface SaveSubjectsResponse {
+    id: string;
+    dailyPlan: {
+        subject: string;
+        topic: string;
+        time: string;
+        duration: number;
+    }[];
+    totalHours: number;
+}
+interface StudyPlanResponse {
+    items: StudyPlanItem[];
+}
+interface Course {
+    id: string;
+    name: string;
+    instructor: string;
+    progress: number;
+    nextLesson: string;
+}
+interface MessageResponse {
+    reply: string;
+}
+interface Note {
+    id: string;
+    title: string;
+    subject: string;
+    date: string;
+    pages: number;
+}
+interface WeeklyTask {
+    day: string;
+    tasks: string[];
+    completed: number;
+}
+interface Goals {
+    weeklyHours: number;
+    currentHours: number;
+    subjects: number;
+    completedSubjects: number;
+}
+interface PlanResponse {
+    weekly: WeeklyTask[];
+    goals: Goals;
+}
+interface Exam {
+    id: string;
+    subject: string;
+    date: string;
+    time: string;
+    readiness: number;
+    topics: string[];
+}
+interface Settings {
+    notifications: boolean;
+    reminders: boolean;
+    studyReminders: boolean;
+    language: string;
+    theme: string;
+}
+interface UpdateSettingsResponse {
+    message: string;
+    settings: Settings;
+}
+interface Timer {
+    currentSession: {
+        subject: string;
+        time: number;
+        goal: number;
+    };
+    today: {
+        total: number;
+        goal: number;
+    };
+    week: {
+        total: number;
+        goal: number;
+    };
+}
+interface UploadNoteData {
+    title: string;
+    subject: string;
+    fileUrl: string;
+    type?: string;
+}
+interface NoteData {
+    id: string;
+    title: string;
+    subject: string;
+    fileUrl: string;
+    type: string;
+    createdAt: Date;
+}
+interface ExamData {
+    id: string;
+    subject: string;
+    questions: any;
+    userId: string;
+    createdAt: Date;
+}
+interface ChatMessage {
+    role: string;
+    content: string;
+    createdAt: Date;
+}
+interface ChatSession {
+    id: string;
+    title: string;
+    messages: ChatMessage[];
+    createdAt: Date;
+}
 export declare class StudentService {
     static getDashboard(userId: string): Promise<StudentDashboardResponse>;
-    static getSubjects(userId: string): Promise<{
-        id: string;
-        name: string;
-        progress: number;
-        topics: number;
-        completed: number;
-    }[]>;
-    static generateStudyPlan(userId: string, payload: any): Promise<{
-        dailyPlan: {
-            day: string;
-            subjects: string[];
-            hours: number;
-        }[];
-        totalHours: number;
-        examDate: any;
-    }>;
-    static getCourses(userId: string): Promise<{
-        id: string;
-        name: string;
-        instructor: string;
-        progress: number;
-        nextLesson: string;
-    }[]>;
-    static sendMessage(userId: string, message: string): Promise<{
-        message: string;
-        suggestions: string[];
-    }>;
-    static getNotes(userId: string): Promise<{
-        id: string;
-        title: string;
-        subject: string;
-        date: string;
-        pages: number;
-    }[]>;
-    static getPlan(userId: string): Promise<{
-        weekly: {
-            day: string;
-            tasks: string[];
-            completed: number;
-        }[];
-        goals: {
-            weeklyHours: number;
-            currentHours: number;
-            subjects: number;
-            completedSubjects: number;
-        };
-    }>;
-    static getExams(userId: string): Promise<{
-        id: string;
-        subject: string;
-        date: string;
-        time: string;
-        readiness: number;
-        topics: string[];
-    }[]>;
-    static getPractice(userId: string): Promise<{
-        quizzes: {
-            id: string;
-            subject: string;
-            title: string;
-            questions: number;
-            difficulty: string;
-            score: number;
-        }[];
-        flashcards: {
-            id: string;
-            subject: string;
-            title: string;
-            cards: number;
-            mastered: number;
-        }[];
-    }>;
-    static getProgress(userId: string): Promise<{
-        overall: {
-            completed: number;
-            total: number;
-            percentage: number;
-        };
-        subjects: {
-            name: string;
-            completed: number;
-            total: number;
-            percentage: number;
-        }[];
-        weekly: {
-            week: string;
-            hours: number;
-            topics: number;
-        }[];
-    }>;
-    static getSettings(userId: string): Promise<{
-        notifications: boolean;
-        reminders: boolean;
-        studyReminders: boolean;
-        language: string;
-        theme: string;
-    }>;
-    static updateSettings(userId: string, settings: any): Promise<{
-        message: string;
-        settings: any;
-    }>;
-    static getTimer(userId: string): Promise<{
-        currentSession: {
-            subject: string;
-            time: number;
-            goal: number;
-        };
-        today: {
-            total: number;
-            goal: number;
-        };
-        week: {
-            total: number;
-            goal: number;
-        };
-    }>;
-    static uploadNote(userId: string, formData: any): Promise<{
-        id: string;
-        title: string;
-        subject: string;
-        pages: number;
-        processed: boolean;
-        summary: string;
-    }>;
+    static getSubjects(userId: string): Promise<SubjectData[]>;
+    static saveSubjects(userId: string, payload: SaveSubjectsPayload): Promise<SaveSubjectsResponse>;
+    static generateStudyPlan(userId: string, payload?: any): Promise<StudyPlanResponse>;
+    static getCourses(userId: string): Promise<Course[]>;
+    static sendMessage(userId: string, message: string): Promise<MessageResponse>;
+    static getNotes(userId: string): Promise<Note[]>;
+    static getPlan(userId: string): Promise<PlanResponse>;
+    static getExams(userId: string): Promise<Exam[]>;
+    static getPractice(userId: string): Promise<PracticeData>;
+    static getProgress(userId: string): Promise<ProgressData>;
+    static getSettings(userId: string): Promise<Settings>;
+    static updateSettings(userId: string, settings: Settings): Promise<UpdateSettingsResponse>;
+    static getTimer(userId: string): Promise<Timer>;
+    static uploadNote(userId: string, formData: UploadNoteData): Promise<NoteData>;
+    static completeItem(userId: string, itemId: string): Promise<void>;
+    static saveExam(userId: string, subject: string, questions: any): Promise<ExamData>;
+    static getChatSessions(userId: string): Promise<ChatSession[]>;
 }
+export {};
 //# sourceMappingURL=student.service.d.ts.map

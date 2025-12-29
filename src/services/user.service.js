@@ -8,17 +8,7 @@ export const getUserById = async (userId) => {
             email: true,
             role: true,
             requests: true,
-            createAt: true,
-        },
-    });
-};
-export const incrementUserRequqsts = async (userId) => {
-    return prisma.user.update({
-        where: { id: userId },
-        data: {
-            requests: {
-                increment: 1,
-            },
+            createdAt: true,
         },
     });
 };

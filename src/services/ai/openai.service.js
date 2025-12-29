@@ -8,7 +8,7 @@ export const openaiGenerate = async (prompt) => {
     const completion = await openai.chat.completions.create({
         model: AI_CONFIG.MODELS.OPENAI,
         messages: [
-            { role: 'system', content: "You are a helpful AI assistant." },
+            { role: 'system', content: "You are a professional assistant. Be concise and follow the system instructions provided." },
             { role: 'user', content: prompt },
         ],
         temperature: 0.7,

@@ -11,4 +11,5 @@ export declare const updateFounderSettings: (req: AuthenticatedRequest, res: Res
 export declare const getFounderTeam: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const getFounderTech: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 export declare const getFounderValidate: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+export declare const sendFounderMessage: (req: AuthenticatedRequest, res: Response) => Promise<Response<any, Record<string, any>>>;
 //# sourceMappingURL=founder.controller.d.ts.map

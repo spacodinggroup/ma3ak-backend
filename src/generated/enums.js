@@ -9,12 +9,50 @@
 */
 export const Role = {
     STUDENT: 'STUDENT',
-    STARTUP: 'STARTUP',
     BUSINESS: 'BUSINESS',
+    FOUNDER: 'FOUNDER',
     ADMIN: 'ADMIN'
 };
 export const Aiprovider = {
     OPENAI: 'OPENAI',
     GROK: 'GROK'
+};
+export const NoteType = {
+    NOTE: 'NOTE',
+    PDF: 'PDF'
+};
+export const MessageRole = {
+    USER: 'USER',
+    ASSISTANT: 'ASSISTANT'
+};
+export const MilestoneStatus = {
+    PENDING: 'PENDING',
+    IN_PROGRESS: 'IN_PROGRESS',
+    COMPLETED: 'COMPLETED'
+};
+export const OKRStatus = {
+    ACTIVE: 'ACTIVE',
+    COMPLETED: 'COMPLETED',
+    CANCELLED: 'CANCELLED'
+};
+export const RoadmapStatus = {
+    PENDING: 'PENDING',
+    IN_PROGRESS: 'IN_PROGRESS',
+    DONE: 'DONE'
+};
+export const TaskStatus = {
+    TODO: 'TODO',
+    IN_PROGRESS: 'IN_PROGRESS',
+    DONE: 'DONE'
+};
+export const GoalStatus = {
+    ACTIVE: 'ACTIVE',
+    ACHIEVED: 'ACHIEVED',
+    CANCELLED: 'CANCELLED'
+};
+export const CustomerStatus = {
+    LEAD: 'LEAD',
+    CUSTOMER: 'CUSTOMER',
+    INACTIVE: 'INACTIVE'
 };
 //# sourceMappingURL=enums.js.map
