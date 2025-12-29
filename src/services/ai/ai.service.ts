@@ -27,8 +27,26 @@ export const aiService = async ({
         return openaiGenerate(finalPromt);
     };
 
+    // Helper to extract text from potential JSON response
+    const extractText = (raw: string): string => {
+        try {
+            const parsed = JSON.parse(raw);
+            if (typeof parsed === 'object' && parsed !== null) {
+                if (parsed.reply && typeof parsed.reply === 'string') return parsed.reply;
+                if (parsed.message && typeof parsed.message === 'string') return parsed.message;
+                // If JSON but missing keys, return empty to trigger fallback/error
+                return "";
+            }
+        } catch (e) {
+            // Not JSON, assume plain text
+            return raw;
+        }
+        return raw;
+    };
+
     try {
         response = await tryGenerate(currentProvider);
+        response = extractText(response);
     } catch (error) {
         console.warn(`Provider ${currentProvider} failed:`, error);
         response = ""; // Ensure empty so we trigger fallback if applicable
@@ -40,6 +58,7 @@ export const aiService = async ({
         try {
             currentProvider = "GROK";
             response = await tryGenerate(currentProvider);
+            response = extractText(response);
         } catch (fallbackError) {
             console.error("Fallback provider GROK failed:", fallbackError);
             response = "";
