@@ -40,7 +40,6 @@ export const aiService = async ({
     await incrementUserRequests(user.id);
 
     return {
-        provider: selectedProvider,
-        response,
+        reply: response,
     };
 };
