@@ -15,11 +15,13 @@ import {
     updateStudentSettings,
     getStudentTimer,
     uploadStudentNote,
+    processPDFNotes,
     saveStudentSubjects,
     completeStudyPlanItem,
     saveExam,
     getChatSessions,
 } from "../controllers/student.controller.js";
+import { uploadPDF } from "../middlewares/upload.middleware.js";
 
 const router = Router();
 
@@ -41,5 +43,6 @@ router.get("/settings", protect, getStudentSettings);
 router.put("/settings", protect, updateStudentSettings);
 router.get("/timer", protect, getStudentTimer);
 router.post("/notes/upload", protect, uploadStudentNote);
+router.post("/notes/process-pdf", protect, uploadPDF, processPDFNotes);
 
 export default router;

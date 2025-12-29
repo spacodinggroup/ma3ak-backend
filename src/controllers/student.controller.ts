@@ -269,6 +269,130 @@ export const uploadStudentNote = async (req: FileUploadRequest, res: Response) =
     }
 };
 
+export const processPDFNotes = async (req: FileUploadRequest, res: Response) => {
+    const startTime = Date.now();
+
+    try {
+        // 1. Validate user
+        const userId = req.user?.id;
+        if (!userId) {
+            console.warn('[PDF Notes] Unauthorized access attempt');
+            return res.status(401).json({ notes: [] });
+        }
+
+        // 2. Validate PDF file
+        if (!req.file) {
+            console.warn('[PDF Notes] No file uploaded');
+            return res.status(400).json({ notes: [] });
+        }
+
+        // 3. Extract text from PDF
+        let pdfText = '';
+        try {
+            const pdfParse = (await import('pdf-parse')).default;
+            const pdfData = await pdfParse(req.file.buffer);
+            pdfText = pdfData.text || '';
+        } catch (pdfError: any) {
+            console.error('[PDF Notes] PDF parsing error:', pdfError.message);
+            return res.status(200).json({ notes: [] });
+        }
+
+        // 4. Handle empty PDF
+        if (!pdfText || pdfText.trim().length === 0) {
+            console.warn('[PDF Notes] Empty PDF content');
+            return res.status(200).json({ notes: [] });
+        }
+
+        // 5. Build AI prompt for structured notes
+        const prompt = `Extract and convert the following text into clear, actionable bullet points.
+
+STRICT RULES:
+- Return ONLY valid JSON, no extra text
+- Do NOT include phrases like "I understand" or "Here are the notes"
+- Each bullet point must be clear, concise, and actionable
+- Remove redundant information
+- Focus on key concepts and important details
+
+Required output format:
+{
+  "notes": [
+    "Clear actionable point 1",
+    "Clear actionable point 2",
+    "Clear actionable point 3"
+  ]
+}
+
+Text to process:
+${pdfText.slice(0, 8000)}`; // Limit to 8000 chars to avoid token limits
+
+        // 6. Call AI service with fallback
+        let aiResponse = '';
+        try {
+            console.info(`[PDF Notes] Processing PDF (${pdfText.length} chars) for user ${userId}`);
+            const { aiService } = await import('../services/ai/ai.service.js');
+            const result = await aiService({
+                user: req.user,
+                tool: 'pdf-notes',
+                prompt
+            });
+            aiResponse = result.reply || '';
+        } catch (aiError: any) {
+            console.error('[PDF Notes] AI service error:', aiError.message || aiError);
+            const duration = Date.now() - startTime;
+            console.warn(`[PDF Notes] Returning empty notes after ${duration}ms`);
+            return res.status(200).json({ notes: [] });
+        }
+
+        // 7. Parse AI response
+        let notes: string[] = [];
+        try {
+            const parsed = JSON.parse(aiResponse);
+            if (Array.isArray(parsed)) {
+                notes = parsed.filter((n: any) => typeof n === 'string');
+            } else if (parsed.notes && Array.isArray(parsed.notes)) {
+                notes = parsed.notes.filter((n: any) => typeof n === 'string');
+            }
+        } catch (parseError) {
+            // Try to extract JSON array from text
+            const jsonMatch = aiResponse.match(/\{[^]*"notes"[^]*\[[^]*\][^]*\}/s);
+            if (jsonMatch) {
+                try {
+                    const extracted = JSON.parse(jsonMatch[0]);
+                    if (extracted.notes && Array.isArray(extracted.notes)) {
+                        notes = extracted.notes.filter((n: any) => typeof n === 'string');
+                    }
+                } catch (e) {
+                    console.error('[PDF Notes] Could not parse extracted JSON');
+                }
+            }
+        }
+
+        // 8. Validate result
+        if (!Array.isArray(notes) || notes.length === 0) {
+            console.warn('[PDF Notes] No valid notes extracted from AI response');
+            const duration = Date.now() - startTime;
+            console.warn(`[PDF Notes] Returning empty notes after ${duration}ms`);
+            return res.status(200).json({ notes: [] });
+        }
+
+        // 9. Success
+        const duration = Date.now() - startTime;
+        console.info(`[PDF Notes] Success - extracted ${notes.length} notes in ${duration}ms`);
+
+        return res.status(200).json({ notes });
+
+    } catch (error: any) {
+        const duration = Date.now() - startTime;
+        console.error('[PDF Notes] Unexpected error:', {
+            error: error.message || error,
+            stack: error.stack,
+            duration: `${duration}ms`
+        });
+
+        return res.status(200).json({ notes: [] });
+    }
+};
+
 export const saveStudentSubjects = async (req: AuthenticatedRequest, res: Response) => {
     try {
         const userId = req.user?.id;
