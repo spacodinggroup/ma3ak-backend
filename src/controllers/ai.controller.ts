@@ -16,8 +16,9 @@ export const generateAI = async (req: any, res: any) => {
             provider,
         });
 
-        // Ensure result has reply, fallback if something weird happens
-        if (!result || typeof result.reply !== 'string') {
+        // 3️⃣ CONTROLLER ENFORCEMENT
+        // If reply is invalid → force fallback message
+        if (!result || typeof result.reply !== 'string' || result.reply.trim() === '') {
             return res.json({ reply: "Sorry, the AI could not generate a response. Please try again." });
         }
 
