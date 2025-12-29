@@ -87,8 +87,7 @@ interface Course {
 }
 
 interface MessageResponse {
-  message: string;
-  suggestions: string[];
+  reply: string;
 }
 
 interface Note {
@@ -349,9 +348,32 @@ export class StudentService {
       }
     });
 
-    // Simulate AI response
-    const aiResponse = `I understand you're asking about: "${message}". Here's a detailed explanation...`;
+    // Get user for AI service
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new Error('User not found');
+    }
 
+    // Call AI service for real response
+    const { aiService } = await import('./ai/ai.service.js');
+    let aiResponse = '';
+
+    try {
+      const result = await aiService({
+        user,
+        tool: 'chat',
+        prompt: message,
+        provider: undefined // Let service choose default + fallback
+      });
+
+      aiResponse = result.reply || '';
+    } catch (aiError: any) {
+      console.error('[StudentService] AI service error:', aiError.message || aiError);
+      // If AI fails completely, throw error to be caught by controller
+      throw new Error('AI service unavailable');
+    }
+
+    // Save AI response to database
     await prisma.chatMessage.create({
       data: {
         sessionId: session.id,
@@ -367,8 +389,7 @@ export class StudentService {
     });
 
     return {
-      message: aiResponse,
-      suggestions: ["Try this practice problem", "Watch this video", "Read this chapter"]
+      reply: aiResponse
     };
   }
 

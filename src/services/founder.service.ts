@@ -182,4 +182,69 @@ export class FounderService {
       recommendations: ["Focus on user acquisition", "Validate pricing"]
     };
   }
+
+  static async sendMessage(userId: string, message: string): Promise<{ reply: string }> {
+    const { prisma } = await import('../prisma/client.js');
+
+    // Find or create chat session
+    let session = await prisma.chatSession.findFirst({
+      where: { userId },
+      orderBy: { createdAt: 'desc' }
+    });
+    if (!session) {
+      session = await prisma.chatSession.create({
+        data: { userId, title: 'Founder Chat' }
+      });
+    }
+
+    // Add user message
+    await prisma.chatMessage.create({
+      data: {
+        sessionId: session.id,
+        role: 'USER',
+        content: message
+      }
+    });
+
+    // Get user for AI service
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Call AI service for real response
+    const { aiService } = await import('./ai/ai.service.js');
+    let aiResponse = '';
+
+    try {
+      const result = await aiService({
+        user,
+        tool: 'chat',
+        prompt: message,
+        provider: undefined
+      });
+
+      aiResponse = result.reply || '';
+    } catch (aiError: any) {
+      console.error('[FounderService] AI service error:', aiError.message || aiError);
+      throw new Error('AI service unavailable');
+    }
+
+    // Save AI response
+    await prisma.chatMessage.create({
+      data: {
+        sessionId: session.id,
+        role: 'ASSISTANT',
+        content: aiResponse
+      }
+    });
+
+    // Update user stats
+    await prisma.user.update({
+      where: { id: userId },
+      data: { questionsAsked: { increment: 1 } }
+    });
+
+    return { reply: aiResponse };
+  }
 }

@@ -12,6 +12,7 @@ import {
     getFounderTeam,
     getFounderTech,
     getFounderValidate,
+    sendFounderMessage,
 } from "../controllers/founder.controller.js";
 
 const router = Router();
@@ -27,5 +28,6 @@ router.put("/settings", protect, updateFounderSettings);
 router.get("/team", protect, getFounderTeam);
 router.get("/tech", protect, getFounderTech);
 router.get("/validate", protect, getFounderValidate);
+router.post("/chat", protect, sendFounderMessage);
 
 export default router;

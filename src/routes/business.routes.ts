@@ -12,6 +12,7 @@ import {
     getBusinessSales,
     getBusinessSettings,
     updateBusinessSettings,
+    sendBusinessMessage,
 } from "../controllers/business.controller.js";
 
 const router = Router();
@@ -27,5 +28,6 @@ router.get("/reports", protect, getBusinessReports);
 router.get("/sales", protect, getBusinessSales);
 router.get("/settings", protect, getBusinessSettings);
 router.put("/settings", protect, updateBusinessSettings);
+router.post("/chat", protect, sendBusinessMessage);
 
 export default router;
