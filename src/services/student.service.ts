@@ -58,7 +58,7 @@ interface SubjectData {
 }
 
 interface SaveSubjectsPayload {
-  subjects: any[];
+  subjects: SubjectData[];
   hoursPerDay?: number;
   examDate?: Date;
 }
@@ -298,7 +298,7 @@ export class StudentService {
     };
   }
 
-  static async generateStudyPlan(userId: string, payload?: any): Promise<{ studyPlan: StudyPlanItem[] }> {
+  static async generateStudyPlan(userId: string, payload?: SaveSubjectsPayload): Promise<{ studyPlan: StudyPlanItem[] }> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const plan = await prisma.studyPlan.findFirst({
@@ -418,6 +418,18 @@ export class StudentService {
       readiness: 50, // placeholder
       topics: [subj.name] // placeholder
     }));
+  }
+
+  static async getPastPerformance(studentId: string): Promise<{
+    averageScore: number;
+    weakTopics: string[];
+    strongTopics: string[];
+  }> {
+    return {
+      averageScore: 0,
+      weakTopics: [],
+      strongTopics: []
+    };
   }
 
   static async getPractice(userId: string): Promise<PracticeData> {

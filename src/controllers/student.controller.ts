@@ -8,35 +8,35 @@ import { AuthenticatedRequest, FileUploadRequest } from '../types/request.js';
 import { successResponse, errorResponse } from "../utils/response.js";
 import { aiService } from '../services/ai/ai.service.js';
 
-export const getStudentDashboard = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentDashboard = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const data = await StudentService.getDashboard(userId);
-        successResponse(res, data);
+        return successResponse(res, data);
     } catch (error) {
-        errorResponse(res, "Failed to get student dashboard");
+        return errorResponse(res, "Failed to get student dashboard");
     }
 };
 
-export const getStudentSubjects = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentSubjects = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const subjects = await StudentService.getSubjects(userId);
-        successResponse(res, subjects);
+        return successResponse(res, subjects);
     } catch (error) {
-        errorResponse(res, "Failed to get student subjects", 500);
+        return errorResponse(res, "Failed to get student subjects", 500);
     }
 };
 
-export const generateStudyPlan = async (req: AuthenticatedRequest, res: Response) => {
+export const generateStudyPlan = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
@@ -84,7 +84,7 @@ Format Example:
             attempts++;
             try {
                 const result = await aiService({
-                    user: req.user,
+                    user: (req as AuthenticatedRequest).user,
                     tool: 'study-plan',
                     prompt
                 });
@@ -130,25 +130,25 @@ Format Example:
     }
 };
 
-export const getStudentCourses = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentCourses = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const courses = await StudentService.getCourses(userId);
-        successResponse(res, courses);
+        return successResponse(res, courses);
     } catch (error) {
-        errorResponse(res, "Failed to get student courses", 500);
+        return errorResponse(res, "Failed to get student courses", 500);
     }
 };
 
-export const sendStudentMessage = async (req: AuthenticatedRequest, res: Response) => {
+export const sendStudentMessage = async (req: Request, res: Response): Promise<Response> => {
     const startTime = Date.now();
 
     try {
         // 1. Validate User Authorization
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             console.warn('[Student Chat] Unauthorized access attempt');
             return res.status(401).json({ error: "Unauthorized" });
@@ -237,129 +237,137 @@ export const sendStudentMessage = async (req: AuthenticatedRequest, res: Respons
     }
 };
 
-export const getStudentNotes = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentNotes = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const notes = await StudentService.getNotes(userId);
-        successResponse(res, notes);
+        return successResponse(res, notes);
     } catch (error) {
-        errorResponse(res, "Failed to get student notes", 500);
+        return errorResponse(res, "Failed to get student notes", 500);
     }
 };
 
-export const getStudentPlan = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentPlan = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const plan = await StudentService.getPlan(userId);
-        successResponse(res, plan);
+        return successResponse(res, plan);
     } catch (error) {
-        errorResponse(res, "Failed to get student plan", 500);
+        return errorResponse(res, "Failed to get student plan", 500);
     }
 };
 
-export const getStudentExams = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentExams = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const exams = await StudentService.getExams(userId);
-        successResponse(res, exams);
+        return successResponse(res, exams);
     } catch (error) {
-        errorResponse(res, "Failed to get student exams", 500);
+        return errorResponse(res, "Failed to get student exams", 500);
     }
 };
 
-export const getStudentPractice = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentPractice = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const practice = await StudentService.getPractice(userId);
-        successResponse(res, practice);
+        return successResponse(res, practice);
     } catch (error) {
-        errorResponse(res, "Failed to get student practice", 500);
+        return errorResponse(res, "Failed to get student practice", 500);
     }
 };
 
-export const getStudentProgress = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentProgress = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const progress = await StudentService.getProgress(userId);
-        successResponse(res, progress);
+        return successResponse(res, progress);
     } catch (error) {
-        errorResponse(res, "Failed to get student progress", 500);
+        return errorResponse(res, "Failed to get student progress", 500);
     }
 };
 
-export const getStudentSettings = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentSettings = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const settings = await StudentService.getSettings(userId);
-        successResponse(res, settings);
+        return successResponse(res, settings);
     } catch (error) {
-        errorResponse(res, "Failed to get student settings", 500);
+        return errorResponse(res, "Failed to get student settings", 500);
     }
 };
 
-export const updateStudentSettings = async (req: AuthenticatedRequest, res: Response) => {
+export const updateStudentSettings = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const settings = req.body;
         const result = await StudentService.updateSettings(userId, settings);
-        successResponse(res, result);
+        return successResponse(res, result);
     } catch (error) {
-        errorResponse(res, "Failed to update student settings", 500);
+        return errorResponse(res, "Failed to update student settings", 500);
     }
 };
 
-export const getStudentTimer = async (req: AuthenticatedRequest, res: Response) => {
+export const getStudentTimer = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const timer = await StudentService.getTimer(userId);
-        successResponse(res, timer);
+        return successResponse(res, timer);
     } catch (error) {
-        errorResponse(res, "Failed to get student timer", 500);
+        return errorResponse(res, "Failed to get student timer", 500);
     }
 };
 
-export const uploadStudentNote = async (req: FileUploadRequest, res: Response) => {
+export const uploadNoteController = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
-            return errorResponse(res, "Unauthorized", 401);
+            return res.status(401).json({ success: false, message: "Unauthorized" });
         }
+
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "No file uploaded"
+            });
+        }
+
         // Assuming file is handled by multer middleware
-        const result = await StudentService.uploadNote(userId, req.file || req.body);
-        successResponse(res, result);
+        const result = await StudentService.uploadNote(userId, (req as FileUploadRequest).file || req.body);
+        return res.status(200).json({ success: true, data: result });
     } catch (error) {
-        errorResponse(res, "Failed to upload note", 500);
+        return res.status(500).json({ success: false, message: "Failed to upload note" });
     }
 };
 
-export const processPDFNotes = async (req: FileUploadRequest, res: Response) => {
+export const processPDFNotes = async (req: Request, res: Response): Promise<Response> => {
     try {
         // 1. Validate User
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return res.status(401).json({
                 success: false,
@@ -371,7 +379,7 @@ export const processPDFNotes = async (req: FileUploadRequest, res: Response) => 
         if (!req.file) {
             return res.status(400).json({
                 success: false,
-                message: "No file uploaded. Please use the 'file' field."
+                message: "No file uploaded"
             });
         }
 
@@ -414,7 +422,7 @@ ${pdfText.substring(0, 10000)}
         // 6. Call AI Service (AI Service handles OpenAI -> Grok fallback automatically)
         try {
             const result = await aiService({
-                user: req.user,
+                user: (req as AuthenticatedRequest).user,
                 tool: 'pdf-notes',
                 prompt
             });
@@ -465,23 +473,23 @@ ${pdfText.substring(0, 10000)}
     }
 };
 
-export const saveStudentSubjects = async (req: AuthenticatedRequest, res: Response) => {
+export const saveStudentSubjects = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const { subjects } = req.body;
         await StudentService.saveSubjects(userId, subjects);
-        successResponse(res, { message: "Subjects saved" });
+        return successResponse(res, { message: "Subjects saved" });
     } catch (error) {
-        errorResponse(res, "Failed to save subjects", 500);
+        return errorResponse(res, "Failed to save subjects", 500);
     }
 };
 
-export const completeStudyPlanItem = async (req: AuthenticatedRequest, res: Response) => {
+export const completeStudyPlanItem = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
@@ -490,35 +498,35 @@ export const completeStudyPlanItem = async (req: AuthenticatedRequest, res: Resp
             return errorResponse(res, "Item ID required", 400);
         }
         await StudentService.completeItem(userId, itemId);
-        successResponse(res, { message: "Item completed" });
+        return successResponse(res, { message: "Item completed" });
     } catch (error) {
-        errorResponse(res, "Failed to complete item", 500);
+        return errorResponse(res, "Failed to complete item", 500);
     }
 };
 
-export const saveExam = async (req: AuthenticatedRequest, res: Response) => {
+export const saveExam = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const { subject, questions } = req.body;
         const exam = await StudentService.saveExam(userId, subject, questions);
-        successResponse(res, exam);
+        return successResponse(res, exam);
     } catch (error) {
-        errorResponse(res, "Failed to save exam", 500);
+        return errorResponse(res, "Failed to save exam", 500);
     }
 };
 
-export const getChatSessions = async (req: AuthenticatedRequest, res: Response) => {
+export const getChatSessions = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const sessions = await StudentService.getChatSessions(userId);
-        successResponse(res, sessions);
+        return successResponse(res, sessions);
     } catch (error) {
-        errorResponse(res, "Failed to get chat sessions", 500);
+        return errorResponse(res, "Failed to get chat sessions", 500);
     }
 };

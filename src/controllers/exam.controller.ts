@@ -1,19 +1,19 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../types/request.js";
 import { aiService } from "../services/ai/ai.service.js";
 import { prisma } from "../prisma/client.js";
 import { StudentService } from "../services/student.service.js";
 
-export const generateExam = async (req: AuthenticatedRequest, res: Response) => {
+export const generateExam = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
 
         const { subject } = req.body;
         if (!subject) return res.status(400).json({ success: false, message: "Subject is required" });
 
         // 1. Determine Difficulty based on past performance
-        const avgScore = await StudentService.getPastPerformance(userId, subject);
+        const { averageScore: avgScore } = await StudentService.getPastPerformance(userId);
         let difficulty = "average";
         if (avgScore < 40) difficulty = "weak";
         else if (avgScore > 80) difficulty = "strong";
@@ -62,7 +62,7 @@ JSON Structure:
 
         // 3. AI Generation
         const result = await aiService({
-            user: req.user,
+            user: (req as AuthenticatedRequest).user,
             tool: 'exam-generation',
             prompt
         });
@@ -91,15 +91,15 @@ JSON Structure:
             questions: examData.questions
         });
 
-    } catch (error: any) {
-        console.error('[Generate Exam] Error:', error.message);
+    } catch (error) {
+        console.error('[Generate Exam] Error:', error instanceof Error ? error.message : error);
         return res.status(500).json({ success: false, message: "Failed to generate exam" });
     }
 };
 
-export const submitExam = async (req: AuthenticatedRequest, res: Response) => {
+export const submitExam = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const userId = req.user?.id;
+        const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) return res.status(401).json({ success: false, message: "Unauthorized" });
 
         const { examId, answers } = req.body;
@@ -131,7 +131,7 @@ JSON Structure:
 `.trim();
 
         const result = await aiService({
-            user: req.user,
+            user: (req as AuthenticatedRequest).user,
             tool: 'exam-grading',
             prompt
         });
@@ -177,8 +177,8 @@ JSON Structure:
             advice: grading.advice
         });
 
-    } catch (error: any) {
-        console.error('[Submit Exam] Error:', error.message);
+    } catch (error) {
+        console.error('[Submit Exam] Error:', error instanceof Error ? error.message : error);
         return res.status(500).json({ success: false, message: "Failed to process exam submission" });
     }
 };

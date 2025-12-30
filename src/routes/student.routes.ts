@@ -14,7 +14,7 @@ import {
     getStudentSettings,
     updateStudentSettings,
     getStudentTimer,
-    uploadStudentNote,
+    uploadNoteController,
     processPDFNotes,
     saveStudentSubjects,
     completeStudyPlanItem,
@@ -42,7 +42,7 @@ router.get("/progress", protect, getStudentProgress);
 router.get("/settings", protect, getStudentSettings);
 router.put("/settings", protect, updateStudentSettings);
 router.get("/timer", protect, getStudentTimer);
-router.post("/notes/upload", protect, uploadPDF, processPDFNotes);
+router.post("/notes/upload", protect, uploadPDF, uploadNoteController);
 router.post("/notes/process-pdf", protect, uploadPDF, processPDFNotes);
 
 export default router;

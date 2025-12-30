@@ -11,6 +11,6 @@ export interface AuthenticatedRequest extends Request {
     user?: { id: string; role: string; requests: number };
 }
 
-export interface FileUploadRequest extends AuthenticatedRequest {
+export interface FileUploadRequest extends Request {
     file?: Express.Multer.File;
 }
