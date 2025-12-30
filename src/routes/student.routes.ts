@@ -15,10 +15,10 @@ import {
     updateStudentSettings,
     getStudentTimer,
     uploadNoteController,
-    processPDFNotes,
     saveStudentSubjects,
     completeStudyPlanItem,
     saveExam,
+    saveExamAttempt,
     getChatSessions,
 } from "../controllers/student.controller.js";
 import { uploadPDF } from "../middlewares/upload.middleware.js";
@@ -37,12 +37,13 @@ router.get("/plan", protect, getStudentPlan);
 router.put("/plan/:itemId/complete", protect, completeStudyPlanItem);
 router.get("/exams", protect, getStudentExams);
 router.post("/exams", protect, saveExam);
+router.post("/exams/submit", protect, saveExamAttempt);
 router.get("/practice", protect, getStudentPractice);
 router.get("/progress", protect, getStudentProgress);
 router.get("/settings", protect, getStudentSettings);
 router.put("/settings", protect, updateStudentSettings);
 router.get("/timer", protect, getStudentTimer);
 router.post("/notes/upload", protect, uploadPDF, uploadNoteController);
-router.post("/notes/process-pdf", protect, uploadPDF, processPDFNotes);
 
 export default router;
+

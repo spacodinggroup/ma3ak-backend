@@ -55,10 +55,13 @@ export interface BusinessDashboardResponse {
 }
 
 export interface StudyPlanItem {
-  subject: string;
   date: string;
-  tasks: string[];
+  subject: string;
+  topic: string;
+  content?: string;
+  duration?: number;
 }
+
 
 export interface UpcomingExam {
   subject: string;

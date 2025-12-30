@@ -30,6 +30,7 @@ export type OKRMinAggregateOutputType = {
   status: $Enums.OKRStatus | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type OKRMaxAggregateOutputType = {
@@ -38,6 +39,7 @@ export type OKRMaxAggregateOutputType = {
   status: $Enums.OKRStatus | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type OKRCountAggregateOutputType = {
@@ -47,6 +49,7 @@ export type OKRCountAggregateOutputType = {
   status: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -57,6 +60,7 @@ export type OKRMinAggregateInputType = {
   status?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type OKRMaxAggregateInputType = {
@@ -65,6 +69,7 @@ export type OKRMaxAggregateInputType = {
   status?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type OKRCountAggregateInputType = {
@@ -74,6 +79,7 @@ export type OKRCountAggregateInputType = {
   status?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -156,6 +162,7 @@ export type OKRGroupByOutputType = {
   status: $Enums.OKRStatus
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: OKRCountAggregateOutputType | null
   _min: OKRMinAggregateOutputType | null
   _max: OKRMaxAggregateOutputType | null
@@ -186,6 +193,7 @@ export type OKRWhereInput = {
   status?: Prisma.EnumOKRStatusFilter<"OKR"> | $Enums.OKRStatus
   userId?: Prisma.StringFilter<"OKR"> | string
   createdAt?: Prisma.DateTimeFilter<"OKR"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"OKR"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -196,6 +204,7 @@ export type OKROrderByWithRelationInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -209,6 +218,7 @@ export type OKRWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumOKRStatusFilter<"OKR"> | $Enums.OKRStatus
   userId?: Prisma.StringFilter<"OKR"> | string
   createdAt?: Prisma.DateTimeFilter<"OKR"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"OKR"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -219,6 +229,7 @@ export type OKROrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.OKRCountOrderByAggregateInput
   _max?: Prisma.OKRMaxOrderByAggregateInput
   _min?: Prisma.OKRMinOrderByAggregateInput
@@ -234,6 +245,7 @@ export type OKRScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumOKRStatusWithAggregatesFilter<"OKR"> | $Enums.OKRStatus
   userId?: Prisma.StringWithAggregatesFilter<"OKR"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"OKR"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"OKR"> | Date | string
 }
 
 export type OKRCreateInput = {
@@ -242,6 +254,7 @@ export type OKRCreateInput = {
   keyResults: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status: $Enums.OKRStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutOkrsInput
 }
 
@@ -252,6 +265,7 @@ export type OKRUncheckedCreateInput = {
   status: $Enums.OKRStatus
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type OKRUpdateInput = {
@@ -260,6 +274,7 @@ export type OKRUpdateInput = {
   keyResults?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumOKRStatusFieldUpdateOperationsInput | $Enums.OKRStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutOkrsNestedInput
 }
 
@@ -270,6 +285,7 @@ export type OKRUncheckedUpdateInput = {
   status?: Prisma.EnumOKRStatusFieldUpdateOperationsInput | $Enums.OKRStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OKRCreateManyInput = {
@@ -279,6 +295,7 @@ export type OKRCreateManyInput = {
   status: $Enums.OKRStatus
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type OKRUpdateManyMutationInput = {
@@ -287,6 +304,7 @@ export type OKRUpdateManyMutationInput = {
   keyResults?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumOKRStatusFieldUpdateOperationsInput | $Enums.OKRStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OKRUncheckedUpdateManyInput = {
@@ -296,6 +314,7 @@ export type OKRUncheckedUpdateManyInput = {
   status?: Prisma.EnumOKRStatusFieldUpdateOperationsInput | $Enums.OKRStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OKRListRelationFilter = {
@@ -315,6 +334,7 @@ export type OKRCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type OKRMaxOrderByAggregateInput = {
@@ -323,6 +343,7 @@ export type OKRMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type OKRMinOrderByAggregateInput = {
@@ -331,6 +352,7 @@ export type OKRMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type OKRCreateNestedManyWithoutUserInput = {
@@ -385,6 +407,7 @@ export type OKRCreateWithoutUserInput = {
   keyResults: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status: $Enums.OKRStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type OKRUncheckedCreateWithoutUserInput = {
@@ -393,6 +416,7 @@ export type OKRUncheckedCreateWithoutUserInput = {
   keyResults: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status: $Enums.OKRStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type OKRCreateOrConnectWithoutUserInput = {
@@ -431,6 +455,7 @@ export type OKRScalarWhereInput = {
   status?: Prisma.EnumOKRStatusFilter<"OKR"> | $Enums.OKRStatus
   userId?: Prisma.StringFilter<"OKR"> | string
   createdAt?: Prisma.DateTimeFilter<"OKR"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"OKR"> | Date | string
 }
 
 export type OKRCreateManyUserInput = {
@@ -439,6 +464,7 @@ export type OKRCreateManyUserInput = {
   keyResults: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status: $Enums.OKRStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type OKRUpdateWithoutUserInput = {
@@ -447,6 +473,7 @@ export type OKRUpdateWithoutUserInput = {
   keyResults?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumOKRStatusFieldUpdateOperationsInput | $Enums.OKRStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OKRUncheckedUpdateWithoutUserInput = {
@@ -455,6 +482,7 @@ export type OKRUncheckedUpdateWithoutUserInput = {
   keyResults?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumOKRStatusFieldUpdateOperationsInput | $Enums.OKRStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type OKRUncheckedUpdateManyWithoutUserInput = {
@@ -463,6 +491,7 @@ export type OKRUncheckedUpdateManyWithoutUserInput = {
   keyResults?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   status?: Prisma.EnumOKRStatusFieldUpdateOperationsInput | $Enums.OKRStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -474,6 +503,7 @@ export type OKRSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oKR"]>
 
@@ -484,6 +514,7 @@ export type OKRSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oKR"]>
 
@@ -494,6 +525,7 @@ export type OKRSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["oKR"]>
 
@@ -504,9 +536,10 @@ export type OKRSelectScalar = {
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type OKROmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "objective" | "keyResults" | "status" | "userId" | "createdAt", ExtArgs["result"]["oKR"]>
+export type OKROmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "objective" | "keyResults" | "status" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["oKR"]>
 export type OKRInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -529,6 +562,7 @@ export type $OKRPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     status: $Enums.OKRStatus
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["oKR"]>
   composites: {}
 }
@@ -959,6 +993,7 @@ export interface OKRFieldRefs {
   readonly status: Prisma.FieldRef<"OKR", 'OKRStatus'>
   readonly userId: Prisma.FieldRef<"OKR", 'String'>
   readonly createdAt: Prisma.FieldRef<"OKR", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"OKR", 'DateTime'>
 }
     
 

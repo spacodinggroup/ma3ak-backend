@@ -31,6 +31,7 @@ export type TeamMemberMinAggregateOutputType = {
   avatar: string | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TeamMemberMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type TeamMemberMaxAggregateOutputType = {
   avatar: string | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type TeamMemberCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type TeamMemberCountAggregateOutputType = {
   avatar: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type TeamMemberMinAggregateInputType = {
   avatar?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type TeamMemberMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type TeamMemberMaxAggregateInputType = {
   avatar?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type TeamMemberCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type TeamMemberCountAggregateInputType = {
   avatar?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type TeamMemberGroupByOutputType = {
   avatar: string | null
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: TeamMemberCountAggregateOutputType | null
   _min: TeamMemberMinAggregateOutputType | null
   _max: TeamMemberMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type TeamMemberWhereInput = {
   avatar?: Prisma.StringNullableFilter<"TeamMember"> | string | null
   userId?: Prisma.StringFilter<"TeamMember"> | string
   createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -200,6 +208,7 @@ export type TeamMemberOrderByWithRelationInput = {
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -213,6 +222,7 @@ export type TeamMemberWhereUniqueInput = Prisma.AtLeast<{
   avatar?: Prisma.StringNullableFilter<"TeamMember"> | string | null
   userId?: Prisma.StringFilter<"TeamMember"> | string
   createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -223,6 +233,7 @@ export type TeamMemberOrderByWithAggregationInput = {
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.TeamMemberCountOrderByAggregateInput
   _max?: Prisma.TeamMemberMaxOrderByAggregateInput
   _min?: Prisma.TeamMemberMinOrderByAggregateInput
@@ -238,6 +249,7 @@ export type TeamMemberScalarWhereWithAggregatesInput = {
   avatar?: Prisma.StringNullableWithAggregatesFilter<"TeamMember"> | string | null
   userId?: Prisma.StringWithAggregatesFilter<"TeamMember"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TeamMember"> | Date | string
 }
 
 export type TeamMemberCreateInput = {
@@ -246,6 +258,7 @@ export type TeamMemberCreateInput = {
   role: string
   avatar?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutTeamMembersInput
 }
 
@@ -256,6 +269,7 @@ export type TeamMemberUncheckedCreateInput = {
   avatar?: string | null
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamMemberUpdateInput = {
@@ -264,6 +278,7 @@ export type TeamMemberUpdateInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutTeamMembersNestedInput
 }
 
@@ -274,6 +289,7 @@ export type TeamMemberUncheckedUpdateInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamMemberCreateManyInput = {
@@ -283,6 +299,7 @@ export type TeamMemberCreateManyInput = {
   avatar?: string | null
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamMemberUpdateManyMutationInput = {
@@ -291,6 +308,7 @@ export type TeamMemberUpdateManyMutationInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamMemberUncheckedUpdateManyInput = {
@@ -300,6 +318,7 @@ export type TeamMemberUncheckedUpdateManyInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamMemberListRelationFilter = {
@@ -319,6 +338,7 @@ export type TeamMemberCountOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TeamMemberMaxOrderByAggregateInput = {
@@ -328,6 +348,7 @@ export type TeamMemberMaxOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TeamMemberMinOrderByAggregateInput = {
@@ -337,6 +358,7 @@ export type TeamMemberMinOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type TeamMemberCreateNestedManyWithoutUserInput = {
@@ -387,6 +409,7 @@ export type TeamMemberCreateWithoutUserInput = {
   role: string
   avatar?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamMemberUncheckedCreateWithoutUserInput = {
@@ -395,6 +418,7 @@ export type TeamMemberUncheckedCreateWithoutUserInput = {
   role: string
   avatar?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamMemberCreateOrConnectWithoutUserInput = {
@@ -433,6 +457,7 @@ export type TeamMemberScalarWhereInput = {
   avatar?: Prisma.StringNullableFilter<"TeamMember"> | string | null
   userId?: Prisma.StringFilter<"TeamMember"> | string
   createdAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"TeamMember"> | Date | string
 }
 
 export type TeamMemberCreateManyUserInput = {
@@ -441,6 +466,7 @@ export type TeamMemberCreateManyUserInput = {
   role: string
   avatar?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TeamMemberUpdateWithoutUserInput = {
@@ -449,6 +475,7 @@ export type TeamMemberUpdateWithoutUserInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamMemberUncheckedUpdateWithoutUserInput = {
@@ -457,6 +484,7 @@ export type TeamMemberUncheckedUpdateWithoutUserInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TeamMemberUncheckedUpdateManyWithoutUserInput = {
@@ -465,6 +493,7 @@ export type TeamMemberUncheckedUpdateManyWithoutUserInput = {
   role?: Prisma.StringFieldUpdateOperationsInput | string
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -476,6 +505,7 @@ export type TeamMemberSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   avatar?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamMember"]>
 
@@ -486,6 +516,7 @@ export type TeamMemberSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   avatar?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamMember"]>
 
@@ -496,6 +527,7 @@ export type TeamMemberSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   avatar?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["teamMember"]>
 
@@ -506,9 +538,10 @@ export type TeamMemberSelectScalar = {
   avatar?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type TeamMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "role" | "avatar" | "userId" | "createdAt", ExtArgs["result"]["teamMember"]>
+export type TeamMemberOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "role" | "avatar" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["teamMember"]>
 export type TeamMemberInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -531,6 +564,7 @@ export type $TeamMemberPayload<ExtArgs extends runtime.Types.Extensions.Internal
     avatar: string | null
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["teamMember"]>
   composites: {}
 }
@@ -961,6 +995,7 @@ export interface TeamMemberFieldRefs {
   readonly avatar: Prisma.FieldRef<"TeamMember", 'String'>
   readonly userId: Prisma.FieldRef<"TeamMember", 'String'>
   readonly createdAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"TeamMember", 'DateTime'>
 }
     
 

@@ -400,6 +400,7 @@ export const ModelName = {
   ChatMessage: 'ChatMessage',
   Exam: 'Exam',
   ExamAttempt: 'ExamAttempt',
+  Progress: 'Progress',
   Milestone: 'Milestone',
   OKR: 'OKR',
   RoadmapItem: 'RoadmapItem',
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "aiLog" | "subject" | "studyPlan" | "studyPlanItem" | "note" | "chatSession" | "chatMessage" | "exam" | "examAttempt" | "milestone" | "oKR" | "roadmapItem" | "teamMember" | "businessTask" | "businessGoal" | "customer"
+    modelProps: "user" | "aiLog" | "subject" | "studyPlan" | "studyPlanItem" | "note" | "chatSession" | "chatMessage" | "exam" | "examAttempt" | "progress" | "milestone" | "oKR" | "roadmapItem" | "teamMember" | "businessTask" | "businessGoal" | "customer"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1166,6 +1167,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Progress: {
+      payload: Prisma.$ProgressPayload<ExtArgs>
+      fields: Prisma.ProgressFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProgressFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProgressFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>
+        }
+        findFirst: {
+          args: Prisma.ProgressFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProgressFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>
+        }
+        findMany: {
+          args: Prisma.ProgressFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>[]
+        }
+        create: {
+          args: Prisma.ProgressCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>
+        }
+        createMany: {
+          args: Prisma.ProgressCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProgressCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>[]
+        }
+        delete: {
+          args: Prisma.ProgressDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>
+        }
+        update: {
+          args: Prisma.ProgressUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProgressDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProgressUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProgressUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProgressUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProgressPayload>
+        }
+        aggregate: {
+          args: Prisma.ProgressAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProgress>
+        }
+        groupBy: {
+          args: Prisma.ProgressGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProgressGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProgressCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProgressCountAggregateOutputType> | number
+        }
+      }
+    }
     Milestone: {
       payload: Prisma.$MilestonePayload<ExtArgs>
       fields: Prisma.MilestoneFieldRefs
@@ -1738,6 +1813,7 @@ export const UserScalarFieldEnum = {
   averageScore: 'averageScore',
   lastActiveAt: 'lastActiveAt',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   disabled: 'disabled'
 } as const
 
@@ -1763,7 +1839,8 @@ export const SubjectScalarFieldEnum = {
   hoursPerWeek: 'hoursPerWeek',
   examDate: 'examDate',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
@@ -1773,7 +1850,8 @@ export const StudyPlanScalarFieldEnum = {
   id: 'id',
   date: 'date',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type StudyPlanScalarFieldEnum = (typeof StudyPlanScalarFieldEnum)[keyof typeof StudyPlanScalarFieldEnum]
@@ -1786,7 +1864,9 @@ export const StudyPlanItemScalarFieldEnum = {
   time: 'time',
   duration: 'duration',
   completed: 'completed',
-  planId: 'planId'
+  planId: 'planId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type StudyPlanItemScalarFieldEnum = (typeof StudyPlanItemScalarFieldEnum)[keyof typeof StudyPlanItemScalarFieldEnum]
@@ -1796,10 +1876,12 @@ export const NoteScalarFieldEnum = {
   id: 'id',
   title: 'title',
   subject: 'subject',
+  content: 'content',
   fileUrl: 'fileUrl',
   type: 'type',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
@@ -1809,7 +1891,8 @@ export const ChatSessionScalarFieldEnum = {
   id: 'id',
   title: 'title',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ChatSessionScalarFieldEnum = (typeof ChatSessionScalarFieldEnum)[keyof typeof ChatSessionScalarFieldEnum]
@@ -1831,7 +1914,8 @@ export const ExamScalarFieldEnum = {
   subject: 'subject',
   questions: 'questions',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum]
@@ -1849,13 +1933,28 @@ export const ExamAttemptScalarFieldEnum = {
 export type ExamAttemptScalarFieldEnum = (typeof ExamAttemptScalarFieldEnum)[keyof typeof ExamAttemptScalarFieldEnum]
 
 
+export const ProgressScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  completedTasks: 'completedTasks',
+  studyHours: 'studyHours',
+  averageQuizScore: 'averageQuizScore',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProgressScalarFieldEnum = (typeof ProgressScalarFieldEnum)[keyof typeof ProgressScalarFieldEnum]
+
+
 export const MilestoneScalarFieldEnum = {
   id: 'id',
   name: 'name',
   date: 'date',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type MilestoneScalarFieldEnum = (typeof MilestoneScalarFieldEnum)[keyof typeof MilestoneScalarFieldEnum]
@@ -1867,7 +1966,8 @@ export const OKRScalarFieldEnum = {
   keyResults: 'keyResults',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OKRScalarFieldEnum = (typeof OKRScalarFieldEnum)[keyof typeof OKRScalarFieldEnum]
@@ -1879,7 +1979,8 @@ export const RoadmapItemScalarFieldEnum = {
   status: 'status',
   priority: 'priority',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RoadmapItemScalarFieldEnum = (typeof RoadmapItemScalarFieldEnum)[keyof typeof RoadmapItemScalarFieldEnum]
@@ -1891,7 +1992,8 @@ export const TeamMemberScalarFieldEnum = {
   role: 'role',
   avatar: 'avatar',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
@@ -1905,7 +2007,8 @@ export const BusinessTaskScalarFieldEnum = {
   priority: 'priority',
   dueDate: 'dueDate',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BusinessTaskScalarFieldEnum = (typeof BusinessTaskScalarFieldEnum)[keyof typeof BusinessTaskScalarFieldEnum]
@@ -1919,7 +2022,8 @@ export const BusinessGoalScalarFieldEnum = {
   current: 'current',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BusinessGoalScalarFieldEnum = (typeof BusinessGoalScalarFieldEnum)[keyof typeof BusinessGoalScalarFieldEnum]
@@ -1932,7 +2036,8 @@ export const CustomerScalarFieldEnum = {
   company: 'company',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]
@@ -2297,6 +2402,7 @@ export type GlobalOmitConfig = {
   chatMessage?: Prisma.ChatMessageOmit
   exam?: Prisma.ExamOmit
   examAttempt?: Prisma.ExamAttemptOmit
+  progress?: Prisma.ProgressOmit
   milestone?: Prisma.MilestoneOmit
   oKR?: Prisma.OKROmit
   roadmapItem?: Prisma.RoadmapItemOmit

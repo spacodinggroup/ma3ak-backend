@@ -27,17 +27,12 @@ const upload = multer({
 // Create upload middleware with error handling
 export const uploadPDF = (req: any, res: any, next: any) => {
     upload(req, res, (err: any) => {
-        if (err instanceof multer.MulterError) {
-            return res.status(400).json({
-                success: false,
-                message: `Upload error: ${err.message}`
-            });
-        } else if (err) {
-            return res.status(400).json({
-                success: false,
-                message: err.message
-            });
+        if (err) {
+            console.error('[Upload Middleware] Error:', err.message);
+            // REQUIREMENT: Always return { notes: [] } even on failure
+            return res.status(400).json({ notes: [] });
         }
         next();
     });
 };
+

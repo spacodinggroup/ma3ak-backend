@@ -33,6 +33,7 @@ export type BusinessTaskMinAggregateOutputType = {
   dueDate: Date | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type BusinessTaskMaxAggregateOutputType = {
@@ -44,6 +45,7 @@ export type BusinessTaskMaxAggregateOutputType = {
   dueDate: Date | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type BusinessTaskCountAggregateOutputType = {
@@ -55,6 +57,7 @@ export type BusinessTaskCountAggregateOutputType = {
   dueDate: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -68,6 +71,7 @@ export type BusinessTaskMinAggregateInputType = {
   dueDate?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type BusinessTaskMaxAggregateInputType = {
@@ -79,6 +83,7 @@ export type BusinessTaskMaxAggregateInputType = {
   dueDate?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type BusinessTaskCountAggregateInputType = {
@@ -90,6 +95,7 @@ export type BusinessTaskCountAggregateInputType = {
   dueDate?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -174,6 +180,7 @@ export type BusinessTaskGroupByOutputType = {
   dueDate: Date | null
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: BusinessTaskCountAggregateOutputType | null
   _min: BusinessTaskMinAggregateOutputType | null
   _max: BusinessTaskMaxAggregateOutputType | null
@@ -206,6 +213,7 @@ export type BusinessTaskWhereInput = {
   dueDate?: Prisma.DateTimeNullableFilter<"BusinessTask"> | Date | string | null
   userId?: Prisma.StringFilter<"BusinessTask"> | string
   createdAt?: Prisma.DateTimeFilter<"BusinessTask"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BusinessTask"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -218,6 +226,7 @@ export type BusinessTaskOrderByWithRelationInput = {
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -233,6 +242,7 @@ export type BusinessTaskWhereUniqueInput = Prisma.AtLeast<{
   dueDate?: Prisma.DateTimeNullableFilter<"BusinessTask"> | Date | string | null
   userId?: Prisma.StringFilter<"BusinessTask"> | string
   createdAt?: Prisma.DateTimeFilter<"BusinessTask"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BusinessTask"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -245,6 +255,7 @@ export type BusinessTaskOrderByWithAggregationInput = {
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.BusinessTaskCountOrderByAggregateInput
   _max?: Prisma.BusinessTaskMaxOrderByAggregateInput
   _min?: Prisma.BusinessTaskMinOrderByAggregateInput
@@ -262,6 +273,7 @@ export type BusinessTaskScalarWhereWithAggregatesInput = {
   dueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"BusinessTask"> | Date | string | null
   userId?: Prisma.StringWithAggregatesFilter<"BusinessTask"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BusinessTask"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BusinessTask"> | Date | string
 }
 
 export type BusinessTaskCreateInput = {
@@ -272,6 +284,7 @@ export type BusinessTaskCreateInput = {
   priority: string
   dueDate?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutBusinessTasksInput
 }
 
@@ -284,6 +297,7 @@ export type BusinessTaskUncheckedCreateInput = {
   dueDate?: Date | string | null
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessTaskUpdateInput = {
@@ -294,6 +308,7 @@ export type BusinessTaskUpdateInput = {
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutBusinessTasksNestedInput
 }
 
@@ -306,6 +321,7 @@ export type BusinessTaskUncheckedUpdateInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessTaskCreateManyInput = {
@@ -317,6 +333,7 @@ export type BusinessTaskCreateManyInput = {
   dueDate?: Date | string | null
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessTaskUpdateManyMutationInput = {
@@ -327,6 +344,7 @@ export type BusinessTaskUpdateManyMutationInput = {
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessTaskUncheckedUpdateManyInput = {
@@ -338,6 +356,7 @@ export type BusinessTaskUncheckedUpdateManyInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessTaskListRelationFilter = {
@@ -359,6 +378,7 @@ export type BusinessTaskCountOrderByAggregateInput = {
   dueDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BusinessTaskMaxOrderByAggregateInput = {
@@ -370,6 +390,7 @@ export type BusinessTaskMaxOrderByAggregateInput = {
   dueDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BusinessTaskMinOrderByAggregateInput = {
@@ -381,6 +402,7 @@ export type BusinessTaskMinOrderByAggregateInput = {
   dueDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BusinessTaskCreateNestedManyWithoutUserInput = {
@@ -437,6 +459,7 @@ export type BusinessTaskCreateWithoutUserInput = {
   priority: string
   dueDate?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessTaskUncheckedCreateWithoutUserInput = {
@@ -447,6 +470,7 @@ export type BusinessTaskUncheckedCreateWithoutUserInput = {
   priority: string
   dueDate?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessTaskCreateOrConnectWithoutUserInput = {
@@ -487,6 +511,7 @@ export type BusinessTaskScalarWhereInput = {
   dueDate?: Prisma.DateTimeNullableFilter<"BusinessTask"> | Date | string | null
   userId?: Prisma.StringFilter<"BusinessTask"> | string
   createdAt?: Prisma.DateTimeFilter<"BusinessTask"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BusinessTask"> | Date | string
 }
 
 export type BusinessTaskCreateManyUserInput = {
@@ -497,6 +522,7 @@ export type BusinessTaskCreateManyUserInput = {
   priority: string
   dueDate?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessTaskUpdateWithoutUserInput = {
@@ -507,6 +533,7 @@ export type BusinessTaskUpdateWithoutUserInput = {
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessTaskUncheckedUpdateWithoutUserInput = {
@@ -517,6 +544,7 @@ export type BusinessTaskUncheckedUpdateWithoutUserInput = {
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessTaskUncheckedUpdateManyWithoutUserInput = {
@@ -527,6 +555,7 @@ export type BusinessTaskUncheckedUpdateManyWithoutUserInput = {
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -540,6 +569,7 @@ export type BusinessTaskSelect<ExtArgs extends runtime.Types.Extensions.Internal
   dueDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["businessTask"]>
 
@@ -552,6 +582,7 @@ export type BusinessTaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   dueDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["businessTask"]>
 
@@ -564,6 +595,7 @@ export type BusinessTaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   dueDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["businessTask"]>
 
@@ -576,9 +608,10 @@ export type BusinessTaskSelectScalar = {
   dueDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type BusinessTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "priority" | "dueDate" | "userId" | "createdAt", ExtArgs["result"]["businessTask"]>
+export type BusinessTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "status" | "priority" | "dueDate" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["businessTask"]>
 export type BusinessTaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -603,6 +636,7 @@ export type $BusinessTaskPayload<ExtArgs extends runtime.Types.Extensions.Intern
     dueDate: Date | null
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["businessTask"]>
   composites: {}
 }
@@ -1035,6 +1069,7 @@ export interface BusinessTaskFieldRefs {
   readonly dueDate: Prisma.FieldRef<"BusinessTask", 'DateTime'>
   readonly userId: Prisma.FieldRef<"BusinessTask", 'String'>
   readonly createdAt: Prisma.FieldRef<"BusinessTask", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"BusinessTask", 'DateTime'>
 }
     
 

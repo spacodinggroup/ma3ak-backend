@@ -43,39 +43,60 @@ export const generateStudyPlan = async (req: Request, res: Response): Promise<Re
 
         const { subjects, hoursPerDay = 4, examDate } = req.body;
 
-        // 1. Validate Request
         if (!subjects || !Array.isArray(subjects) || subjects.length === 0) {
             return errorResponse(res, "Subjects must be a non-empty array", 400);
         }
 
-        // 2. Build Strong AI Prompt
         const buildStudyPlanPrompt = (subs: string[]) => `
-You are an expert academic planner. Create a realistic daily study plan for a student.
+System Prompt:
+You are an expert academic planner and professional teacher.
+Your task is to create a REALISTIC, PRACTICAL, and ACTIONABLE study plan.
+
+STRICT RULES:
+- Start immediately with the study plan.
+- Do NOT repeat the user’s request.
+- Do NOT use phrases like: "I understand your question", "Here is a detailed explanation", "You are asking about".
+- Do NOT include any meta commentary.
+- Write only useful educational content.
+
+STUDY PLAN REQUIREMENTS:
+- Assume the student is learning for the first time.
+- Adapt difficulty gradually from easy → medium → advanced.
+- Focus on understanding, not memorization.
+- Use simple, clear language.
+- Be motivating but professional.
+- Do NOT exceed realistic daily study time (1–2 hours max).
+
 Subjects to cover: ${subs.join(", ")}
 Available hours per day: ${hoursPerDay}
 Target Exam Date: ${examDate || 'Next month'}
 
-STRICT RULES:
-- Return ONLY valid JSON.
-- No meta-talk or introduction.
-- The output MUST be a JSON object with a "studyPlan" key.
-- Each item must have: "subject", "date" (e.g., "Day 1"), and "tasks" (array of strings).
+MANDATORY OUTPUT FORMAT:
+Return ONLY a JSON object with a "studyPlan" key.
+Each item in "studyPlan" must have:
+- "date": Day X (e.g. "Day 1")
+- "subject": The subject being studied
+- "topic": Short title of the day's lesson
+- "content": Detailed instructions including "What to study", "Key concepts", and "Practice task" using bullet points.
+- "duration": Estimated time in minutes (integer)
 
-Format Example:
+Example Object:
 {
   "studyPlan": [
     {
-      "subject": "Math",
       "date": "Day 1",
-      "tasks": ["Algebra Review", "Practice Equations"]
+      "subject": "Math",
+      "topic": "Algebra Basics",
+      "content": "- What to study: Introduction to variables\\n- Key concepts: Solving for X\\n- Practice task: Complete 5 linear equations",
+      "duration": 60
     }
   ]
 }
 `.trim();
 
+
         const prompt = buildStudyPlanPrompt(subjects);
 
-        // 3. AI Generation with Retry Logic
         let studyPlan: any[] = [];
         let attempts = 0;
         const maxAttempts = 2;
@@ -91,12 +112,10 @@ Format Example:
 
                 const aiResponse = result.reply || '';
 
-                // Parse JSON safely
                 try {
                     const parsed = JSON.parse(aiResponse);
                     studyPlan = parsed.studyPlan || [];
                 } catch (e) {
-                    // Try to extract JSON if AI included text
                     const jsonMatch = aiResponse.match(/\{[^]*\}/);
                     if (jsonMatch) {
                         const extracted = JSON.parse(jsonMatch[0]);
@@ -108,17 +127,20 @@ Format Example:
             }
         }
 
-        // 4. Fallback if AI truly fails
         if (studyPlan.length === 0) {
-            console.info("[Study Plan] AI failed all attempts. Using fallback.");
             studyPlan = subjects.map((sub, index) => ({
                 subject: sub,
                 date: `Day ${index + 1}`,
-                tasks: [`Introduction to ${sub}`, `Core concepts of ${sub}`, `Practice problems`]
+                topic: `Introduction to ${sub}`,
+                content: `- What to study: Core concepts of ${sub}\n- Practice task: Basic problems`,
+                duration: 60
             }));
         }
 
-        // 5. Final Response
+
+        // PERSIST the study plan
+        await StudentService.saveStudyPlan(userId, studyPlan);
+
         return res.status(200).json({
             success: true,
             studyPlan
@@ -129,6 +151,7 @@ Format Example:
         return errorResponse(res, "Failed to generate study plan", 500);
     }
 };
+
 
 export const getStudentCourses = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -346,132 +369,96 @@ export const uploadNoteController = async (req: Request, res: Response): Promise
     try {
         const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
-            return res.status(401).json({ success: false, message: "Unauthorized" });
+            // Requirement 6: Catch all exceptions, log, return safe JSON
+            console.warn('[PDF Upload] Unauthorized access');
+            return res.status(401).json({ notes: [] });
         }
 
+        // 1. Requirement 2: Validate file existence
         if (!req.file) {
-            return res.status(400).json({
-                success: false,
-                message: "No file uploaded"
-            });
+            console.warn('[PDF Upload] No file uploaded');
+            return res.status(400).json({ notes: [] });
         }
 
-        // Assuming file is handled by multer middleware
-        const result = await StudentService.uploadNote(userId, (req as FileUploadRequest).file || req.body);
-        return res.status(200).json({ success: true, data: result });
-    } catch (error) {
-        return res.status(500).json({ success: false, message: "Failed to upload note" });
-    }
-};
-
-export const processPDFNotes = async (req: Request, res: Response): Promise<Response> => {
-    try {
-        // 1. Validate User
-        const userId = (req as AuthenticatedRequest).user?.id;
-        if (!userId) {
-            return res.status(401).json({
-                success: false,
-                message: "Unauthorized"
-            });
-        }
-
-        // 2. Validate File
-        if (!req.file) {
-            return res.status(400).json({
-                success: false,
-                message: "No file uploaded"
-            });
-        }
-
-        // 3. Extract Text from PDF
+        // 2. Requirement 2: Extract text using pdf-parse
         let pdfText = '';
         try {
-            // Safe pdf-parse call for ESM/CommonJS compatibility
             const pdfParser = typeof pdf === 'function' ? pdf : (pdf as any).default;
             const data = await pdfParser(req.file.buffer);
             pdfText = data.text || '';
         } catch (pdfError: any) {
-            console.error('[PDF Notes] PDF parse error:', pdfError);
-            return res.status(500).json({
-                success: false,
-                message: "Failed to parse PDF content."
-            });
+            console.error('[PDF Upload] PDF parse error:', pdfError.message);
+            return res.json({ notes: [] });
         }
 
-        // 4. Validate Extracted Text
+        // 3. Requirement 2: If PDF text is empty
         if (!pdfText.trim()) {
-            return res.status(400).json({
-                success: false,
-                message: "The PDF contains no readable text."
-            });
+            console.info('[PDF Upload] Empty PDF content');
+            return res.json({ notes: [] });
         }
 
-        // 5. Build AI Prompt
-        const prompt = `
-Generate clear, simple, and educational bullet points from the provided text.
+        // 4. Requirement 3: AI Processing
+        const buildPrompt = (text: string) => `
+Generate clear, simple, and student-friendly bullet points from the provided text.
 STRICT RULES:
+- Summarize the content effectively.
 - Return ONLY a JSON object with a "notes" key containing an array of strings.
-- Each bullet point must be a clean educational note.
-- NO meta-phrases, NO introductions, NO conclusions (e.g., dont say "Here are your notes").
-- If the text is too long, prioritize the most important concepts.
+- NO meta-phrases, NO introductions, NO conclusions.
 
 Text:
-${pdfText.substring(0, 10000)}
+${text.substring(0, 10000)}
 `.trim();
 
-        // 6. Call AI Service (AI Service handles OpenAI -> Grok fallback automatically)
         try {
             const result = await aiService({
                 user: (req as AuthenticatedRequest).user,
                 tool: 'pdf-notes',
-                prompt
+                prompt: buildPrompt(pdfText)
             });
 
             const aiResponse = result.reply || '';
 
-            // 7. Parse and Validate AI Response
-            let notes: string[] = [];
+            // 5. Requirement 4: Response Contract
+            let finalNotes: string[] = [];
             try {
-                // Try to find JSON in the response
+                // Try to extract JSON from AI response
                 const jsonMatch = aiResponse.match(/\{[^]*\}/);
                 const jsonStr = jsonMatch ? jsonMatch[0] : aiResponse;
                 const parsed = JSON.parse(jsonStr);
-                notes = parsed.notes || [];
+                finalNotes = parsed.notes || [];
             } catch (pError) {
-                // Fallback: Split by lines if JSON parsing fails
-                notes = aiResponse.split('\n')
+                // Fallback parsing: split by lines
+                finalNotes = aiResponse.split('\n')
                     .map(line => line.replace(/^[-*•\d.]+\s*/, '').trim())
                     .filter(line => line.length > 5);
             }
 
-            if (notes.length === 0) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Could not extract clear notes from the content. Please try a different PDF."
+            // Persistence: Requirements state student interactions must be saved
+            if (finalNotes.length > 0) {
+                await StudentService.uploadNote(userId, {
+                    title: req.file.originalname || `PDF Note - ${new Date().toLocaleDateString()}`,
+                    subject: req.body.subject || 'General Study',
+                    content: finalNotes.join('\n'), // Store parsed notes
+                    type: 'PDF'
                 });
             }
 
-            return res.status(200).json({
-                success: true,
-                notes
-            });
+            return res.status(200).json({ notes: finalNotes });
 
         } catch (aiError: any) {
-            console.error('[PDF Notes] AI Error:', aiError.message);
-            return res.status(500).json({
-                success: false,
-                message: "AI processing failed. Please try again later."
-            });
+            console.error('[PDF Upload] AI Processing error:', aiError.message);
+            return res.json({ notes: [] });
         }
 
     } catch (error: any) {
-        console.error('[PDF Notes] Global Error:', error);
-        return res.status(500).json({
-            success: false,
-            message: "An unexpected server error occurred."
-        });
+        // Requirement 6: Catch all excepts, log server-side, return safe messages
+        console.error('[PDF Upload] Global Error:', error.message);
+        return res.json({ notes: [] });
     }
 };
+
+
+
 
 export const saveStudentSubjects = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -504,6 +491,25 @@ export const completeStudyPlanItem = async (req: Request, res: Response): Promis
     }
 };
 
+export const saveExamAttempt = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const userId = (req as AuthenticatedRequest).user?.id;
+        if (!userId) {
+            return errorResponse(res, "Unauthorized", 401);
+        }
+        const { examId, answers, score, duration } = req.body;
+
+        if (!examId || !answers || score === undefined) {
+            return errorResponse(res, "Missing required exam data", 400);
+        }
+
+        const attempt = await StudentService.submitExamAttempt(userId, examId, { answers, score, duration: duration || 0 });
+        return successResponse(res, attempt);
+    } catch (error) {
+        return errorResponse(res, "Failed to save exam attempt", 500);
+    }
+};
+
 export const saveExam = async (req: Request, res: Response): Promise<Response> => {
     try {
         const userId = (req as AuthenticatedRequest).user?.id;
@@ -511,12 +517,18 @@ export const saveExam = async (req: Request, res: Response): Promise<Response> =
             return errorResponse(res, "Unauthorized", 401);
         }
         const { subject, questions } = req.body;
+
+        if (!subject || !questions) {
+            return errorResponse(res, "Subject and questions are required", 400);
+        }
+
         const exam = await StudentService.saveExam(userId, subject, questions);
         return successResponse(res, exam);
     } catch (error) {
         return errorResponse(res, "Failed to save exam", 500);
     }
 };
+
 
 export const getChatSessions = async (req: Request, res: Response): Promise<Response> => {
     try {

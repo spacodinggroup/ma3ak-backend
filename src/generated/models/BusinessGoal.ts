@@ -33,6 +33,7 @@ export type BusinessGoalMinAggregateOutputType = {
   status: $Enums.GoalStatus | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type BusinessGoalMaxAggregateOutputType = {
@@ -44,6 +45,7 @@ export type BusinessGoalMaxAggregateOutputType = {
   status: $Enums.GoalStatus | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type BusinessGoalCountAggregateOutputType = {
@@ -55,6 +57,7 @@ export type BusinessGoalCountAggregateOutputType = {
   status: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -68,6 +71,7 @@ export type BusinessGoalMinAggregateInputType = {
   status?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type BusinessGoalMaxAggregateInputType = {
@@ -79,6 +83,7 @@ export type BusinessGoalMaxAggregateInputType = {
   status?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type BusinessGoalCountAggregateInputType = {
@@ -90,6 +95,7 @@ export type BusinessGoalCountAggregateInputType = {
   status?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -174,6 +180,7 @@ export type BusinessGoalGroupByOutputType = {
   status: $Enums.GoalStatus
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: BusinessGoalCountAggregateOutputType | null
   _min: BusinessGoalMinAggregateOutputType | null
   _max: BusinessGoalMaxAggregateOutputType | null
@@ -206,6 +213,7 @@ export type BusinessGoalWhereInput = {
   status?: Prisma.EnumGoalStatusFilter<"BusinessGoal"> | $Enums.GoalStatus
   userId?: Prisma.StringFilter<"BusinessGoal"> | string
   createdAt?: Prisma.DateTimeFilter<"BusinessGoal"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BusinessGoal"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -218,6 +226,7 @@ export type BusinessGoalOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -233,6 +242,7 @@ export type BusinessGoalWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumGoalStatusFilter<"BusinessGoal"> | $Enums.GoalStatus
   userId?: Prisma.StringFilter<"BusinessGoal"> | string
   createdAt?: Prisma.DateTimeFilter<"BusinessGoal"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BusinessGoal"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -245,6 +255,7 @@ export type BusinessGoalOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.BusinessGoalCountOrderByAggregateInput
   _max?: Prisma.BusinessGoalMaxOrderByAggregateInput
   _min?: Prisma.BusinessGoalMinOrderByAggregateInput
@@ -262,6 +273,7 @@ export type BusinessGoalScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumGoalStatusWithAggregatesFilter<"BusinessGoal"> | $Enums.GoalStatus
   userId?: Prisma.StringWithAggregatesFilter<"BusinessGoal"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BusinessGoal"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BusinessGoal"> | Date | string
 }
 
 export type BusinessGoalCreateInput = {
@@ -272,6 +284,7 @@ export type BusinessGoalCreateInput = {
   current: string
   status: $Enums.GoalStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutBusinessGoalsInput
 }
 
@@ -284,6 +297,7 @@ export type BusinessGoalUncheckedCreateInput = {
   status: $Enums.GoalStatus
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessGoalUpdateInput = {
@@ -294,6 +308,7 @@ export type BusinessGoalUpdateInput = {
   current?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutBusinessGoalsNestedInput
 }
 
@@ -306,6 +321,7 @@ export type BusinessGoalUncheckedUpdateInput = {
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessGoalCreateManyInput = {
@@ -317,6 +333,7 @@ export type BusinessGoalCreateManyInput = {
   status: $Enums.GoalStatus
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessGoalUpdateManyMutationInput = {
@@ -327,6 +344,7 @@ export type BusinessGoalUpdateManyMutationInput = {
   current?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessGoalUncheckedUpdateManyInput = {
@@ -338,6 +356,7 @@ export type BusinessGoalUncheckedUpdateManyInput = {
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessGoalListRelationFilter = {
@@ -359,6 +378,7 @@ export type BusinessGoalCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BusinessGoalMaxOrderByAggregateInput = {
@@ -370,6 +390,7 @@ export type BusinessGoalMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BusinessGoalMinOrderByAggregateInput = {
@@ -381,6 +402,7 @@ export type BusinessGoalMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type BusinessGoalCreateNestedManyWithoutUserInput = {
@@ -437,6 +459,7 @@ export type BusinessGoalCreateWithoutUserInput = {
   current: string
   status: $Enums.GoalStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessGoalUncheckedCreateWithoutUserInput = {
@@ -447,6 +470,7 @@ export type BusinessGoalUncheckedCreateWithoutUserInput = {
   current: string
   status: $Enums.GoalStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessGoalCreateOrConnectWithoutUserInput = {
@@ -487,6 +511,7 @@ export type BusinessGoalScalarWhereInput = {
   status?: Prisma.EnumGoalStatusFilter<"BusinessGoal"> | $Enums.GoalStatus
   userId?: Prisma.StringFilter<"BusinessGoal"> | string
   createdAt?: Prisma.DateTimeFilter<"BusinessGoal"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BusinessGoal"> | Date | string
 }
 
 export type BusinessGoalCreateManyUserInput = {
@@ -497,6 +522,7 @@ export type BusinessGoalCreateManyUserInput = {
   current: string
   status: $Enums.GoalStatus
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type BusinessGoalUpdateWithoutUserInput = {
@@ -507,6 +533,7 @@ export type BusinessGoalUpdateWithoutUserInput = {
   current?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessGoalUncheckedUpdateWithoutUserInput = {
@@ -517,6 +544,7 @@ export type BusinessGoalUncheckedUpdateWithoutUserInput = {
   current?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BusinessGoalUncheckedUpdateManyWithoutUserInput = {
@@ -527,6 +555,7 @@ export type BusinessGoalUncheckedUpdateManyWithoutUserInput = {
   current?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumGoalStatusFieldUpdateOperationsInput | $Enums.GoalStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -540,6 +569,7 @@ export type BusinessGoalSelect<ExtArgs extends runtime.Types.Extensions.Internal
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["businessGoal"]>
 
@@ -552,6 +582,7 @@ export type BusinessGoalSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["businessGoal"]>
 
@@ -564,6 +595,7 @@ export type BusinessGoalSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["businessGoal"]>
 
@@ -576,9 +608,10 @@ export type BusinessGoalSelectScalar = {
   status?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type BusinessGoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "target" | "current" | "status" | "userId" | "createdAt", ExtArgs["result"]["businessGoal"]>
+export type BusinessGoalOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "target" | "current" | "status" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["businessGoal"]>
 export type BusinessGoalInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -603,6 +636,7 @@ export type $BusinessGoalPayload<ExtArgs extends runtime.Types.Extensions.Intern
     status: $Enums.GoalStatus
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["businessGoal"]>
   composites: {}
 }
@@ -1035,6 +1069,7 @@ export interface BusinessGoalFieldRefs {
   readonly status: Prisma.FieldRef<"BusinessGoal", 'GoalStatus'>
   readonly userId: Prisma.FieldRef<"BusinessGoal", 'String'>
   readonly createdAt: Prisma.FieldRef<"BusinessGoal", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"BusinessGoal", 'DateTime'>
 }
     
 

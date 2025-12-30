@@ -59,6 +59,7 @@ export const ModelName = {
   ChatMessage: 'ChatMessage',
   Exam: 'Exam',
   ExamAttempt: 'ExamAttempt',
+  Progress: 'Progress',
   Milestone: 'Milestone',
   OKR: 'OKR',
   RoadmapItem: 'RoadmapItem',
@@ -99,6 +100,7 @@ export const UserScalarFieldEnum = {
   averageScore: 'averageScore',
   lastActiveAt: 'lastActiveAt',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   disabled: 'disabled'
 } as const
 
@@ -124,7 +126,8 @@ export const SubjectScalarFieldEnum = {
   hoursPerWeek: 'hoursPerWeek',
   examDate: 'examDate',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type SubjectScalarFieldEnum = (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum]
@@ -134,7 +137,8 @@ export const StudyPlanScalarFieldEnum = {
   id: 'id',
   date: 'date',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type StudyPlanScalarFieldEnum = (typeof StudyPlanScalarFieldEnum)[keyof typeof StudyPlanScalarFieldEnum]
@@ -147,7 +151,9 @@ export const StudyPlanItemScalarFieldEnum = {
   time: 'time',
   duration: 'duration',
   completed: 'completed',
-  planId: 'planId'
+  planId: 'planId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type StudyPlanItemScalarFieldEnum = (typeof StudyPlanItemScalarFieldEnum)[keyof typeof StudyPlanItemScalarFieldEnum]
@@ -157,10 +163,12 @@ export const NoteScalarFieldEnum = {
   id: 'id',
   title: 'title',
   subject: 'subject',
+  content: 'content',
   fileUrl: 'fileUrl',
   type: 'type',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type NoteScalarFieldEnum = (typeof NoteScalarFieldEnum)[keyof typeof NoteScalarFieldEnum]
@@ -170,7 +178,8 @@ export const ChatSessionScalarFieldEnum = {
   id: 'id',
   title: 'title',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ChatSessionScalarFieldEnum = (typeof ChatSessionScalarFieldEnum)[keyof typeof ChatSessionScalarFieldEnum]
@@ -192,7 +201,8 @@ export const ExamScalarFieldEnum = {
   subject: 'subject',
   questions: 'questions',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum]
@@ -210,13 +220,28 @@ export const ExamAttemptScalarFieldEnum = {
 export type ExamAttemptScalarFieldEnum = (typeof ExamAttemptScalarFieldEnum)[keyof typeof ExamAttemptScalarFieldEnum]
 
 
+export const ProgressScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  completedTasks: 'completedTasks',
+  studyHours: 'studyHours',
+  averageQuizScore: 'averageQuizScore',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProgressScalarFieldEnum = (typeof ProgressScalarFieldEnum)[keyof typeof ProgressScalarFieldEnum]
+
+
 export const MilestoneScalarFieldEnum = {
   id: 'id',
   name: 'name',
   date: 'date',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type MilestoneScalarFieldEnum = (typeof MilestoneScalarFieldEnum)[keyof typeof MilestoneScalarFieldEnum]
@@ -228,7 +253,8 @@ export const OKRScalarFieldEnum = {
   keyResults: 'keyResults',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type OKRScalarFieldEnum = (typeof OKRScalarFieldEnum)[keyof typeof OKRScalarFieldEnum]
@@ -240,7 +266,8 @@ export const RoadmapItemScalarFieldEnum = {
   status: 'status',
   priority: 'priority',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RoadmapItemScalarFieldEnum = (typeof RoadmapItemScalarFieldEnum)[keyof typeof RoadmapItemScalarFieldEnum]
@@ -252,7 +279,8 @@ export const TeamMemberScalarFieldEnum = {
   role: 'role',
   avatar: 'avatar',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type TeamMemberScalarFieldEnum = (typeof TeamMemberScalarFieldEnum)[keyof typeof TeamMemberScalarFieldEnum]
@@ -266,7 +294,8 @@ export const BusinessTaskScalarFieldEnum = {
   priority: 'priority',
   dueDate: 'dueDate',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BusinessTaskScalarFieldEnum = (typeof BusinessTaskScalarFieldEnum)[keyof typeof BusinessTaskScalarFieldEnum]
@@ -280,7 +309,8 @@ export const BusinessGoalScalarFieldEnum = {
   current: 'current',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BusinessGoalScalarFieldEnum = (typeof BusinessGoalScalarFieldEnum)[keyof typeof BusinessGoalScalarFieldEnum]
@@ -293,7 +323,8 @@ export const CustomerScalarFieldEnum = {
   company: 'company',
   status: 'status',
   userId: 'userId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type CustomerScalarFieldEnum = (typeof CustomerScalarFieldEnum)[keyof typeof CustomerScalarFieldEnum]

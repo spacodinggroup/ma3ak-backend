@@ -29,6 +29,7 @@ export type ExamMinAggregateOutputType = {
   subject: string | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ExamMaxAggregateOutputType = {
@@ -36,6 +37,7 @@ export type ExamMaxAggregateOutputType = {
   subject: string | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type ExamCountAggregateOutputType = {
@@ -44,6 +46,7 @@ export type ExamCountAggregateOutputType = {
   questions: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -53,6 +56,7 @@ export type ExamMinAggregateInputType = {
   subject?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type ExamMaxAggregateInputType = {
@@ -60,6 +64,7 @@ export type ExamMaxAggregateInputType = {
   subject?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type ExamCountAggregateInputType = {
@@ -68,6 +73,7 @@ export type ExamCountAggregateInputType = {
   questions?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -149,6 +155,7 @@ export type ExamGroupByOutputType = {
   questions: runtime.JsonValue
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: ExamCountAggregateOutputType | null
   _min: ExamMinAggregateOutputType | null
   _max: ExamMaxAggregateOutputType | null
@@ -178,6 +185,7 @@ export type ExamWhereInput = {
   questions?: Prisma.JsonFilter<"Exam">
   userId?: Prisma.StringFilter<"Exam"> | string
   createdAt?: Prisma.DateTimeFilter<"Exam"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Exam"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   attempts?: Prisma.ExamAttemptListRelationFilter
 }
@@ -188,6 +196,7 @@ export type ExamOrderByWithRelationInput = {
   questions?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   attempts?: Prisma.ExamAttemptOrderByRelationAggregateInput
 }
@@ -201,6 +210,7 @@ export type ExamWhereUniqueInput = Prisma.AtLeast<{
   questions?: Prisma.JsonFilter<"Exam">
   userId?: Prisma.StringFilter<"Exam"> | string
   createdAt?: Prisma.DateTimeFilter<"Exam"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Exam"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   attempts?: Prisma.ExamAttemptListRelationFilter
 }, "id">
@@ -211,6 +221,7 @@ export type ExamOrderByWithAggregationInput = {
   questions?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.ExamCountOrderByAggregateInput
   _max?: Prisma.ExamMaxOrderByAggregateInput
   _min?: Prisma.ExamMinOrderByAggregateInput
@@ -225,6 +236,7 @@ export type ExamScalarWhereWithAggregatesInput = {
   questions?: Prisma.JsonWithAggregatesFilter<"Exam">
   userId?: Prisma.StringWithAggregatesFilter<"Exam"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Exam"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Exam"> | Date | string
 }
 
 export type ExamCreateInput = {
@@ -232,6 +244,7 @@ export type ExamCreateInput = {
   subject: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutExamsInput
   attempts?: Prisma.ExamAttemptCreateNestedManyWithoutExamInput
 }
@@ -242,6 +255,7 @@ export type ExamUncheckedCreateInput = {
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
   attempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutExamInput
 }
 
@@ -250,6 +264,7 @@ export type ExamUpdateInput = {
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutExamsNestedInput
   attempts?: Prisma.ExamAttemptUpdateManyWithoutExamNestedInput
 }
@@ -260,6 +275,7 @@ export type ExamUncheckedUpdateInput = {
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutExamNestedInput
 }
 
@@ -269,6 +285,7 @@ export type ExamCreateManyInput = {
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExamUpdateManyMutationInput = {
@@ -276,6 +293,7 @@ export type ExamUpdateManyMutationInput = {
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExamUncheckedUpdateManyInput = {
@@ -284,6 +302,7 @@ export type ExamUncheckedUpdateManyInput = {
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExamListRelationFilter = {
@@ -302,6 +321,7 @@ export type ExamCountOrderByAggregateInput = {
   questions?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ExamMaxOrderByAggregateInput = {
@@ -309,6 +329,7 @@ export type ExamMaxOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ExamMinOrderByAggregateInput = {
@@ -316,6 +337,7 @@ export type ExamMinOrderByAggregateInput = {
   subject?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type ExamScalarRelationFilter = {
@@ -384,6 +406,7 @@ export type ExamCreateWithoutUserInput = {
   subject: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   attempts?: Prisma.ExamAttemptCreateNestedManyWithoutExamInput
 }
 
@@ -392,6 +415,7 @@ export type ExamUncheckedCreateWithoutUserInput = {
   subject: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   attempts?: Prisma.ExamAttemptUncheckedCreateNestedManyWithoutExamInput
 }
 
@@ -430,6 +454,7 @@ export type ExamScalarWhereInput = {
   questions?: Prisma.JsonFilter<"Exam">
   userId?: Prisma.StringFilter<"Exam"> | string
   createdAt?: Prisma.DateTimeFilter<"Exam"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Exam"> | Date | string
 }
 
 export type ExamCreateWithoutAttemptsInput = {
@@ -437,6 +462,7 @@ export type ExamCreateWithoutAttemptsInput = {
   subject: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutExamsInput
 }
 
@@ -446,6 +472,7 @@ export type ExamUncheckedCreateWithoutAttemptsInput = {
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExamCreateOrConnectWithoutAttemptsInput = {
@@ -469,6 +496,7 @@ export type ExamUpdateWithoutAttemptsInput = {
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutExamsNestedInput
 }
 
@@ -478,6 +506,7 @@ export type ExamUncheckedUpdateWithoutAttemptsInput = {
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ExamCreateManyUserInput = {
@@ -485,6 +514,7 @@ export type ExamCreateManyUserInput = {
   subject: string
   questions: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type ExamUpdateWithoutUserInput = {
@@ -492,6 +522,7 @@ export type ExamUpdateWithoutUserInput = {
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attempts?: Prisma.ExamAttemptUpdateManyWithoutExamNestedInput
 }
 
@@ -500,6 +531,7 @@ export type ExamUncheckedUpdateWithoutUserInput = {
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attempts?: Prisma.ExamAttemptUncheckedUpdateManyWithoutExamNestedInput
 }
 
@@ -508,6 +540,7 @@ export type ExamUncheckedUpdateManyWithoutUserInput = {
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   questions?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -547,6 +580,7 @@ export type ExamSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   questions?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   attempts?: boolean | Prisma.Exam$attemptsArgs<ExtArgs>
   _count?: boolean | Prisma.ExamCountOutputTypeDefaultArgs<ExtArgs>
@@ -558,6 +592,7 @@ export type ExamSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   questions?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["exam"]>
 
@@ -567,6 +602,7 @@ export type ExamSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   questions?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["exam"]>
 
@@ -576,9 +612,10 @@ export type ExamSelectScalar = {
   questions?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type ExamOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subject" | "questions" | "userId" | "createdAt", ExtArgs["result"]["exam"]>
+export type ExamOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subject" | "questions" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["exam"]>
 export type ExamInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   attempts?: boolean | Prisma.Exam$attemptsArgs<ExtArgs>
@@ -603,6 +640,7 @@ export type $ExamPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     questions: runtime.JsonValue
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["exam"]>
   composites: {}
 }
@@ -1033,6 +1071,7 @@ export interface ExamFieldRefs {
   readonly questions: Prisma.FieldRef<"Exam", 'Json'>
   readonly userId: Prisma.FieldRef<"Exam", 'String'>
   readonly createdAt: Prisma.FieldRef<"Exam", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Exam", 'DateTime'>
 }
     
 

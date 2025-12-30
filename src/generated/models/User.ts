@@ -59,6 +59,7 @@ export type UserMinAggregateOutputType = {
   averageScore: number | null
   lastActiveAt: Date | null
   createdAt: Date | null
+  updatedAt: Date | null
   disabled: boolean | null
 }
 
@@ -77,6 +78,7 @@ export type UserMaxAggregateOutputType = {
   averageScore: number | null
   lastActiveAt: Date | null
   createdAt: Date | null
+  updatedAt: Date | null
   disabled: boolean | null
 }
 
@@ -95,6 +97,7 @@ export type UserCountAggregateOutputType = {
   averageScore: number
   lastActiveAt: number
   createdAt: number
+  updatedAt: number
   disabled: number
   _all: number
 }
@@ -133,6 +136,7 @@ export type UserMinAggregateInputType = {
   averageScore?: true
   lastActiveAt?: true
   createdAt?: true
+  updatedAt?: true
   disabled?: true
 }
 
@@ -151,6 +155,7 @@ export type UserMaxAggregateInputType = {
   averageScore?: true
   lastActiveAt?: true
   createdAt?: true
+  updatedAt?: true
   disabled?: true
 }
 
@@ -169,6 +174,7 @@ export type UserCountAggregateInputType = {
   averageScore?: true
   lastActiveAt?: true
   createdAt?: true
+  updatedAt?: true
   disabled?: true
   _all?: true
 }
@@ -274,6 +280,7 @@ export type UserGroupByOutputType = {
   averageScore: number
   lastActiveAt: Date | null
   createdAt: Date
+  updatedAt: Date
   disabled: boolean
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
@@ -315,20 +322,22 @@ export type UserWhereInput = {
   averageScore?: Prisma.FloatFilter<"User"> | number
   lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   disabled?: Prisma.BoolFilter<"User"> | boolean
   aiLogs?: Prisma.AiLogListRelationFilter
-  subjects?: Prisma.SubjectListRelationFilter
-  studyPlans?: Prisma.StudyPlanListRelationFilter
-  notes?: Prisma.NoteListRelationFilter
+  businessGoals?: Prisma.BusinessGoalListRelationFilter
+  businessTasks?: Prisma.BusinessTaskListRelationFilter
   chatSessions?: Prisma.ChatSessionListRelationFilter
+  customers?: Prisma.CustomerListRelationFilter
   exams?: Prisma.ExamListRelationFilter
   milestones?: Prisma.MilestoneListRelationFilter
+  notes?: Prisma.NoteListRelationFilter
   okrs?: Prisma.OKRListRelationFilter
   roadmapItems?: Prisma.RoadmapItemListRelationFilter
+  studyPlans?: Prisma.StudyPlanListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
   teamMembers?: Prisma.TeamMemberListRelationFilter
-  businessTasks?: Prisma.BusinessTaskListRelationFilter
-  businessGoals?: Prisma.BusinessGoalListRelationFilter
-  customers?: Prisma.CustomerListRelationFilter
+  progress?: Prisma.ProgressListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -346,20 +355,22 @@ export type UserOrderByWithRelationInput = {
   averageScore?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   disabled?: Prisma.SortOrder
   aiLogs?: Prisma.AiLogOrderByRelationAggregateInput
-  subjects?: Prisma.SubjectOrderByRelationAggregateInput
-  studyPlans?: Prisma.StudyPlanOrderByRelationAggregateInput
-  notes?: Prisma.NoteOrderByRelationAggregateInput
+  businessGoals?: Prisma.BusinessGoalOrderByRelationAggregateInput
+  businessTasks?: Prisma.BusinessTaskOrderByRelationAggregateInput
   chatSessions?: Prisma.ChatSessionOrderByRelationAggregateInput
+  customers?: Prisma.CustomerOrderByRelationAggregateInput
   exams?: Prisma.ExamOrderByRelationAggregateInput
   milestones?: Prisma.MilestoneOrderByRelationAggregateInput
+  notes?: Prisma.NoteOrderByRelationAggregateInput
   okrs?: Prisma.OKROrderByRelationAggregateInput
   roadmapItems?: Prisma.RoadmapItemOrderByRelationAggregateInput
+  studyPlans?: Prisma.StudyPlanOrderByRelationAggregateInput
+  subjects?: Prisma.SubjectOrderByRelationAggregateInput
   teamMembers?: Prisma.TeamMemberOrderByRelationAggregateInput
-  businessTasks?: Prisma.BusinessTaskOrderByRelationAggregateInput
-  businessGoals?: Prisma.BusinessGoalOrderByRelationAggregateInput
-  customers?: Prisma.CustomerOrderByRelationAggregateInput
+  progress?: Prisma.ProgressOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -380,20 +391,22 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   averageScore?: Prisma.FloatFilter<"User"> | number
   lastActiveAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   disabled?: Prisma.BoolFilter<"User"> | boolean
   aiLogs?: Prisma.AiLogListRelationFilter
-  subjects?: Prisma.SubjectListRelationFilter
-  studyPlans?: Prisma.StudyPlanListRelationFilter
-  notes?: Prisma.NoteListRelationFilter
+  businessGoals?: Prisma.BusinessGoalListRelationFilter
+  businessTasks?: Prisma.BusinessTaskListRelationFilter
   chatSessions?: Prisma.ChatSessionListRelationFilter
+  customers?: Prisma.CustomerListRelationFilter
   exams?: Prisma.ExamListRelationFilter
   milestones?: Prisma.MilestoneListRelationFilter
+  notes?: Prisma.NoteListRelationFilter
   okrs?: Prisma.OKRListRelationFilter
   roadmapItems?: Prisma.RoadmapItemListRelationFilter
+  studyPlans?: Prisma.StudyPlanListRelationFilter
+  subjects?: Prisma.SubjectListRelationFilter
   teamMembers?: Prisma.TeamMemberListRelationFilter
-  businessTasks?: Prisma.BusinessTaskListRelationFilter
-  businessGoals?: Prisma.BusinessGoalListRelationFilter
-  customers?: Prisma.CustomerListRelationFilter
+  progress?: Prisma.ProgressListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -411,6 +424,7 @@ export type UserOrderByWithAggregationInput = {
   averageScore?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   disabled?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
@@ -437,6 +451,7 @@ export type UserScalarWhereWithAggregatesInput = {
   averageScore?: Prisma.FloatWithAggregatesFilter<"User"> | number
   lastActiveAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   disabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
@@ -455,20 +470,22 @@ export type UserCreateInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -486,20 +503,22 @@ export type UserUncheckedCreateInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -517,20 +536,22 @@ export type UserUpdateInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -548,20 +569,22 @@ export type UserUncheckedUpdateInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -579,6 +602,7 @@ export type UserCreateManyInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
 }
 
@@ -597,6 +621,7 @@ export type UserUpdateManyMutationInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -615,6 +640,7 @@ export type UserUncheckedUpdateManyInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
@@ -633,6 +659,7 @@ export type UserCountOrderByAggregateInput = {
   averageScore?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   disabled?: Prisma.SortOrder
 }
 
@@ -660,6 +687,7 @@ export type UserMaxOrderByAggregateInput = {
   averageScore?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   disabled?: Prisma.SortOrder
 }
 
@@ -678,6 +706,7 @@ export type UserMinOrderByAggregateInput = {
   averageScore?: Prisma.SortOrder
   lastActiveAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   disabled?: Prisma.SortOrder
 }
 
@@ -819,6 +848,20 @@ export type UserUpdateOneRequiredWithoutExamsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExamsInput, Prisma.UserUpdateWithoutExamsInput>, Prisma.UserUncheckedUpdateWithoutExamsInput>
 }
 
+export type UserCreateNestedOneWithoutProgressInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProgressInput, Prisma.UserUncheckedCreateWithoutProgressInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProgressInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutProgressNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProgressInput, Prisma.UserUncheckedCreateWithoutProgressInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProgressInput
+  upsert?: Prisma.UserUpsertWithoutProgressInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProgressInput, Prisma.UserUpdateWithoutProgressInput>, Prisma.UserUncheckedUpdateWithoutProgressInput>
+}
+
 export type UserCreateNestedOneWithoutMilestonesInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutMilestonesInput, Prisma.UserUncheckedCreateWithoutMilestonesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutMilestonesInput
@@ -932,19 +975,21 @@ export type UserCreateWithoutAiLogsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAiLogsInput = {
@@ -962,19 +1007,21 @@ export type UserUncheckedCreateWithoutAiLogsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAiLogsInput = {
@@ -1008,19 +1055,21 @@ export type UserUpdateWithoutAiLogsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAiLogsInput = {
@@ -1038,19 +1087,21 @@ export type UserUncheckedUpdateWithoutAiLogsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubjectsInput = {
@@ -1068,19 +1119,21 @@ export type UserCreateWithoutSubjectsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubjectsInput = {
@@ -1098,19 +1151,21 @@ export type UserUncheckedCreateWithoutSubjectsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubjectsInput = {
@@ -1144,19 +1199,21 @@ export type UserUpdateWithoutSubjectsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubjectsInput = {
@@ -1174,19 +1231,21 @@ export type UserUncheckedUpdateWithoutSubjectsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutStudyPlansInput = {
@@ -1204,19 +1263,21 @@ export type UserCreateWithoutStudyPlansInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutStudyPlansInput = {
@@ -1234,19 +1295,21 @@ export type UserUncheckedCreateWithoutStudyPlansInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutStudyPlansInput = {
@@ -1280,19 +1343,21 @@ export type UserUpdateWithoutStudyPlansInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutStudyPlansInput = {
@@ -1310,19 +1375,21 @@ export type UserUncheckedUpdateWithoutStudyPlansInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotesInput = {
@@ -1340,19 +1407,21 @@ export type UserCreateWithoutNotesInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotesInput = {
@@ -1370,19 +1439,21 @@ export type UserUncheckedCreateWithoutNotesInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotesInput = {
@@ -1416,19 +1487,21 @@ export type UserUpdateWithoutNotesInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotesInput = {
@@ -1446,19 +1519,21 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChatSessionsInput = {
@@ -1476,19 +1551,21 @@ export type UserCreateWithoutChatSessionsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChatSessionsInput = {
@@ -1506,19 +1583,21 @@ export type UserUncheckedCreateWithoutChatSessionsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChatSessionsInput = {
@@ -1552,19 +1631,21 @@ export type UserUpdateWithoutChatSessionsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatSessionsInput = {
@@ -1582,19 +1663,21 @@ export type UserUncheckedUpdateWithoutChatSessionsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutExamsInput = {
@@ -1612,19 +1695,21 @@ export type UserCreateWithoutExamsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutExamsInput = {
@@ -1642,19 +1727,21 @@ export type UserUncheckedCreateWithoutExamsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutExamsInput = {
@@ -1688,19 +1775,21 @@ export type UserUpdateWithoutExamsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutExamsInput = {
@@ -1718,19 +1807,165 @@ export type UserUncheckedUpdateWithoutExamsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutProgressInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  role: $Enums.Role
+  avatar?: string | null
+  requests?: number
+  streak?: number
+  hoursStudied?: number
+  topicsCompleted?: number
+  questionsAsked?: number
+  averageScore?: number
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  disabled?: boolean
+  aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
+  chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
+  roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutProgressInput = {
+  id?: string
+  name: string
+  email: string
+  password: string
+  role: $Enums.Role
+  avatar?: string | null
+  requests?: number
+  streak?: number
+  hoursStudied?: number
+  topicsCompleted?: number
+  questionsAsked?: number
+  averageScore?: number
+  lastActiveAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  disabled?: boolean
+  aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
+  chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
+  roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutProgressInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProgressInput, Prisma.UserUncheckedCreateWithoutProgressInput>
+}
+
+export type UserUpsertWithoutProgressInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProgressInput, Prisma.UserUncheckedUpdateWithoutProgressInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProgressInput, Prisma.UserUncheckedCreateWithoutProgressInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProgressInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProgressInput, Prisma.UserUncheckedUpdateWithoutProgressInput>
+}
+
+export type UserUpdateWithoutProgressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requests?: Prisma.IntFieldUpdateOperationsInput | number
+  streak?: Prisma.IntFieldUpdateOperationsInput | number
+  hoursStudied?: Prisma.FloatFieldUpdateOperationsInput | number
+  topicsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
+  questionsAsked?: Prisma.IntFieldUpdateOperationsInput | number
+  averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
+  chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
+  roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProgressInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requests?: Prisma.IntFieldUpdateOperationsInput | number
+  streak?: Prisma.IntFieldUpdateOperationsInput | number
+  hoursStudied?: Prisma.FloatFieldUpdateOperationsInput | number
+  topicsCompleted?: Prisma.IntFieldUpdateOperationsInput | number
+  questionsAsked?: Prisma.IntFieldUpdateOperationsInput | number
+  averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
+  lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
   businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
+  chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
   customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
+  roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutMilestonesInput = {
@@ -1748,19 +1983,21 @@ export type UserCreateWithoutMilestonesInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutMilestonesInput = {
@@ -1778,19 +2015,21 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutMilestonesInput = {
@@ -1824,19 +2063,21 @@ export type UserUpdateWithoutMilestonesInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMilestonesInput = {
@@ -1854,19 +2095,21 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutOkrsInput = {
@@ -1884,19 +2127,21 @@ export type UserCreateWithoutOkrsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutOkrsInput = {
@@ -1914,19 +2159,21 @@ export type UserUncheckedCreateWithoutOkrsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutOkrsInput = {
@@ -1960,19 +2207,21 @@ export type UserUpdateWithoutOkrsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutOkrsInput = {
@@ -1990,19 +2239,21 @@ export type UserUncheckedUpdateWithoutOkrsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRoadmapItemsInput = {
@@ -2020,19 +2271,21 @@ export type UserCreateWithoutRoadmapItemsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRoadmapItemsInput = {
@@ -2050,19 +2303,21 @@ export type UserUncheckedCreateWithoutRoadmapItemsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRoadmapItemsInput = {
@@ -2096,19 +2351,21 @@ export type UserUpdateWithoutRoadmapItemsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoadmapItemsInput = {
@@ -2126,19 +2383,21 @@ export type UserUncheckedUpdateWithoutRoadmapItemsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTeamMembersInput = {
@@ -2156,19 +2415,21 @@ export type UserCreateWithoutTeamMembersInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTeamMembersInput = {
@@ -2186,19 +2447,21 @@ export type UserUncheckedCreateWithoutTeamMembersInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTeamMembersInput = {
@@ -2232,19 +2495,21 @@ export type UserUpdateWithoutTeamMembersInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTeamMembersInput = {
@@ -2262,19 +2527,21 @@ export type UserUncheckedUpdateWithoutTeamMembersInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBusinessTasksInput = {
@@ -2292,19 +2559,21 @@ export type UserCreateWithoutBusinessTasksInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBusinessTasksInput = {
@@ -2322,19 +2591,21 @@ export type UserUncheckedCreateWithoutBusinessTasksInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBusinessTasksInput = {
@@ -2368,19 +2639,21 @@ export type UserUpdateWithoutBusinessTasksInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBusinessTasksInput = {
@@ -2398,19 +2671,21 @@ export type UserUncheckedUpdateWithoutBusinessTasksInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBusinessGoalsInput = {
@@ -2428,19 +2703,21 @@ export type UserCreateWithoutBusinessGoalsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBusinessGoalsInput = {
@@ -2458,19 +2735,21 @@ export type UserUncheckedCreateWithoutBusinessGoalsInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBusinessGoalsInput = {
@@ -2504,19 +2783,21 @@ export type UserUpdateWithoutBusinessGoalsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBusinessGoalsInput = {
@@ -2534,19 +2815,21 @@ export type UserUncheckedUpdateWithoutBusinessGoalsInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCustomersInput = {
@@ -2564,19 +2847,21 @@ export type UserCreateWithoutCustomersInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCustomersInput = {
@@ -2594,19 +2879,21 @@ export type UserUncheckedCreateWithoutCustomersInput = {
   averageScore?: number
   lastActiveAt?: Date | string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   disabled?: boolean
   aiLogs?: Prisma.AiLogUncheckedCreateNestedManyWithoutUserInput
-  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
-  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
-  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
+  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
   chatSessions?: Prisma.ChatSessionUncheckedCreateNestedManyWithoutUserInput
   exams?: Prisma.ExamUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutUserInput
   okrs?: Prisma.OKRUncheckedCreateNestedManyWithoutUserInput
   roadmapItems?: Prisma.RoadmapItemUncheckedCreateNestedManyWithoutUserInput
+  studyPlans?: Prisma.StudyPlanUncheckedCreateNestedManyWithoutUserInput
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutUserInput
   teamMembers?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
-  businessTasks?: Prisma.BusinessTaskUncheckedCreateNestedManyWithoutUserInput
-  businessGoals?: Prisma.BusinessGoalUncheckedCreateNestedManyWithoutUserInput
+  progress?: Prisma.ProgressUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCustomersInput = {
@@ -2640,19 +2927,21 @@ export type UserUpdateWithoutCustomersInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCustomersInput = {
@@ -2670,19 +2959,21 @@ export type UserUncheckedUpdateWithoutCustomersInput = {
   averageScore?: Prisma.FloatFieldUpdateOperationsInput | number
   lastActiveAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   disabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   aiLogs?: Prisma.AiLogUncheckedUpdateManyWithoutUserNestedInput
-  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
-  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
-  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
+  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
   chatSessions?: Prisma.ChatSessionUncheckedUpdateManyWithoutUserNestedInput
   exams?: Prisma.ExamUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutUserNestedInput
   okrs?: Prisma.OKRUncheckedUpdateManyWithoutUserNestedInput
   roadmapItems?: Prisma.RoadmapItemUncheckedUpdateManyWithoutUserNestedInput
+  studyPlans?: Prisma.StudyPlanUncheckedUpdateManyWithoutUserNestedInput
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutUserNestedInput
   teamMembers?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
-  businessTasks?: Prisma.BusinessTaskUncheckedUpdateManyWithoutUserNestedInput
-  businessGoals?: Prisma.BusinessGoalUncheckedUpdateManyWithoutUserNestedInput
+  progress?: Prisma.ProgressUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -2692,34 +2983,36 @@ export type UserUncheckedUpdateWithoutCustomersInput = {
 
 export type UserCountOutputType = {
   aiLogs: number
-  subjects: number
-  studyPlans: number
-  notes: number
+  businessGoals: number
+  businessTasks: number
   chatSessions: number
+  customers: number
   exams: number
   milestones: number
+  notes: number
   okrs: number
   roadmapItems: number
+  studyPlans: number
+  subjects: number
   teamMembers: number
-  businessTasks: number
-  businessGoals: number
-  customers: number
+  progress: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   aiLogs?: boolean | UserCountOutputTypeCountAiLogsArgs
-  subjects?: boolean | UserCountOutputTypeCountSubjectsArgs
-  studyPlans?: boolean | UserCountOutputTypeCountStudyPlansArgs
-  notes?: boolean | UserCountOutputTypeCountNotesArgs
+  businessGoals?: boolean | UserCountOutputTypeCountBusinessGoalsArgs
+  businessTasks?: boolean | UserCountOutputTypeCountBusinessTasksArgs
   chatSessions?: boolean | UserCountOutputTypeCountChatSessionsArgs
+  customers?: boolean | UserCountOutputTypeCountCustomersArgs
   exams?: boolean | UserCountOutputTypeCountExamsArgs
   milestones?: boolean | UserCountOutputTypeCountMilestonesArgs
+  notes?: boolean | UserCountOutputTypeCountNotesArgs
   okrs?: boolean | UserCountOutputTypeCountOkrsArgs
   roadmapItems?: boolean | UserCountOutputTypeCountRoadmapItemsArgs
+  studyPlans?: boolean | UserCountOutputTypeCountStudyPlansArgs
+  subjects?: boolean | UserCountOutputTypeCountSubjectsArgs
   teamMembers?: boolean | UserCountOutputTypeCountTeamMembersArgs
-  businessTasks?: boolean | UserCountOutputTypeCountBusinessTasksArgs
-  businessGoals?: boolean | UserCountOutputTypeCountBusinessGoalsArgs
-  customers?: boolean | UserCountOutputTypeCountCustomersArgs
+  progress?: boolean | UserCountOutputTypeCountProgressArgs
 }
 
 /**
@@ -2742,22 +3035,15 @@ export type UserCountOutputTypeCountAiLogsArgs<ExtArgs extends runtime.Types.Ext
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubjectWhereInput
+export type UserCountOutputTypeCountBusinessGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BusinessGoalWhereInput
 }
 
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountStudyPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.StudyPlanWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.NoteWhereInput
+export type UserCountOutputTypeCountBusinessTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BusinessTaskWhereInput
 }
 
 /**
@@ -2765,6 +3051,13 @@ export type UserCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Exte
  */
 export type UserCountOutputTypeCountChatSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ChatSessionWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCustomersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CustomerWhereInput
 }
 
 /**
@@ -2784,6 +3077,13 @@ export type UserCountOutputTypeCountMilestonesArgs<ExtArgs extends runtime.Types
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountNotesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NoteWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountOkrsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.OKRWhereInput
 }
@@ -2798,6 +3098,20 @@ export type UserCountOutputTypeCountRoadmapItemsArgs<ExtArgs extends runtime.Typ
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountStudyPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.StudyPlanWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSubjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SubjectWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountTeamMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TeamMemberWhereInput
 }
@@ -2805,22 +3119,8 @@ export type UserCountOutputTypeCountTeamMembersArgs<ExtArgs extends runtime.Type
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountBusinessTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BusinessTaskWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountBusinessGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.BusinessGoalWhereInput
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountCustomersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.CustomerWhereInput
+export type UserCountOutputTypeCountProgressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProgressWhereInput
 }
 
 
@@ -2839,20 +3139,22 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   averageScore?: boolean
   lastActiveAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   disabled?: boolean
   aiLogs?: boolean | Prisma.User$aiLogsArgs<ExtArgs>
-  subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
-  studyPlans?: boolean | Prisma.User$studyPlansArgs<ExtArgs>
-  notes?: boolean | Prisma.User$notesArgs<ExtArgs>
+  businessGoals?: boolean | Prisma.User$businessGoalsArgs<ExtArgs>
+  businessTasks?: boolean | Prisma.User$businessTasksArgs<ExtArgs>
   chatSessions?: boolean | Prisma.User$chatSessionsArgs<ExtArgs>
+  customers?: boolean | Prisma.User$customersArgs<ExtArgs>
   exams?: boolean | Prisma.User$examsArgs<ExtArgs>
   milestones?: boolean | Prisma.User$milestonesArgs<ExtArgs>
+  notes?: boolean | Prisma.User$notesArgs<ExtArgs>
   okrs?: boolean | Prisma.User$okrsArgs<ExtArgs>
   roadmapItems?: boolean | Prisma.User$roadmapItemsArgs<ExtArgs>
+  studyPlans?: boolean | Prisma.User$studyPlansArgs<ExtArgs>
+  subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
   teamMembers?: boolean | Prisma.User$teamMembersArgs<ExtArgs>
-  businessTasks?: boolean | Prisma.User$businessTasksArgs<ExtArgs>
-  businessGoals?: boolean | Prisma.User$businessGoalsArgs<ExtArgs>
-  customers?: boolean | Prisma.User$customersArgs<ExtArgs>
+  progress?: boolean | Prisma.User$progressArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2871,6 +3173,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   averageScore?: boolean
   lastActiveAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   disabled?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -2889,6 +3192,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   averageScore?: boolean
   lastActiveAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   disabled?: boolean
 }, ExtArgs["result"]["user"]>
 
@@ -2907,24 +3211,26 @@ export type UserSelectScalar = {
   averageScore?: boolean
   lastActiveAt?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   disabled?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "avatar" | "requests" | "streak" | "hoursStudied" | "topicsCompleted" | "questionsAsked" | "averageScore" | "lastActiveAt" | "createdAt" | "disabled", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "avatar" | "requests" | "streak" | "hoursStudied" | "topicsCompleted" | "questionsAsked" | "averageScore" | "lastActiveAt" | "createdAt" | "updatedAt" | "disabled", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   aiLogs?: boolean | Prisma.User$aiLogsArgs<ExtArgs>
-  subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
-  studyPlans?: boolean | Prisma.User$studyPlansArgs<ExtArgs>
-  notes?: boolean | Prisma.User$notesArgs<ExtArgs>
+  businessGoals?: boolean | Prisma.User$businessGoalsArgs<ExtArgs>
+  businessTasks?: boolean | Prisma.User$businessTasksArgs<ExtArgs>
   chatSessions?: boolean | Prisma.User$chatSessionsArgs<ExtArgs>
+  customers?: boolean | Prisma.User$customersArgs<ExtArgs>
   exams?: boolean | Prisma.User$examsArgs<ExtArgs>
   milestones?: boolean | Prisma.User$milestonesArgs<ExtArgs>
+  notes?: boolean | Prisma.User$notesArgs<ExtArgs>
   okrs?: boolean | Prisma.User$okrsArgs<ExtArgs>
   roadmapItems?: boolean | Prisma.User$roadmapItemsArgs<ExtArgs>
+  studyPlans?: boolean | Prisma.User$studyPlansArgs<ExtArgs>
+  subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>
   teamMembers?: boolean | Prisma.User$teamMembersArgs<ExtArgs>
-  businessTasks?: boolean | Prisma.User$businessTasksArgs<ExtArgs>
-  businessGoals?: boolean | Prisma.User$businessGoalsArgs<ExtArgs>
-  customers?: boolean | Prisma.User$customersArgs<ExtArgs>
+  progress?: boolean | Prisma.User$progressArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -2934,18 +3240,19 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     aiLogs: Prisma.$AiLogPayload<ExtArgs>[]
-    subjects: Prisma.$SubjectPayload<ExtArgs>[]
-    studyPlans: Prisma.$StudyPlanPayload<ExtArgs>[]
-    notes: Prisma.$NotePayload<ExtArgs>[]
+    businessGoals: Prisma.$BusinessGoalPayload<ExtArgs>[]
+    businessTasks: Prisma.$BusinessTaskPayload<ExtArgs>[]
     chatSessions: Prisma.$ChatSessionPayload<ExtArgs>[]
+    customers: Prisma.$CustomerPayload<ExtArgs>[]
     exams: Prisma.$ExamPayload<ExtArgs>[]
     milestones: Prisma.$MilestonePayload<ExtArgs>[]
+    notes: Prisma.$NotePayload<ExtArgs>[]
     okrs: Prisma.$OKRPayload<ExtArgs>[]
     roadmapItems: Prisma.$RoadmapItemPayload<ExtArgs>[]
+    studyPlans: Prisma.$StudyPlanPayload<ExtArgs>[]
+    subjects: Prisma.$SubjectPayload<ExtArgs>[]
     teamMembers: Prisma.$TeamMemberPayload<ExtArgs>[]
-    businessTasks: Prisma.$BusinessTaskPayload<ExtArgs>[]
-    businessGoals: Prisma.$BusinessGoalPayload<ExtArgs>[]
-    customers: Prisma.$CustomerPayload<ExtArgs>[]
+    progress: Prisma.$ProgressPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2962,6 +3269,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     averageScore: number
     lastActiveAt: Date | null
     createdAt: Date
+    updatedAt: Date
     disabled: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
@@ -3358,18 +3666,19 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   aiLogs<T extends Prisma.User$aiLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  subjects<T extends Prisma.User$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  studyPlans<T extends Prisma.User$studyPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studyPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  notes<T extends Prisma.User$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  businessGoals<T extends Prisma.User$businessGoalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$businessGoalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusinessGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  businessTasks<T extends Prisma.User$businessTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$businessTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusinessTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chatSessions<T extends Prisma.User$chatSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  customers<T extends Prisma.User$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$customersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   exams<T extends Prisma.User$examsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$examsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExamPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   milestones<T extends Prisma.User$milestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notes<T extends Prisma.User$notesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   okrs<T extends Prisma.User$okrsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$okrsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OKRPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   roadmapItems<T extends Prisma.User$roadmapItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$roadmapItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RoadmapItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  studyPlans<T extends Prisma.User$studyPlansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$studyPlansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudyPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subjects<T extends Prisma.User$subjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   teamMembers<T extends Prisma.User$teamMembersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$teamMembersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TeamMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  businessTasks<T extends Prisma.User$businessTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$businessTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusinessTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  businessGoals<T extends Prisma.User$businessGoalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$businessGoalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusinessGoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  customers<T extends Prisma.User$customersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$customersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  progress<T extends Prisma.User$progressArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$progressArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3413,6 +3722,7 @@ export interface UserFieldRefs {
   readonly averageScore: Prisma.FieldRef<"User", 'Float'>
   readonly lastActiveAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly disabled: Prisma.FieldRef<"User", 'Boolean'>
 }
     
@@ -3826,75 +4136,51 @@ export type User$aiLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 /**
- * User.subjects
+ * User.businessGoals
  */
-export type User$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$businessGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Subject
+   * Select specific fields to fetch from the BusinessGoal
    */
-  select?: Prisma.SubjectSelect<ExtArgs> | null
+  select?: Prisma.BusinessGoalSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Subject
+   * Omit specific fields from the BusinessGoal
    */
-  omit?: Prisma.SubjectOmit<ExtArgs> | null
+  omit?: Prisma.BusinessGoalOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.SubjectInclude<ExtArgs> | null
-  where?: Prisma.SubjectWhereInput
-  orderBy?: Prisma.SubjectOrderByWithRelationInput | Prisma.SubjectOrderByWithRelationInput[]
-  cursor?: Prisma.SubjectWhereUniqueInput
+  include?: Prisma.BusinessGoalInclude<ExtArgs> | null
+  where?: Prisma.BusinessGoalWhereInput
+  orderBy?: Prisma.BusinessGoalOrderByWithRelationInput | Prisma.BusinessGoalOrderByWithRelationInput[]
+  cursor?: Prisma.BusinessGoalWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+  distinct?: Prisma.BusinessGoalScalarFieldEnum | Prisma.BusinessGoalScalarFieldEnum[]
 }
 
 /**
- * User.studyPlans
+ * User.businessTasks
  */
-export type User$studyPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$businessTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the StudyPlan
+   * Select specific fields to fetch from the BusinessTask
    */
-  select?: Prisma.StudyPlanSelect<ExtArgs> | null
+  select?: Prisma.BusinessTaskSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the StudyPlan
+   * Omit specific fields from the BusinessTask
    */
-  omit?: Prisma.StudyPlanOmit<ExtArgs> | null
+  omit?: Prisma.BusinessTaskOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.StudyPlanInclude<ExtArgs> | null
-  where?: Prisma.StudyPlanWhereInput
-  orderBy?: Prisma.StudyPlanOrderByWithRelationInput | Prisma.StudyPlanOrderByWithRelationInput[]
-  cursor?: Prisma.StudyPlanWhereUniqueInput
+  include?: Prisma.BusinessTaskInclude<ExtArgs> | null
+  where?: Prisma.BusinessTaskWhereInput
+  orderBy?: Prisma.BusinessTaskOrderByWithRelationInput | Prisma.BusinessTaskOrderByWithRelationInput[]
+  cursor?: Prisma.BusinessTaskWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.StudyPlanScalarFieldEnum | Prisma.StudyPlanScalarFieldEnum[]
-}
-
-/**
- * User.notes
- */
-export type User$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Note
-   */
-  select?: Prisma.NoteSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Note
-   */
-  omit?: Prisma.NoteOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.NoteInclude<ExtArgs> | null
-  where?: Prisma.NoteWhereInput
-  orderBy?: Prisma.NoteOrderByWithRelationInput | Prisma.NoteOrderByWithRelationInput[]
-  cursor?: Prisma.NoteWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.NoteScalarFieldEnum | Prisma.NoteScalarFieldEnum[]
+  distinct?: Prisma.BusinessTaskScalarFieldEnum | Prisma.BusinessTaskScalarFieldEnum[]
 }
 
 /**
@@ -3919,6 +4205,30 @@ export type User$chatSessionsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ChatSessionScalarFieldEnum | Prisma.ChatSessionScalarFieldEnum[]
+}
+
+/**
+ * User.customers
+ */
+export type User$customersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Customer
+   */
+  select?: Prisma.CustomerSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Customer
+   */
+  omit?: Prisma.CustomerOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CustomerInclude<ExtArgs> | null
+  where?: Prisma.CustomerWhereInput
+  orderBy?: Prisma.CustomerOrderByWithRelationInput | Prisma.CustomerOrderByWithRelationInput[]
+  cursor?: Prisma.CustomerWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CustomerScalarFieldEnum | Prisma.CustomerScalarFieldEnum[]
 }
 
 /**
@@ -3970,6 +4280,30 @@ export type User$milestonesArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * User.notes
+ */
+export type User$notesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Note
+   */
+  select?: Prisma.NoteSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Note
+   */
+  omit?: Prisma.NoteOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NoteInclude<ExtArgs> | null
+  where?: Prisma.NoteWhereInput
+  orderBy?: Prisma.NoteOrderByWithRelationInput | Prisma.NoteOrderByWithRelationInput[]
+  cursor?: Prisma.NoteWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NoteScalarFieldEnum | Prisma.NoteScalarFieldEnum[]
+}
+
+/**
  * User.okrs
  */
 export type User$okrsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4018,6 +4352,54 @@ export type User$roadmapItemsArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * User.studyPlans
+ */
+export type User$studyPlansArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the StudyPlan
+   */
+  select?: Prisma.StudyPlanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the StudyPlan
+   */
+  omit?: Prisma.StudyPlanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudyPlanInclude<ExtArgs> | null
+  where?: Prisma.StudyPlanWhereInput
+  orderBy?: Prisma.StudyPlanOrderByWithRelationInput | Prisma.StudyPlanOrderByWithRelationInput[]
+  cursor?: Prisma.StudyPlanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.StudyPlanScalarFieldEnum | Prisma.StudyPlanScalarFieldEnum[]
+}
+
+/**
+ * User.subjects
+ */
+export type User$subjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Subject
+   */
+  select?: Prisma.SubjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Subject
+   */
+  omit?: Prisma.SubjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectInclude<ExtArgs> | null
+  where?: Prisma.SubjectWhereInput
+  orderBy?: Prisma.SubjectOrderByWithRelationInput | Prisma.SubjectOrderByWithRelationInput[]
+  cursor?: Prisma.SubjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[]
+}
+
+/**
  * User.teamMembers
  */
 export type User$teamMembersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4042,75 +4424,27 @@ export type User$teamMembersArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * User.businessTasks
+ * User.progress
  */
-export type User$businessTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$progressArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the BusinessTask
+   * Select specific fields to fetch from the Progress
    */
-  select?: Prisma.BusinessTaskSelect<ExtArgs> | null
+  select?: Prisma.ProgressSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the BusinessTask
+   * Omit specific fields from the Progress
    */
-  omit?: Prisma.BusinessTaskOmit<ExtArgs> | null
+  omit?: Prisma.ProgressOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.BusinessTaskInclude<ExtArgs> | null
-  where?: Prisma.BusinessTaskWhereInput
-  orderBy?: Prisma.BusinessTaskOrderByWithRelationInput | Prisma.BusinessTaskOrderByWithRelationInput[]
-  cursor?: Prisma.BusinessTaskWhereUniqueInput
+  include?: Prisma.ProgressInclude<ExtArgs> | null
+  where?: Prisma.ProgressWhereInput
+  orderBy?: Prisma.ProgressOrderByWithRelationInput | Prisma.ProgressOrderByWithRelationInput[]
+  cursor?: Prisma.ProgressWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.BusinessTaskScalarFieldEnum | Prisma.BusinessTaskScalarFieldEnum[]
-}
-
-/**
- * User.businessGoals
- */
-export type User$businessGoalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the BusinessGoal
-   */
-  select?: Prisma.BusinessGoalSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the BusinessGoal
-   */
-  omit?: Prisma.BusinessGoalOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.BusinessGoalInclude<ExtArgs> | null
-  where?: Prisma.BusinessGoalWhereInput
-  orderBy?: Prisma.BusinessGoalOrderByWithRelationInput | Prisma.BusinessGoalOrderByWithRelationInput[]
-  cursor?: Prisma.BusinessGoalWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.BusinessGoalScalarFieldEnum | Prisma.BusinessGoalScalarFieldEnum[]
-}
-
-/**
- * User.customers
- */
-export type User$customersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Customer
-   */
-  select?: Prisma.CustomerSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Customer
-   */
-  omit?: Prisma.CustomerOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.CustomerInclude<ExtArgs> | null
-  where?: Prisma.CustomerWhereInput
-  orderBy?: Prisma.CustomerOrderByWithRelationInput | Prisma.CustomerOrderByWithRelationInput[]
-  cursor?: Prisma.CustomerWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.CustomerScalarFieldEnum | Prisma.CustomerScalarFieldEnum[]
+  distinct?: Prisma.ProgressScalarFieldEnum | Prisma.ProgressScalarFieldEnum[]
 }
 
 /**

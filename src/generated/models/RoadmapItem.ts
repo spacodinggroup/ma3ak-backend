@@ -31,6 +31,7 @@ export type RoadmapItemMinAggregateOutputType = {
   priority: string | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RoadmapItemMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type RoadmapItemMaxAggregateOutputType = {
   priority: string | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type RoadmapItemCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type RoadmapItemCountAggregateOutputType = {
   priority: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type RoadmapItemMinAggregateInputType = {
   priority?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type RoadmapItemMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type RoadmapItemMaxAggregateInputType = {
   priority?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type RoadmapItemCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type RoadmapItemCountAggregateInputType = {
   priority?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type RoadmapItemGroupByOutputType = {
   priority: string
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: RoadmapItemCountAggregateOutputType | null
   _min: RoadmapItemMinAggregateOutputType | null
   _max: RoadmapItemMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type RoadmapItemWhereInput = {
   priority?: Prisma.StringFilter<"RoadmapItem"> | string
   userId?: Prisma.StringFilter<"RoadmapItem"> | string
   createdAt?: Prisma.DateTimeFilter<"RoadmapItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"RoadmapItem"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -200,6 +208,7 @@ export type RoadmapItemOrderByWithRelationInput = {
   priority?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -213,6 +222,7 @@ export type RoadmapItemWhereUniqueInput = Prisma.AtLeast<{
   priority?: Prisma.StringFilter<"RoadmapItem"> | string
   userId?: Prisma.StringFilter<"RoadmapItem"> | string
   createdAt?: Prisma.DateTimeFilter<"RoadmapItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"RoadmapItem"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
@@ -223,6 +233,7 @@ export type RoadmapItemOrderByWithAggregationInput = {
   priority?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.RoadmapItemCountOrderByAggregateInput
   _max?: Prisma.RoadmapItemMaxOrderByAggregateInput
   _min?: Prisma.RoadmapItemMinOrderByAggregateInput
@@ -238,6 +249,7 @@ export type RoadmapItemScalarWhereWithAggregatesInput = {
   priority?: Prisma.StringWithAggregatesFilter<"RoadmapItem"> | string
   userId?: Prisma.StringWithAggregatesFilter<"RoadmapItem"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"RoadmapItem"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"RoadmapItem"> | Date | string
 }
 
 export type RoadmapItemCreateInput = {
@@ -246,6 +258,7 @@ export type RoadmapItemCreateInput = {
   status: $Enums.RoadmapStatus
   priority: string
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutRoadmapItemsInput
 }
 
@@ -256,6 +269,7 @@ export type RoadmapItemUncheckedCreateInput = {
   priority: string
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RoadmapItemUpdateInput = {
@@ -264,6 +278,7 @@ export type RoadmapItemUpdateInput = {
   status?: Prisma.EnumRoadmapStatusFieldUpdateOperationsInput | $Enums.RoadmapStatus
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutRoadmapItemsNestedInput
 }
 
@@ -274,6 +289,7 @@ export type RoadmapItemUncheckedUpdateInput = {
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoadmapItemCreateManyInput = {
@@ -283,6 +299,7 @@ export type RoadmapItemCreateManyInput = {
   priority: string
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RoadmapItemUpdateManyMutationInput = {
@@ -291,6 +308,7 @@ export type RoadmapItemUpdateManyMutationInput = {
   status?: Prisma.EnumRoadmapStatusFieldUpdateOperationsInput | $Enums.RoadmapStatus
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoadmapItemUncheckedUpdateManyInput = {
@@ -300,6 +318,7 @@ export type RoadmapItemUncheckedUpdateManyInput = {
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoadmapItemListRelationFilter = {
@@ -319,6 +338,7 @@ export type RoadmapItemCountOrderByAggregateInput = {
   priority?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RoadmapItemMaxOrderByAggregateInput = {
@@ -328,6 +348,7 @@ export type RoadmapItemMaxOrderByAggregateInput = {
   priority?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RoadmapItemMinOrderByAggregateInput = {
@@ -337,6 +358,7 @@ export type RoadmapItemMinOrderByAggregateInput = {
   priority?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type RoadmapItemCreateNestedManyWithoutUserInput = {
@@ -391,6 +413,7 @@ export type RoadmapItemCreateWithoutUserInput = {
   status: $Enums.RoadmapStatus
   priority: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RoadmapItemUncheckedCreateWithoutUserInput = {
@@ -399,6 +422,7 @@ export type RoadmapItemUncheckedCreateWithoutUserInput = {
   status: $Enums.RoadmapStatus
   priority: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RoadmapItemCreateOrConnectWithoutUserInput = {
@@ -437,6 +461,7 @@ export type RoadmapItemScalarWhereInput = {
   priority?: Prisma.StringFilter<"RoadmapItem"> | string
   userId?: Prisma.StringFilter<"RoadmapItem"> | string
   createdAt?: Prisma.DateTimeFilter<"RoadmapItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"RoadmapItem"> | Date | string
 }
 
 export type RoadmapItemCreateManyUserInput = {
@@ -445,6 +470,7 @@ export type RoadmapItemCreateManyUserInput = {
   status: $Enums.RoadmapStatus
   priority: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type RoadmapItemUpdateWithoutUserInput = {
@@ -453,6 +479,7 @@ export type RoadmapItemUpdateWithoutUserInput = {
   status?: Prisma.EnumRoadmapStatusFieldUpdateOperationsInput | $Enums.RoadmapStatus
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoadmapItemUncheckedUpdateWithoutUserInput = {
@@ -461,6 +488,7 @@ export type RoadmapItemUncheckedUpdateWithoutUserInput = {
   status?: Prisma.EnumRoadmapStatusFieldUpdateOperationsInput | $Enums.RoadmapStatus
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RoadmapItemUncheckedUpdateManyWithoutUserInput = {
@@ -469,6 +497,7 @@ export type RoadmapItemUncheckedUpdateManyWithoutUserInput = {
   status?: Prisma.EnumRoadmapStatusFieldUpdateOperationsInput | $Enums.RoadmapStatus
   priority?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -480,6 +509,7 @@ export type RoadmapItemSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   priority?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["roadmapItem"]>
 
@@ -490,6 +520,7 @@ export type RoadmapItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   priority?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["roadmapItem"]>
 
@@ -500,6 +531,7 @@ export type RoadmapItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   priority?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["roadmapItem"]>
 
@@ -510,9 +542,10 @@ export type RoadmapItemSelectScalar = {
   priority?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type RoadmapItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "feature" | "status" | "priority" | "userId" | "createdAt", ExtArgs["result"]["roadmapItem"]>
+export type RoadmapItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "feature" | "status" | "priority" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["roadmapItem"]>
 export type RoadmapItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -535,6 +568,7 @@ export type $RoadmapItemPayload<ExtArgs extends runtime.Types.Extensions.Interna
     priority: string
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["roadmapItem"]>
   composites: {}
 }
@@ -965,6 +999,7 @@ export interface RoadmapItemFieldRefs {
   readonly priority: Prisma.FieldRef<"RoadmapItem", 'String'>
   readonly userId: Prisma.FieldRef<"RoadmapItem", 'String'>
   readonly createdAt: Prisma.FieldRef<"RoadmapItem", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"RoadmapItem", 'DateTime'>
 }
     
 

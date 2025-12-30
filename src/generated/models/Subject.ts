@@ -42,6 +42,7 @@ export type SubjectMinAggregateOutputType = {
   examDate: Date | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SubjectMaxAggregateOutputType = {
@@ -52,6 +53,7 @@ export type SubjectMaxAggregateOutputType = {
   examDate: Date | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SubjectCountAggregateOutputType = {
@@ -62,6 +64,7 @@ export type SubjectCountAggregateOutputType = {
   examDate: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -82,6 +85,7 @@ export type SubjectMinAggregateInputType = {
   examDate?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type SubjectMaxAggregateInputType = {
@@ -92,6 +96,7 @@ export type SubjectMaxAggregateInputType = {
   examDate?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type SubjectCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type SubjectCountAggregateInputType = {
   examDate?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -199,6 +205,7 @@ export type SubjectGroupByOutputType = {
   examDate: Date
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: SubjectCountAggregateOutputType | null
   _avg: SubjectAvgAggregateOutputType | null
   _sum: SubjectSumAggregateOutputType | null
@@ -232,6 +239,7 @@ export type SubjectWhereInput = {
   examDate?: Prisma.DateTimeFilter<"Subject"> | Date | string
   userId?: Prisma.StringFilter<"Subject"> | string
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -243,6 +251,7 @@ export type SubjectOrderByWithRelationInput = {
   examDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -258,6 +267,7 @@ export type SubjectWhereUniqueInput = Prisma.AtLeast<{
   examDate?: Prisma.DateTimeFilter<"Subject"> | Date | string
   userId?: Prisma.StringFilter<"Subject"> | string
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "name_userId">
 
@@ -269,6 +279,7 @@ export type SubjectOrderByWithAggregationInput = {
   examDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.SubjectCountOrderByAggregateInput
   _avg?: Prisma.SubjectAvgOrderByAggregateInput
   _max?: Prisma.SubjectMaxOrderByAggregateInput
@@ -287,6 +298,7 @@ export type SubjectScalarWhereWithAggregatesInput = {
   examDate?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Subject"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Subject"> | Date | string
 }
 
 export type SubjectCreateInput = {
@@ -296,6 +308,7 @@ export type SubjectCreateInput = {
   hoursPerWeek: number
   examDate: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSubjectsInput
 }
 
@@ -307,6 +320,7 @@ export type SubjectUncheckedCreateInput = {
   examDate: Date | string
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SubjectUpdateInput = {
@@ -316,6 +330,7 @@ export type SubjectUpdateInput = {
   hoursPerWeek?: Prisma.IntFieldUpdateOperationsInput | number
   examDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSubjectsNestedInput
 }
 
@@ -327,6 +342,7 @@ export type SubjectUncheckedUpdateInput = {
   examDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubjectCreateManyInput = {
@@ -337,6 +353,7 @@ export type SubjectCreateManyInput = {
   examDate: Date | string
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SubjectUpdateManyMutationInput = {
@@ -346,6 +363,7 @@ export type SubjectUpdateManyMutationInput = {
   hoursPerWeek?: Prisma.IntFieldUpdateOperationsInput | number
   examDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubjectUncheckedUpdateManyInput = {
@@ -356,6 +374,7 @@ export type SubjectUncheckedUpdateManyInput = {
   examDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubjectListRelationFilter = {
@@ -381,6 +400,7 @@ export type SubjectCountOrderByAggregateInput = {
   examDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SubjectAvgOrderByAggregateInput = {
@@ -395,6 +415,7 @@ export type SubjectMaxOrderByAggregateInput = {
   examDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SubjectMinOrderByAggregateInput = {
@@ -405,6 +426,7 @@ export type SubjectMinOrderByAggregateInput = {
   examDate?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SubjectSumOrderByAggregateInput = {
@@ -460,6 +482,7 @@ export type SubjectCreateWithoutUserInput = {
   hoursPerWeek: number
   examDate: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SubjectUncheckedCreateWithoutUserInput = {
@@ -469,6 +492,7 @@ export type SubjectUncheckedCreateWithoutUserInput = {
   hoursPerWeek: number
   examDate: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SubjectCreateOrConnectWithoutUserInput = {
@@ -508,6 +532,7 @@ export type SubjectScalarWhereInput = {
   examDate?: Prisma.DateTimeFilter<"Subject"> | Date | string
   userId?: Prisma.StringFilter<"Subject"> | string
   createdAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Subject"> | Date | string
 }
 
 export type SubjectCreateManyUserInput = {
@@ -517,6 +542,7 @@ export type SubjectCreateManyUserInput = {
   hoursPerWeek: number
   examDate: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SubjectUpdateWithoutUserInput = {
@@ -526,6 +552,7 @@ export type SubjectUpdateWithoutUserInput = {
   hoursPerWeek?: Prisma.IntFieldUpdateOperationsInput | number
   examDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubjectUncheckedUpdateWithoutUserInput = {
@@ -535,6 +562,7 @@ export type SubjectUncheckedUpdateWithoutUserInput = {
   hoursPerWeek?: Prisma.IntFieldUpdateOperationsInput | number
   examDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SubjectUncheckedUpdateManyWithoutUserInput = {
@@ -544,6 +572,7 @@ export type SubjectUncheckedUpdateManyWithoutUserInput = {
   hoursPerWeek?: Prisma.IntFieldUpdateOperationsInput | number
   examDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -556,6 +585,7 @@ export type SubjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   examDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
@@ -567,6 +597,7 @@ export type SubjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   examDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
@@ -578,6 +609,7 @@ export type SubjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   examDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subject"]>
 
@@ -589,9 +621,10 @@ export type SubjectSelectScalar = {
   examDate?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "difficulty" | "hoursPerWeek" | "examDate" | "userId" | "createdAt", ExtArgs["result"]["subject"]>
+export type SubjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "difficulty" | "hoursPerWeek" | "examDate" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["subject"]>
 export type SubjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -615,6 +648,7 @@ export type $SubjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     examDate: Date
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["subject"]>
   composites: {}
 }
@@ -1046,6 +1080,7 @@ export interface SubjectFieldRefs {
   readonly examDate: Prisma.FieldRef<"Subject", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Subject", 'String'>
   readonly createdAt: Prisma.FieldRef<"Subject", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Subject", 'DateTime'>
 }
     
 

@@ -29,6 +29,7 @@ export type StudyPlanMinAggregateOutputType = {
   date: Date | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type StudyPlanMaxAggregateOutputType = {
@@ -36,6 +37,7 @@ export type StudyPlanMaxAggregateOutputType = {
   date: Date | null
   userId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type StudyPlanCountAggregateOutputType = {
@@ -43,6 +45,7 @@ export type StudyPlanCountAggregateOutputType = {
   date: number
   userId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -52,6 +55,7 @@ export type StudyPlanMinAggregateInputType = {
   date?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type StudyPlanMaxAggregateInputType = {
@@ -59,6 +63,7 @@ export type StudyPlanMaxAggregateInputType = {
   date?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type StudyPlanCountAggregateInputType = {
@@ -66,6 +71,7 @@ export type StudyPlanCountAggregateInputType = {
   date?: true
   userId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -146,6 +152,7 @@ export type StudyPlanGroupByOutputType = {
   date: Date
   userId: string
   createdAt: Date
+  updatedAt: Date
   _count: StudyPlanCountAggregateOutputType | null
   _min: StudyPlanMinAggregateOutputType | null
   _max: StudyPlanMaxAggregateOutputType | null
@@ -174,6 +181,7 @@ export type StudyPlanWhereInput = {
   date?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
   userId?: Prisma.StringFilter<"StudyPlan"> | string
   createdAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.StudyPlanItemListRelationFilter
 }
@@ -183,6 +191,7 @@ export type StudyPlanOrderByWithRelationInput = {
   date?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   items?: Prisma.StudyPlanItemOrderByRelationAggregateInput
 }
@@ -195,6 +204,7 @@ export type StudyPlanWhereUniqueInput = Prisma.AtLeast<{
   date?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
   userId?: Prisma.StringFilter<"StudyPlan"> | string
   createdAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   items?: Prisma.StudyPlanItemListRelationFilter
 }, "id">
@@ -204,6 +214,7 @@ export type StudyPlanOrderByWithAggregationInput = {
   date?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.StudyPlanCountOrderByAggregateInput
   _max?: Prisma.StudyPlanMaxOrderByAggregateInput
   _min?: Prisma.StudyPlanMinOrderByAggregateInput
@@ -217,12 +228,14 @@ export type StudyPlanScalarWhereWithAggregatesInput = {
   date?: Prisma.DateTimeWithAggregatesFilter<"StudyPlan"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"StudyPlan"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StudyPlan"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"StudyPlan"> | Date | string
 }
 
 export type StudyPlanCreateInput = {
   id?: string
   date: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStudyPlansInput
   items?: Prisma.StudyPlanItemCreateNestedManyWithoutPlanInput
 }
@@ -232,6 +245,7 @@ export type StudyPlanUncheckedCreateInput = {
   date: Date | string
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
   items?: Prisma.StudyPlanItemUncheckedCreateNestedManyWithoutPlanInput
 }
 
@@ -239,6 +253,7 @@ export type StudyPlanUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStudyPlansNestedInput
   items?: Prisma.StudyPlanItemUpdateManyWithoutPlanNestedInput
 }
@@ -248,6 +263,7 @@ export type StudyPlanUncheckedUpdateInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.StudyPlanItemUncheckedUpdateManyWithoutPlanNestedInput
 }
 
@@ -256,12 +272,14 @@ export type StudyPlanCreateManyInput = {
   date: Date | string
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type StudyPlanUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudyPlanUncheckedUpdateManyInput = {
@@ -269,6 +287,7 @@ export type StudyPlanUncheckedUpdateManyInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudyPlanListRelationFilter = {
@@ -286,6 +305,7 @@ export type StudyPlanCountOrderByAggregateInput = {
   date?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type StudyPlanMaxOrderByAggregateInput = {
@@ -293,6 +313,7 @@ export type StudyPlanMaxOrderByAggregateInput = {
   date?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type StudyPlanMinOrderByAggregateInput = {
@@ -300,6 +321,7 @@ export type StudyPlanMinOrderByAggregateInput = {
   date?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type StudyPlanScalarRelationFilter = {
@@ -367,6 +389,7 @@ export type StudyPlanCreateWithoutUserInput = {
   id?: string
   date: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
   items?: Prisma.StudyPlanItemCreateNestedManyWithoutPlanInput
 }
 
@@ -374,6 +397,7 @@ export type StudyPlanUncheckedCreateWithoutUserInput = {
   id?: string
   date: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
   items?: Prisma.StudyPlanItemUncheckedCreateNestedManyWithoutPlanInput
 }
 
@@ -411,12 +435,14 @@ export type StudyPlanScalarWhereInput = {
   date?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
   userId?: Prisma.StringFilter<"StudyPlan"> | string
   createdAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"StudyPlan"> | Date | string
 }
 
 export type StudyPlanCreateWithoutItemsInput = {
   id?: string
   date: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutStudyPlansInput
 }
 
@@ -425,6 +451,7 @@ export type StudyPlanUncheckedCreateWithoutItemsInput = {
   date: Date | string
   userId: string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type StudyPlanCreateOrConnectWithoutItemsInput = {
@@ -447,6 +474,7 @@ export type StudyPlanUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutStudyPlansNestedInput
 }
 
@@ -455,18 +483,21 @@ export type StudyPlanUncheckedUpdateWithoutItemsInput = {
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type StudyPlanCreateManyUserInput = {
   id?: string
   date: Date | string
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type StudyPlanUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.StudyPlanItemUpdateManyWithoutPlanNestedInput
 }
 
@@ -474,6 +505,7 @@ export type StudyPlanUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.StudyPlanItemUncheckedUpdateManyWithoutPlanNestedInput
 }
 
@@ -481,6 +513,7 @@ export type StudyPlanUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -519,6 +552,7 @@ export type StudyPlanSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   date?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.StudyPlan$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.StudyPlanCountOutputTypeDefaultArgs<ExtArgs>
@@ -529,6 +563,7 @@ export type StudyPlanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   date?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyPlan"]>
 
@@ -537,6 +572,7 @@ export type StudyPlanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   date?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["studyPlan"]>
 
@@ -545,9 +581,10 @@ export type StudyPlanSelectScalar = {
   date?: boolean
   userId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type StudyPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "userId" | "createdAt", ExtArgs["result"]["studyPlan"]>
+export type StudyPlanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "date" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["studyPlan"]>
 export type StudyPlanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   items?: boolean | Prisma.StudyPlan$itemsArgs<ExtArgs>
@@ -571,6 +608,7 @@ export type $StudyPlanPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     date: Date
     userId: string
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["studyPlan"]>
   composites: {}
 }
@@ -1000,6 +1038,7 @@ export interface StudyPlanFieldRefs {
   readonly date: Prisma.FieldRef<"StudyPlan", 'DateTime'>
   readonly userId: Prisma.FieldRef<"StudyPlan", 'String'>
   readonly createdAt: Prisma.FieldRef<"StudyPlan", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"StudyPlan", 'DateTime'>
 }
     
 
