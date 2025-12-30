@@ -1,4 +1,4 @@
-import {Aiprovider} from "./ai.js";
+import { Aiprovider } from "./ai.js";
 import { Request } from "express";
 
 export interface AiRequestBody {
@@ -12,5 +12,5 @@ export interface AuthenticatedRequest extends Request {
 }
 
 export interface FileUploadRequest extends AuthenticatedRequest {
-    file?: any;
+    file?: Express.Multer.File;
 }

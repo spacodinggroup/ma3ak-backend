@@ -357,16 +357,13 @@ export const uploadStudentNote = async (req: FileUploadRequest, res: Response) =
 };
 
 export const processPDFNotes = async (req: FileUploadRequest, res: Response) => {
-    const startTime = Date.now();
-
     try {
         // 1. Validate User
         const userId = req.user?.id;
         if (!userId) {
             return res.status(401).json({
                 success: false,
-                notes: [],
-                error: "Unauthorized"
+                message: "Unauthorized"
             });
         }
 
@@ -374,22 +371,22 @@ export const processPDFNotes = async (req: FileUploadRequest, res: Response) => 
         if (!req.file) {
             return res.status(400).json({
                 success: false,
-                notes: [],
-                error: "No file uploaded. Please use the 'file' field."
+                message: "No file uploaded. Please use the 'file' field."
             });
         }
 
         // 3. Extract Text from PDF
         let pdfText = '';
         try {
-            const data = await pdf(req.file.buffer);
+            // Safe pdf-parse call for ESM/CommonJS compatibility
+            const pdfParser = typeof pdf === 'function' ? pdf : (pdf as any).default;
+            const data = await pdfParser(req.file.buffer);
             pdfText = data.text || '';
         } catch (pdfError: any) {
             console.error('[PDF Notes] PDF parse error:', pdfError);
             return res.status(500).json({
                 success: false,
-                notes: [],
-                error: "Failed to parse PDF content."
+                message: "Failed to parse PDF content."
             });
         }
 
@@ -397,17 +394,24 @@ export const processPDFNotes = async (req: FileUploadRequest, res: Response) => 
         if (!pdfText.trim()) {
             return res.status(400).json({
                 success: false,
-                notes: [],
-                error: "The PDF contains no readable text."
+                message: "The PDF contains no readable text."
             });
         }
 
         // 5. Build AI Prompt
-        const prompt = `Convert the following text into clear bullet points. 
-Return ONLY a JSON object with a "notes" array of strings.
-Text: ${pdfText.substring(0, 8000)}`;
+        const prompt = `
+Generate clear, simple, and educational bullet points from the provided text.
+STRICT RULES:
+- Return ONLY a JSON object with a "notes" key containing an array of strings.
+- Each bullet point must be a clean educational note.
+- NO meta-phrases, NO introductions, NO conclusions (e.g., dont say "Here are your notes").
+- If the text is too long, prioritize the most important concepts.
 
-        // 6. Call AI Service
+Text:
+${pdfText.substring(0, 10000)}
+`.trim();
+
+        // 6. Call AI Service (AI Service handles OpenAI -> Grok fallback automatically)
         try {
             const result = await aiService({
                 user: req.user,
@@ -420,25 +424,24 @@ Text: ${pdfText.substring(0, 8000)}`;
             // 7. Parse and Validate AI Response
             let notes: string[] = [];
             try {
-                const parsed = JSON.parse(aiResponse);
+                // Try to find JSON in the response
+                const jsonMatch = aiResponse.match(/\{[^]*\}/);
+                const jsonStr = jsonMatch ? jsonMatch[0] : aiResponse;
+                const parsed = JSON.parse(jsonStr);
                 notes = parsed.notes || [];
             } catch (pError) {
-                // If it's not JSON, try to split by lines or bullet points
+                // Fallback: Split by lines if JSON parsing fails
                 notes = aiResponse.split('\n')
-                    .map(line => line.replace(/^[-*•]\s*/, '').trim())
-                    .filter(line => line.length > 0);
+                    .map(line => line.replace(/^[-*•\d.]+\s*/, '').trim())
+                    .filter(line => line.length > 5);
             }
 
             if (notes.length === 0) {
-                return res.status(200).json({
+                return res.status(400).json({
                     success: false,
-                    notes: [],
-                    error: "Could not extract notes from the content."
+                    message: "Could not extract clear notes from the content. Please try a different PDF."
                 });
             }
-
-            const duration = Date.now() - startTime;
-            console.info(`[PDF Notes] Success in ${duration}ms`);
 
             return res.status(200).json({
                 success: true,
@@ -446,11 +449,10 @@ Text: ${pdfText.substring(0, 8000)}`;
             });
 
         } catch (aiError: any) {
-            console.error('[PDF Notes] AI Error:', aiError);
+            console.error('[PDF Notes] AI Error:', aiError.message);
             return res.status(500).json({
                 success: false,
-                notes: [],
-                error: "AI processing failed."
+                message: "AI processing failed. Please try again later."
             });
         }
 
@@ -458,8 +460,7 @@ Text: ${pdfText.substring(0, 8000)}`;
         console.error('[PDF Notes] Global Error:', error);
         return res.status(500).json({
             success: false,
-            notes: [],
-            error: "An unexpected error occurred."
+            message: "An unexpected server error occurred."
         });
     }
 };

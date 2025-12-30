@@ -8,6 +8,7 @@ import adminRoutes from "./routes/admin.routes.js";
 import founderRoutes from "./routes/founder.routes.js";
 import businessRoutes from "./routes/business.routes.js";
 import studentRoutes from "./routes/student.routes.js";
+import examRoutes from "./routes/exam.routes.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 
 const app = express();
@@ -40,6 +41,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/founder", founderRoutes);
 app.use("/api/business", businessRoutes);
 app.use("/api/student", studentRoutes);
+app.use("/api/exams", examRoutes);
 
 /**
  * Error handler 

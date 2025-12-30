@@ -30,14 +30,12 @@ export const uploadPDF = (req: any, res: any, next: any) => {
         if (err instanceof multer.MulterError) {
             return res.status(400).json({
                 success: false,
-                notes: [],
-                error: `Upload error: ${err.message}`
+                message: `Upload error: ${err.message}`
             });
         } else if (err) {
             return res.status(400).json({
                 success: false,
-                notes: [],
-                error: err.message
+                message: err.message
             });
         }
         next();
