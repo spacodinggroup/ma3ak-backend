@@ -9,6 +9,7 @@
     "module": "node16",
     "target": "esnext",
     "types": [],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
