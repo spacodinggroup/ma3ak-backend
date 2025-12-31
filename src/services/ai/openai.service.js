@@ -1,10 +1,17 @@
 import OpenAI from 'openai';
 import { ENV } from '../../config/env.js';
 import { AI_CONFIG } from '../../config/ai.config.js';
-const openai = new OpenAI({
-    apiKey: ENV.OPENAI_KEY,
-});
+const getOpenAIClient = () => {
+    if (!ENV.OPENAI_KEY) {
+        throw new Error('Missing OPENAI_KEY');
+    }
+    return new OpenAI({
+        apiKey: ENV.OPENAI_KEY,
+        timeout: 30000,
+    });
+};
 export const openaiGenerate = async (prompt) => {
+    const openai = getOpenAIClient();
     const completion = await openai.chat.completions.create({
         model: AI_CONFIG.MODELS.OPENAI,
         messages: [

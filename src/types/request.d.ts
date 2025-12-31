@@ -12,7 +12,7 @@ export interface AuthenticatedRequest extends Request {
         requests: number;
     };
 }
-export interface FileUploadRequest extends AuthenticatedRequest {
-    file?: any;
+export interface FileUploadRequest extends Request {
+    file?: Express.Multer.File;
 }
 //# sourceMappingURL=request.d.ts.map

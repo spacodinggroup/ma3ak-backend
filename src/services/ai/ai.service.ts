@@ -92,28 +92,14 @@ export const aiService = async ({
 
     // If empty → switch to fallback (Grok) if we haven't tried it yet
     if (!response || response.trim() === "") {
-        // Only fallback if we started with OpenAI (as per requirements/logic implied: Try OpenAI -> If empty -> Try Grok)
-        // If the user specifically requested GROK, maybe we shouldn't fallback to OpenAI? 
-        // The prompt says: "Try OpenAI -> Normalize -> If empty -> try Grok -> Normalize -> If still empty -> throw error"
-        // It implies a hardcoded preference available in the service logic or just a general fallback strategy.
-        // I will implement: If first attempt fails/empty, try the OTHER provider.
-        
-        const fallbackProvider = currentProvider === "OPENAI" ? "GROK" : "OPENAI";
-        // However, the prompt specifically says: "Try OpenAI ... If empty -> try Grok"
-        // I will stick to the specific instruction: "Try OpenAI ... If empty -> try Grok"
-        // But since `currentProvider` can be dynamic, I'll assume if the current one failed, try the *other* one if possible.
-        // Actually, let's strictly follow "Try OpenAI... If empty -> try Grok" as the primary flow.
-        
-        if (currentProvider === "OPENAI") {
-            console.info("Primary provider (OPENAI) empty/failed. Switching to fallback: GROK");
-            try {
-                // Update current provider for logging purposes
-                currentProvider = "GROK"; 
-                response = await attemptGenerate("GROK");
-            } catch (fallbackError) {
-                console.error("Fallback provider (GROK) failed:", fallbackError);
-                response = "";
-            }
+        const fallbackProvider: "OPENAI" | "GROK" = currentProvider === "OPENAI" ? "GROK" : "OPENAI";
+        console.info(`Primary provider (${currentProvider}) empty/failed. Switching to fallback: ${fallbackProvider}`);
+        try {
+            currentProvider = fallbackProvider;
+            response = await attemptGenerate(fallbackProvider);
+        } catch (fallbackError) {
+            console.error(`Fallback provider (${fallbackProvider}) failed:`, fallbackError);
+            response = "";
         }
     }
 

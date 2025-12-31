@@ -53,6 +53,11 @@ export type Exam = Prisma.ExamModel;
  */
 export type ExamAttempt = Prisma.ExamAttemptModel;
 /**
+ * Model Progress
+ *
+ */
+export type Progress = Prisma.ProgressModel;
+/**
  * Model Milestone
  *
  */

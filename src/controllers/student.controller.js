@@ -1,5 +1,16 @@
 import { StudentService } from '../services/student.service.js';
 import { successResponse, errorResponse } from "../utils/response.js";
+import { aiService } from '../services/ai/ai.service.js';
+const ensurePdfRuntime = async () => {
+    if (!globalThis.DOMMatrix) {
+        globalThis.DOMMatrix = class DOMMatrix {
+        };
+    }
+    if (!globalThis.DOMPoint) {
+        globalThis.DOMPoint = class DOMPoint {
+        };
+    }
+};
 export const getStudentDashboard = async (req, res) => {
     try {
         const userId = req.user?.id;
@@ -7,10 +18,10 @@ export const getStudentDashboard = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const data = await StudentService.getDashboard(userId);
-        successResponse(res, data);
+        return successResponse(res, data);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student dashboard");
+        return errorResponse(res, "Failed to get student dashboard");
     }
 };
 export const getStudentSubjects = async (req, res) => {
@@ -20,10 +31,10 @@ export const getStudentSubjects = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const subjects = await StudentService.getSubjects(userId);
-        successResponse(res, subjects);
+        return successResponse(res, subjects);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student subjects", 500);
+        return errorResponse(res, "Failed to get student subjects", 500);
     }
 };
 export const generateStudyPlan = async (req, res) => {
@@ -33,11 +44,106 @@ export const generateStudyPlan = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const { subjects, hoursPerDay, examDate } = req.body;
-        const plan = await StudentService.generateStudyPlan(userId, { subjects, hoursPerDay, examDate });
-        successResponse(res, plan);
+        const requestedHoursPerDay = Number(hoursPerDay);
+        const safeHoursPerDay = Number.isFinite(requestedHoursPerDay) ? requestedHoursPerDay : 2;
+        const clampedHoursPerDay = Math.max(1, Math.min(2, safeHoursPerDay));
+        if (!subjects || !Array.isArray(subjects) || subjects.length === 0) {
+            return errorResponse(res, "Subjects must be a non-empty array", 400);
+        }
+        const buildStudyPlanPrompt = (subs) => `
+System Prompt:
+You are an expert academic planner and professional teacher.
+Your task is to create a REALISTIC, PRACTICAL, and ACTIONABLE study plan.
+
+STRICT RULES:
+- Start immediately with the study plan.
+- Do NOT repeat the user’s request.
+- Do NOT use phrases like: "I understand your question", "Here is a detailed explanation", "You are asking about".
+- Do NOT include any meta commentary.
+- Write only useful educational content.
+
+STUDY PLAN REQUIREMENTS:
+- Assume the student is learning for the first time.
+- Adapt difficulty gradually from easy → medium → advanced.
+- Focus on understanding, not memorization.
+- Use simple, clear language.
+- Be motivating but professional.
+- Do NOT exceed realistic daily study time (1–2 hours max).
+
+Subjects to cover: ${subs.join(", ")}
+Available hours per day: ${clampedHoursPerDay}
+Target Exam Date: ${examDate || 'Next month'}
+
+MANDATORY OUTPUT FORMAT:
+Return ONLY a JSON object with a "studyPlan" key.
+Each item in "studyPlan" must have:
+- "date": Day X (e.g. "Day 1")
+- "subject": The subject being studied
+- "topic": Short title of the day's lesson
+- "content": Detailed instructions including "What to study", "Key concepts", and "Practice task" using bullet points.
+- "duration": Estimated time in minutes (integer)
+
+Example Object:
+{
+  "studyPlan": [
+    {
+      "date": "Day 1",
+      "subject": "Math",
+      "topic": "Algebra Basics",
+      "content": "- What to study: Introduction to variables\\n- Key concepts: Solving for X\\n- Practice task: Complete 5 linear equations",
+      "duration": 60
+    }
+  ]
+}
+`.trim();
+        const prompt = buildStudyPlanPrompt(subjects);
+        let studyPlan = [];
+        let attempts = 0;
+        const maxAttempts = 2;
+        while (attempts < maxAttempts && studyPlan.length === 0) {
+            attempts++;
+            try {
+                const result = await aiService({
+                    user: req.user,
+                    tool: 'study-plan',
+                    prompt
+                });
+                const aiResponse = result.reply || '';
+                try {
+                    const parsed = JSON.parse(aiResponse);
+                    studyPlan = parsed.studyPlan || [];
+                }
+                catch (e) {
+                    const jsonMatch = aiResponse.match(/\{[^]*\}/);
+                    if (jsonMatch) {
+                        const extracted = JSON.parse(jsonMatch[0]);
+                        studyPlan = extracted.studyPlan || [];
+                    }
+                }
+            }
+            catch (err) {
+                console.warn(`[Study Plan] AI attempt ${attempts} failed:`, err);
+            }
+        }
+        if (studyPlan.length === 0) {
+            studyPlan = subjects.map((sub, index) => ({
+                subject: sub,
+                date: `Day ${index + 1}`,
+                topic: `Introduction to ${sub}`,
+                content: `- What to study: Core concepts of ${sub}\n- Practice task: Basic problems`,
+                duration: 60
+            }));
+        }
+        // PERSIST the study plan
+        await StudentService.saveStudyPlan(userId, studyPlan);
+        return res.status(200).json({
+            success: true,
+            studyPlan
+        });
     }
     catch (error) {
-        errorResponse(res, "Failed to generate study plan", 500);
+        console.error('[Study Plan] Controller error:', error);
+        return errorResponse(res, "Failed to generate study plan", 500);
     }
 };
 export const getStudentCourses = async (req, res) => {
@@ -47,10 +153,10 @@ export const getStudentCourses = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const courses = await StudentService.getCourses(userId);
-        successResponse(res, courses);
+        return successResponse(res, courses);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student courses", 500);
+        return errorResponse(res, "Failed to get student courses", 500);
     }
 };
 export const sendStudentMessage = async (req, res) => {
@@ -63,7 +169,7 @@ export const sendStudentMessage = async (req, res) => {
             return res.status(401).json({ error: "Unauthorized" });
         }
         // 2. Validate Request Payload
-        const { message, messages } = req.body;
+        const { messages } = req.body;
         // Check if messages array exists and is valid
         if (!messages || !Array.isArray(messages) || messages.length === 0) {
             console.warn(`[Student Chat] Invalid messages array from user ${userId}`);
@@ -142,10 +248,10 @@ export const getStudentNotes = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const notes = await StudentService.getNotes(userId);
-        successResponse(res, notes);
+        return successResponse(res, notes);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student notes", 500);
+        return errorResponse(res, "Failed to get student notes", 500);
     }
 };
 export const getStudentPlan = async (req, res) => {
@@ -155,10 +261,10 @@ export const getStudentPlan = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const plan = await StudentService.getPlan(userId);
-        successResponse(res, plan);
+        return successResponse(res, plan);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student plan", 500);
+        return errorResponse(res, "Failed to get student plan", 500);
     }
 };
 export const getStudentExams = async (req, res) => {
@@ -168,10 +274,10 @@ export const getStudentExams = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const exams = await StudentService.getExams(userId);
-        successResponse(res, exams);
+        return successResponse(res, exams);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student exams", 500);
+        return errorResponse(res, "Failed to get student exams", 500);
     }
 };
 export const getStudentPractice = async (req, res) => {
@@ -181,10 +287,10 @@ export const getStudentPractice = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const practice = await StudentService.getPractice(userId);
-        successResponse(res, practice);
+        return successResponse(res, practice);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student practice", 500);
+        return errorResponse(res, "Failed to get student practice", 500);
     }
 };
 export const getStudentProgress = async (req, res) => {
@@ -194,10 +300,10 @@ export const getStudentProgress = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const progress = await StudentService.getProgress(userId);
-        successResponse(res, progress);
+        return successResponse(res, progress);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student progress", 500);
+        return errorResponse(res, "Failed to get student progress", 500);
     }
 };
 export const getStudentSettings = async (req, res) => {
@@ -207,10 +313,10 @@ export const getStudentSettings = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const settings = await StudentService.getSettings(userId);
-        successResponse(res, settings);
+        return successResponse(res, settings);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student settings", 500);
+        return errorResponse(res, "Failed to get student settings", 500);
     }
 };
 export const updateStudentSettings = async (req, res) => {
@@ -221,10 +327,10 @@ export const updateStudentSettings = async (req, res) => {
         }
         const settings = req.body;
         const result = await StudentService.updateSettings(userId, settings);
-        successResponse(res, result);
+        return successResponse(res, result);
     }
     catch (error) {
-        errorResponse(res, "Failed to update student settings", 500);
+        return errorResponse(res, "Failed to update student settings", 500);
     }
 };
 export const getStudentTimer = async (req, res) => {
@@ -234,144 +340,96 @@ export const getStudentTimer = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const timer = await StudentService.getTimer(userId);
-        successResponse(res, timer);
+        return successResponse(res, timer);
     }
     catch (error) {
-        errorResponse(res, "Failed to get student timer", 500);
+        return errorResponse(res, "Failed to get student timer", 500);
     }
 };
-export const uploadStudentNote = async (req, res) => {
+export const uploadNoteController = async (req, res) => {
     try {
         const userId = req.user?.id;
         if (!userId) {
-            return errorResponse(res, "Unauthorized", 401);
-        }
-        // Assuming file is handled by multer middleware
-        const result = await StudentService.uploadNote(userId, req.file || req.body);
-        successResponse(res, result);
-    }
-    catch (error) {
-        errorResponse(res, "Failed to upload note", 500);
-    }
-};
-export const processPDFNotes = async (req, res) => {
-    const startTime = Date.now();
-    try {
-        // 1. Validate user
-        const userId = req.user?.id;
-        if (!userId) {
-            console.warn('[PDF Notes] Unauthorized access attempt');
+            // Requirement 6: Catch all exceptions, log, return safe JSON
+            console.warn('[PDF Upload] Unauthorized access');
             return res.status(401).json({ notes: [] });
         }
-        // 2. Validate PDF file
+        // 1. Requirement 2: Validate file existence
         if (!req.file) {
-            console.warn('[PDF Notes] No file uploaded');
+            console.warn('[PDF Upload] No file uploaded');
             return res.status(400).json({ notes: [] });
         }
-        // 3. Extract text from PDF
+        // 2. Requirement 2: Extract text using pdf-parse
         let pdfText = '';
         try {
-            // Import pdf-parse as namespace (ESM compatible)
-            const pdfParseModule = await import('pdf-parse');
-            // pdf-parse is a CommonJS module, access the function directly
-            const pdfParse = pdfParseModule;
-            const pdfData = await pdfParse(req.file.buffer);
-            pdfText = pdfData.text || '';
+            await ensurePdfRuntime();
+            const pdfMod = await import('pdf-parse');
+            const pdfParser = typeof pdfMod === 'function' ? pdfMod : (pdfMod?.default ?? pdfMod);
+            const data = await pdfParser(req.file.buffer);
+            pdfText = data.text || '';
         }
         catch (pdfError) {
-            console.error('[PDF Notes] PDF parsing error:', pdfError.message);
-            return res.status(200).json({ notes: [] });
+            console.error('[PDF Upload] PDF parse error:', pdfError.message);
+            return res.json({ notes: [] });
         }
-        // 4. Handle empty PDF
-        if (!pdfText || pdfText.trim().length === 0) {
-            console.warn('[PDF Notes] Empty PDF content');
-            return res.status(200).json({ notes: [] });
+        // 3. Requirement 2: If PDF text is empty
+        if (!pdfText.trim()) {
+            console.info('[PDF Upload] Empty PDF content');
+            return res.json({ notes: [] });
         }
-        // 5. Build AI prompt for structured notes
-        const prompt = `Extract and convert the following text into clear, actionable bullet points.
-
+        // 4. Requirement 3: AI Processing
+        const buildPrompt = (text) => `
+Generate clear, simple, and student-friendly bullet points from the provided text.
 STRICT RULES:
-- Return ONLY valid JSON, no extra text
-- Do NOT include phrases like "I understand" or "Here are the notes"
-- Each bullet point must be clear, concise, and actionable
-- Remove redundant information
-- Focus on key concepts and important details
+- Summarize the content effectively.
+- Return ONLY a JSON object with a "notes" key containing an array of strings.
+- NO meta-phrases, NO introductions, NO conclusions.
 
-Required output format:
-{
-  "notes": [
-    "Clear actionable point 1",
-    "Clear actionable point 2",
-    "Clear actionable point 3"
-  ]
-}
-
-Text to process:
-${pdfText.slice(0, 8000)}`; // Limit to 8000 chars to avoid token limits
-        // 6. Call AI service with fallback
-        let aiResponse = '';
+Text:
+${text.substring(0, 10000)}
+`.trim();
         try {
-            console.info(`[PDF Notes] Processing PDF (${pdfText.length} chars) for user ${userId}`);
-            const { aiService } = await import('../services/ai/ai.service.js');
             const result = await aiService({
                 user: req.user,
                 tool: 'pdf-notes',
-                prompt
+                prompt: buildPrompt(pdfText)
             });
-            aiResponse = result.reply || '';
+            const aiResponse = result.reply || '';
+            // 5. Requirement 4: Response Contract
+            let finalNotes = [];
+            try {
+                // Try to extract JSON from AI response
+                const jsonMatch = aiResponse.match(/\{[^]*\}/);
+                const jsonStr = jsonMatch ? jsonMatch[0] : aiResponse;
+                const parsed = JSON.parse(jsonStr);
+                finalNotes = parsed.notes || [];
+            }
+            catch (pError) {
+                // Fallback parsing: split by lines
+                finalNotes = aiResponse.split('\n')
+                    .map(line => line.replace(/^[-*•\d.]+\s*/, '').trim())
+                    .filter(line => line.length > 5);
+            }
+            // Persistence: Requirements state student interactions must be saved
+            if (finalNotes.length > 0) {
+                await StudentService.uploadNote(userId, {
+                    title: req.file.originalname || `PDF Note - ${new Date().toLocaleDateString()}`,
+                    subject: req.body.subject || 'General Study',
+                    content: finalNotes.join('\n'), // Store parsed notes
+                    type: 'PDF'
+                });
+            }
+            return res.status(200).json({ notes: finalNotes });
         }
         catch (aiError) {
-            console.error('[PDF Notes] AI service error:', aiError.message || aiError);
-            const duration = Date.now() - startTime;
-            console.warn(`[PDF Notes] Returning empty notes after ${duration}ms`);
-            return res.status(200).json({ notes: [] });
+            console.error('[PDF Upload] AI Processing error:', aiError.message);
+            return res.json({ notes: [] });
         }
-        // 7. Parse AI response
-        let notes = [];
-        try {
-            const parsed = JSON.parse(aiResponse);
-            if (Array.isArray(parsed)) {
-                notes = parsed.filter((n) => typeof n === 'string');
-            }
-            else if (parsed.notes && Array.isArray(parsed.notes)) {
-                notes = parsed.notes.filter((n) => typeof n === 'string');
-            }
-        }
-        catch (parseError) {
-            // Try to extract JSON array from text
-            const jsonMatch = aiResponse.match(/\{[^]*"notes"[^]*\[[^]*\][^]*\}/s);
-            if (jsonMatch) {
-                try {
-                    const extracted = JSON.parse(jsonMatch[0]);
-                    if (extracted.notes && Array.isArray(extracted.notes)) {
-                        notes = extracted.notes.filter((n) => typeof n === 'string');
-                    }
-                }
-                catch (e) {
-                    console.error('[PDF Notes] Could not parse extracted JSON');
-                }
-            }
-        }
-        // 8. Validate result
-        if (!Array.isArray(notes) || notes.length === 0) {
-            console.warn('[PDF Notes] No valid notes extracted from AI response');
-            const duration = Date.now() - startTime;
-            console.warn(`[PDF Notes] Returning empty notes after ${duration}ms`);
-            return res.status(200).json({ notes: [] });
-        }
-        // 9. Success
-        const duration = Date.now() - startTime;
-        console.info(`[PDF Notes] Success - extracted ${notes.length} notes in ${duration}ms`);
-        return res.status(200).json({ notes });
     }
     catch (error) {
-        const duration = Date.now() - startTime;
-        console.error('[PDF Notes] Unexpected error:', {
-            error: error.message || error,
-            stack: error.stack,
-            duration: `${duration}ms`
-        });
-        return res.status(200).json({ notes: [] });
+        // Requirement 6: Catch all excepts, log server-side, return safe messages
+        console.error('[PDF Upload] Global Error:', error.message);
+        return res.json({ notes: [] });
     }
 };
 export const saveStudentSubjects = async (req, res) => {
@@ -381,11 +439,14 @@ export const saveStudentSubjects = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const { subjects } = req.body;
-        await StudentService.saveSubjects(userId, subjects);
-        successResponse(res, { message: "Subjects saved" });
+        if (!subjects || !Array.isArray(subjects)) {
+            return errorResponse(res, "Subjects must be an array", 400);
+        }
+        await StudentService.saveSubjects(userId, { subjects });
+        return successResponse(res, { message: "Subjects saved" });
     }
     catch (error) {
-        errorResponse(res, "Failed to save subjects", 500);
+        return errorResponse(res, "Failed to save subjects", 500);
     }
 };
 export const completeStudyPlanItem = async (req, res) => {
@@ -399,10 +460,39 @@ export const completeStudyPlanItem = async (req, res) => {
             return errorResponse(res, "Item ID required", 400);
         }
         await StudentService.completeItem(userId, itemId);
-        successResponse(res, { message: "Item completed" });
+        return successResponse(res, { message: "Item completed" });
     }
     catch (error) {
-        errorResponse(res, "Failed to complete item", 500);
+        if (error?.message === 'Unauthorized') {
+            return errorResponse(res, "Forbidden", 403);
+        }
+        if (error?.message === 'NotFound') {
+            return errorResponse(res, "Study plan item not found", 404);
+        }
+        return errorResponse(res, "Failed to complete item", 500);
+    }
+};
+export const saveExamAttempt = async (req, res) => {
+    try {
+        const userId = req.user?.id;
+        if (!userId) {
+            return errorResponse(res, "Unauthorized", 401);
+        }
+        const { examId, answers, score, duration } = req.body;
+        if (!examId || !answers || score === undefined) {
+            return errorResponse(res, "Missing required exam data", 400);
+        }
+        const attempt = await StudentService.submitExamAttempt(userId, examId, { answers, score, duration: duration || 0 });
+        return successResponse(res, attempt);
+    }
+    catch (error) {
+        if (error?.message === 'Unauthorized') {
+            return errorResponse(res, "Forbidden", 403);
+        }
+        if (error?.message === 'NotFound') {
+            return errorResponse(res, "Exam not found", 404);
+        }
+        return errorResponse(res, "Failed to save exam attempt", 500);
     }
 };
 export const saveExam = async (req, res) => {
@@ -412,11 +502,14 @@ export const saveExam = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const { subject, questions } = req.body;
+        if (!subject || !questions) {
+            return errorResponse(res, "Subject and questions are required", 400);
+        }
         const exam = await StudentService.saveExam(userId, subject, questions);
-        successResponse(res, exam);
+        return successResponse(res, exam);
     }
     catch (error) {
-        errorResponse(res, "Failed to save exam", 500);
+        return errorResponse(res, "Failed to save exam", 500);
     }
 };
 export const getChatSessions = async (req, res) => {
@@ -426,10 +519,10 @@ export const getChatSessions = async (req, res) => {
             return errorResponse(res, "Unauthorized", 401);
         }
         const sessions = await StudentService.getChatSessions(userId);
-        successResponse(res, sessions);
+        return successResponse(res, sessions);
     }
     catch (error) {
-        errorResponse(res, "Failed to get chat sessions", 500);
+        return errorResponse(res, "Failed to get chat sessions", 500);
     }
 };
 //# sourceMappingURL=student.controller.js.map

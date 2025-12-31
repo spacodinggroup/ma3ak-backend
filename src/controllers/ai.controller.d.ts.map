@@ -1,1 +1,1 @@
-{"version":3,"file":"ai.controller.d.ts","sourceRoot":"","sources":["ai.controller.ts"],"names":[],"mappings":"AAGA,eAAO,MAAM,UAAU,GAAU,KAAK,GAAG,EAAE,KAAK,GAAG,iBA2BlD,CAAC;AAEF,eAAO,MAAM,iBAAiB,GAAU,KAAK,GAAG,EAAE,KAAK,GAAG,iBA6HzD,CAAC"}
+{"version":3,"file":"ai.controller.d.ts","sourceRoot":"","sources":["ai.controller.ts"],"names":[],"mappings":"AAGA,eAAO,MAAM,UAAU,GAAU,KAAK,GAAG,EAAE,KAAK,GAAG,iBA2BlD,CAAC;AAmBF,eAAO,MAAM,iBAAiB,GAAU,KAAK,GAAG,EAAE,KAAK,GAAG,iBA+GzD,CAAC"}

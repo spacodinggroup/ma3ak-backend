@@ -8,6 +8,7 @@ export type * from './models/ChatSession.js';
 export type * from './models/ChatMessage.js';
 export type * from './models/Exam.js';
 export type * from './models/ExamAttempt.js';
+export type * from './models/Progress.js';
 export type * from './models/Milestone.js';
 export type * from './models/OKR.js';
 export type * from './models/RoadmapItem.js';

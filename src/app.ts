@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 
+import { ENV } from "./config/env.js";
+
 import authRoutes from "./routes/auth.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
 import userRoutes from "./routes/user.routes.js";
@@ -14,7 +16,19 @@ import { errorHandler } from "./middlewares/error.middleware.js";
 const app = express();
 app.use(
   cors({
-    origin: "https://ma3ak.vercel.app",
+    origin: (origin, callback) => {
+      const allowlist = (ENV.CORS_ORIGIN || "http://localhost:3000,https://your-frontend-domain.com")
+        .split(",")
+        .map((o) => o.trim())
+        .filter(Boolean);
+
+      // allow non-browser clients (no Origin header)
+      if (!origin) return callback(null, true);
+
+      if (allowlist.includes(origin)) return callback(null, true);
+
+      return callback(new Error("Not allowed by CORS"), false);
+    },
     credentials: true,
   })
 );

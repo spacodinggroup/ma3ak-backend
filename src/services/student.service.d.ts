@@ -48,7 +48,7 @@ interface SubjectData {
     createdAt: Date;
 }
 interface SaveSubjectsPayload {
-    subjects: any[];
+    subjects: SubjectData[];
     hoursPerDay?: number;
     examDate?: Date;
 }
@@ -61,9 +61,6 @@ interface SaveSubjectsResponse {
         duration: number;
     }[];
     totalHours: number;
-}
-interface StudyPlanResponse {
-    items: StudyPlanItem[];
 }
 interface Course {
     id: string;
@@ -131,12 +128,6 @@ interface Timer {
         goal: number;
     };
 }
-interface UploadNoteData {
-    title: string;
-    subject: string;
-    fileUrl: string;
-    type?: string;
-}
 interface NoteData {
     id: string;
     title: string;
@@ -166,8 +157,15 @@ interface ChatSession {
 export declare class StudentService {
     static getDashboard(userId: string): Promise<StudentDashboardResponse>;
     static getSubjects(userId: string): Promise<SubjectData[]>;
+    static getPastPerformance(userId: string): Promise<{
+        averageScore: number;
+        totalAttempts: number;
+    }>;
     static saveSubjects(userId: string, payload: SaveSubjectsPayload): Promise<SaveSubjectsResponse>;
-    static generateStudyPlan(userId: string, payload?: any): Promise<StudyPlanResponse>;
+    static generateStudyPlan(userId: string, subjects?: string[]): Promise<{
+        studyPlan: StudyPlanItem[];
+    }>;
+    static saveStudyPlan(userId: string, studyPlan: any[]): Promise<void>;
     static getCourses(userId: string): Promise<Course[]>;
     static sendMessage(userId: string, message: string): Promise<MessageResponse>;
     static getNotes(userId: string): Promise<Note[]>;
@@ -178,9 +176,14 @@ export declare class StudentService {
     static getSettings(userId: string): Promise<Settings>;
     static updateSettings(userId: string, settings: Settings): Promise<UpdateSettingsResponse>;
     static getTimer(userId: string): Promise<Timer>;
-    static uploadNote(userId: string, formData: UploadNoteData): Promise<NoteData>;
+    static uploadNote(userId: string, data: any): Promise<NoteData>;
     static completeItem(userId: string, itemId: string): Promise<void>;
     static saveExam(userId: string, subject: string, questions: any): Promise<ExamData>;
+    static submitExamAttempt(userId: string, examId: string, payload: {
+        answers: any;
+        score: number;
+        duration: number;
+    }): Promise<any>;
     static getChatSessions(userId: string): Promise<ChatSession[]>;
 }
 export {};

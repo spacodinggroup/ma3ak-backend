@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { protect } from "../middlewares/auth.middleware.js";
-import { getStudentDashboard, getStudentSubjects, generateStudyPlan, getStudentCourses, sendStudentMessage, getStudentNotes, getStudentPlan, getStudentExams, getStudentPractice, getStudentProgress, getStudentSettings, updateStudentSettings, getStudentTimer, uploadStudentNote, processPDFNotes, saveStudentSubjects, completeStudyPlanItem, saveExam, getChatSessions, } from "../controllers/student.controller.js";
+import { getStudentDashboard, getStudentSubjects, generateStudyPlan, getStudentCourses, sendStudentMessage, getStudentNotes, getStudentPlan, getStudentExams, getStudentPractice, getStudentProgress, getStudentSettings, updateStudentSettings, getStudentTimer, uploadNoteController, saveStudentSubjects, completeStudyPlanItem, saveExam, saveExamAttempt, getChatSessions, } from "../controllers/student.controller.js";
 import { uploadPDF } from "../middlewares/upload.middleware.js";
 const router = Router();
 router.get("/dashboard", protect, getStudentDashboard);
@@ -15,12 +15,12 @@ router.get("/plan", protect, getStudentPlan);
 router.put("/plan/:itemId/complete", protect, completeStudyPlanItem);
 router.get("/exams", protect, getStudentExams);
 router.post("/exams", protect, saveExam);
+router.post("/exams/submit", protect, saveExamAttempt);
 router.get("/practice", protect, getStudentPractice);
 router.get("/progress", protect, getStudentProgress);
 router.get("/settings", protect, getStudentSettings);
 router.put("/settings", protect, updateStudentSettings);
 router.get("/timer", protect, getStudentTimer);
-router.post("/notes/upload", protect, uploadStudentNote);
-router.post("/notes/process-pdf", protect, uploadPDF, processPDFNotes);
+router.post("/notes/upload", protect, uploadPDF, uploadNoteController);
 export default router;
 //# sourceMappingURL=student.routes.js.map

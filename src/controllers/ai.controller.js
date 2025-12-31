@@ -24,51 +24,73 @@ export const generateAI = async (req, res) => {
         return res.json({ reply: "Sorry, the AI could not generate a response. Please try again." });
     }
 };
+/**
+ * Generates a manual educational fallback study plan if the AI fails.
+ */
+const generateFallbackPlan = (subjects, level) => {
+    return subjects.map((subject, index) => ({
+        day: `Day ${index + 1}`,
+        focus: level === "weak" ? "Foundations" : "Core Concepts",
+        subjects: [
+            {
+                name: subject,
+                topics: [`Introduction to ${subject}`, `${subject} fundamentals`],
+                tasks: ["Read introductory material", "Solve level-appropriate exercises", "Self-assessment"]
+            }
+        ]
+    }));
+};
 export const generateStudyPlan = async (req, res) => {
     const startTime = Date.now();
     try {
-        // 1. Validate subjects array
-        const { subjects } = req.body;
+        // 1. Validate Input
+        const { subjects, level = "average", availableHoursPerDay = 4, examDate } = req.body;
         if (!subjects || !Array.isArray(subjects) || subjects.length === 0) {
-            console.warn('[Study Plan] Invalid subjects array');
             return res.status(400).json({
-                studyPlan: [],
-                error: "Invalid subjects array. Please provide at least one subject."
+                success: false,
+                message: "Please provide a non-empty array of subjects."
             });
         }
-        // Validate each subject is a string
-        if (!subjects.every((s) => typeof s === 'string' && s.trim().length > 0)) {
-            console.warn('[Study Plan] Subjects must be non-empty strings');
-            return res.status(400).json({
-                studyPlan: [],
-                error: "All subjects must be non-empty strings."
-            });
-        }
-        // 2. Build strict JSON-only prompt for AI
-        const prompt = `Input: {"subjects": ${JSON.stringify(subjects)}}
+        // 2. Build Pedagogical AI Prompt
+        const prompt = `
+Act as a Senior Curriculum Designer and Expert Tutor. 
+Create a ${level} level study plan for a student who can study ${availableHoursPerDay} hours per day.
+Goal: Improve the student's academic level through a progressive learning path.
 
-STRICT RULES:
-- Return ONLY valid JSON, no extra text
-- Do NOT include phrases like "I understand" or "Here is"
-- Each task must be actionable and realistic for the subject
-- Each subject gets its own study plan item
+Subjects: ${subjects.join(', ')}
+${examDate ? `Target Exam Date: ${examDate}` : ""}
 
-Required output format:
+STRICT PEDAGOGICAL PHASES:
+- Phase 1 (Foundations): Focus on basics, definitions, and logic for students.
+- Phase 2 (Immersion): Progressive difficulty, connecting concepts.
+- Phase 3 (Excellence): Exam simulation, practice problems, and revision.
+
+STRICT OUTPUT RULES:
+- Return ONLY valid JSON.
+- DO NOT use meta-phrases (e.g., "Sure, here is your plan", "I hope this helps").
+- Teach like a real teacher: prioritize understanding and student improvement.
+- The plan should cover at least 7 days or the most critical path for the subjects.
+
+JSON Structure:
 {
   "studyPlan": [
     {
-      "subject": "SubjectName",
-      "date": "YYYY-MM-DD",
-      "tasks": ["Actionable task 1", "Actionable task 2", "Actionable task 3"]
+      "day": "Day 1",
+      "focus": "String description of pedagogical focus",
+      "subjects": [
+        {
+          "name": "Subject Name",
+          "topics": ["Topic 1", "Topic 2"],
+          "tasks": ["Actionable task 1", "Actionable task 2"]
+        }
+      ]
     }
   ]
 }
-
-Generate study plan for: ${subjects.join(', ')}`;
-        // 3. Call AI service with fallback
+`.trim();
+        // 3. AI Generation with Fallback (OpenAI -> Grok handled by aiService)
         let aiResponse = '';
         try {
-            console.info(`[Study Plan] Generating plan for ${subjects.length} subjects`);
             const result = await aiService({
                 user: req.user,
                 tool: 'study-plan',
@@ -77,69 +99,47 @@ Generate study plan for: ${subjects.join(', ')}`;
             aiResponse = result.reply || '';
         }
         catch (aiError) {
-            console.error('[Study Plan] AI service error:', aiError.message || aiError);
-            const duration = Date.now() - startTime;
-            console.warn(`[Study Plan] Returning fallback after ${duration}ms`);
-            return res.status(200).json({
-                studyPlan: [],
-                error: "Sorry, the AI could not generate a study plan. Please try again."
-            });
+            console.error('[Study Plan] AI Error:', aiError.message);
+            // Switch to manual fallback immediately if service throws
         }
-        // 4. Parse and normalize AI response
+        // 4. Robust Parsing and Regex Fallback
         let studyPlan = [];
-        try {
-            // Try to parse as JSON
-            const parsed = JSON.parse(aiResponse);
-            if (Array.isArray(parsed)) {
-                studyPlan = parsed;
+        if (aiResponse) {
+            try {
+                // Try clean JSON parse
+                const parsed = JSON.parse(aiResponse);
+                studyPlan = parsed.studyPlan || (Array.isArray(parsed) ? parsed : []);
             }
-            else if (parsed.studyPlan && Array.isArray(parsed.studyPlan)) {
-                studyPlan = parsed.studyPlan;
-            }
-        }
-        catch (parseError) {
-            // AI returned non-JSON, try to extract JSON from text
-            const jsonMatch = aiResponse.match(/\[.*\]/s);
-            if (jsonMatch) {
-                try {
-                    studyPlan = JSON.parse(jsonMatch[0]);
-                }
-                catch (e) {
-                    console.error('[Study Plan] Could not parse extracted JSON');
+            catch (pError) {
+                // Try regex extraction if AI included text
+                const jsonMatch = aiResponse.match(/\{[^]*\}/);
+                if (jsonMatch) {
+                    try {
+                        const extracted = JSON.parse(jsonMatch[0]);
+                        studyPlan = extracted.studyPlan || [];
+                    }
+                    catch (e) {
+                        console.warn('[Study Plan] Failed to parse extracted JSON');
+                    }
                 }
             }
         }
-        // 5. Validate study plan structure
+        // 5. Final Fallback Check
         if (!Array.isArray(studyPlan) || studyPlan.length === 0) {
-            console.warn('[Study Plan] Invalid or empty study plan from AI');
-            const duration = Date.now() - startTime;
-            console.warn(`[Study Plan] Returning fallback after ${duration}ms`);
-            return res.status(200).json({
-                studyPlan: [],
-                error: "Sorry, the AI could not generate a study plan. Please try again."
-            });
+            console.warn('[Study Plan] AI failed to produce valid plan. Using manual fallback.');
+            studyPlan = generateFallbackPlan(subjects, level);
         }
-        // 6. Ensure each item has required fields
-        const normalizedPlan = studyPlan.map((item) => ({
-            subject: item.subject || item.name || 'Unknown Subject',
-            date: item.date || new Date().toISOString().split('T')[0],
-            tasks: Array.isArray(item.tasks) ? item.tasks.filter((t) => typeof t === 'string') : ['Study this subject']
-        }));
-        // 7. Success - return study plan
-        const duration = Date.now() - startTime;
-        console.info(`[Study Plan] Success - generated plan for ${normalizedPlan.length} subjects in ${duration}ms`);
-        return res.status(200).json({ studyPlan: normalizedPlan });
+        // 6. Response Construction
+        return res.status(200).json({
+            success: true,
+            studyPlan
+        });
     }
     catch (error) {
-        const duration = Date.now() - startTime;
-        console.error('[Study Plan] Unexpected error:', {
-            error: error.message || error,
-            stack: error.stack,
-            duration: `${duration}ms`
-        });
-        return res.status(200).json({
-            studyPlan: [],
-            error: "Sorry, the AI could not generate a study plan. Please try again."
+        console.error('[Study Plan] Controller Error:', error);
+        return res.status(500).json({
+            success: false,
+            message: "An unexpected error occurred while generating your study plan."
         });
     }
 };

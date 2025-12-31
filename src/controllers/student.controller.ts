@@ -1,12 +1,19 @@
 import { Request, Response } from "express";
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const pdf = require('pdf-parse');
 
 import { StudentService } from '../services/student.service.js';
 import { AuthenticatedRequest, FileUploadRequest } from '../types/request.js';
 import { successResponse, errorResponse } from "../utils/response.js";
 import { aiService } from '../services/ai/ai.service.js';
+
+const ensurePdfRuntime = async () => {
+    if (!(globalThis as any).DOMMatrix) {
+        (globalThis as any).DOMMatrix = class DOMMatrix {} as any;
+    }
+
+    if (!(globalThis as any).DOMPoint) {
+        (globalThis as any).DOMPoint = class DOMPoint {} as any;
+    }
+};
 
 export const getStudentDashboard = async (req: Request, res: Response): Promise<Response> => {
     try {
@@ -41,7 +48,10 @@ export const generateStudyPlan = async (req: Request, res: Response): Promise<Re
             return errorResponse(res, "Unauthorized", 401);
         }
 
-        const { subjects, hoursPerDay = 4, examDate } = req.body;
+        const { subjects, hoursPerDay, examDate } = req.body;
+        const requestedHoursPerDay = Number(hoursPerDay);
+        const safeHoursPerDay = Number.isFinite(requestedHoursPerDay) ? requestedHoursPerDay : 2;
+        const clampedHoursPerDay = Math.max(1, Math.min(2, safeHoursPerDay));
 
         if (!subjects || !Array.isArray(subjects) || subjects.length === 0) {
             return errorResponse(res, "Subjects must be a non-empty array", 400);
@@ -68,7 +78,7 @@ STUDY PLAN REQUIREMENTS:
 - Do NOT exceed realistic daily study time (1–2 hours max).
 
 Subjects to cover: ${subs.join(", ")}
-Available hours per day: ${hoursPerDay}
+Available hours per day: ${clampedHoursPerDay}
 Target Exam Date: ${examDate || 'Next month'}
 
 MANDATORY OUTPUT FORMAT:
@@ -178,7 +188,7 @@ export const sendStudentMessage = async (req: Request, res: Response): Promise<R
         }
 
         // 2. Validate Request Payload
-        const { message, messages } = req.body;
+        const { messages } = req.body;
 
         // Check if messages array exists and is valid
         if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -383,7 +393,9 @@ export const uploadNoteController = async (req: Request, res: Response): Promise
         // 2. Requirement 2: Extract text using pdf-parse
         let pdfText = '';
         try {
-            const pdfParser = typeof pdf === 'function' ? pdf : (pdf as any).default;
+            await ensurePdfRuntime();
+            const pdfMod: any = await import('pdf-parse');
+            const pdfParser = typeof pdfMod === 'function' ? pdfMod : (pdfMod?.default ?? pdfMod);
             const data = await pdfParser(req.file.buffer);
             pdfText = data.text || '';
         } catch (pdfError: any) {
@@ -458,16 +470,19 @@ ${text.substring(0, 10000)}
 };
 
 
-
-
 export const saveStudentSubjects = async (req: Request, res: Response): Promise<Response> => {
     try {
         const userId = (req as AuthenticatedRequest).user?.id;
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
+
         const { subjects } = req.body;
-        await StudentService.saveSubjects(userId, subjects);
+        if (!subjects || !Array.isArray(subjects)) {
+            return errorResponse(res, "Subjects must be an array", 400);
+        }
+
+        await StudentService.saveSubjects(userId, { subjects });
         return successResponse(res, { message: "Subjects saved" });
     } catch (error) {
         return errorResponse(res, "Failed to save subjects", 500);
@@ -486,7 +501,13 @@ export const completeStudyPlanItem = async (req: Request, res: Response): Promis
         }
         await StudentService.completeItem(userId, itemId);
         return successResponse(res, { message: "Item completed" });
-    } catch (error) {
+    } catch (error: any) {
+        if (error?.message === 'Unauthorized') {
+            return errorResponse(res, "Forbidden", 403);
+        }
+        if (error?.message === 'NotFound') {
+            return errorResponse(res, "Study plan item not found", 404);
+        }
         return errorResponse(res, "Failed to complete item", 500);
     }
 };
@@ -505,7 +526,13 @@ export const saveExamAttempt = async (req: Request, res: Response): Promise<Resp
 
         const attempt = await StudentService.submitExamAttempt(userId, examId, { answers, score, duration: duration || 0 });
         return successResponse(res, attempt);
-    } catch (error) {
+    } catch (error: any) {
+        if (error?.message === 'Unauthorized') {
+            return errorResponse(res, "Forbidden", 403);
+        }
+        if (error?.message === 'NotFound') {
+            return errorResponse(res, "Exam not found", 404);
+        }
         return errorResponse(res, "Failed to save exam attempt", 500);
     }
 };

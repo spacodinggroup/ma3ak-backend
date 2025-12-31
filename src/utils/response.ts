@@ -5,6 +5,19 @@ export const successResponse = (
     data: any,
     statusCode: number = 200
 ) => {
+    if (data === null || data === undefined) {
+        return res.status(statusCode).json({
+            success: true,
+        });
+    }
+
+    if (Array.isArray(data)) {
+        return res.status(statusCode).json({
+            success: true,
+            data,
+        });
+    }
+
     return res.status(statusCode).json({
         success: true,
         ...data,

@@ -45,11 +45,11 @@ export interface BusinessDashboardResponse {
     monthlyGoal: BusinessMonthlyGoal;
 }
 export interface StudyPlanItem {
-    topic: string;
+    date: string;
     subject: string;
-    time: string;
-    duration: string;
-    completed: boolean;
+    topic: string;
+    content?: string;
+    duration?: number;
 }
 export interface UpcomingExam {
     subject: string;

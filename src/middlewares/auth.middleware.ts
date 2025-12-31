@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { ENV } from "../config/env.js";
 import { getUserById } from "../services/user.service.js";
+import type { Role } from "../types/role.js";
 
 export const protect = async (req: any, res: any, next: any) =>  {
     try {
@@ -21,4 +22,13 @@ export const protect = async (req: any, res: any, next: any) =>  {
         }
         res.status(401).json({ message: "Unauthorized"})
     }
+};
+
+export const requireRole = (...roles: Role[]) => {
+    return (req: any, res: any, next: any) => {
+        const role: Role | undefined = req.user?.role;
+        if (!role) return res.status(401).json({ message: "Unauthorized" });
+        if (!roles.includes(role)) return res.status(403).json({ message: "Forbidden" });
+        return next();
+    };
 };

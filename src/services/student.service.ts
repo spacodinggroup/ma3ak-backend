@@ -463,7 +463,7 @@ export class StudentService {
     const subjects = await prisma.subject.findMany({ where: { userId } });
     const exams = await prisma.exam.findMany({
       where: { userId },
-      include: { attempts: true }
+      include: { attempts: { orderBy: { createdAt: 'desc' }, take: 1 } }
     });
 
     return subjects.map((subj: any) => {
@@ -584,13 +584,21 @@ export class StudentService {
 
   static async completeItem(userId: string, itemId: string): Promise<void> {
     return await prisma.$transaction(async (tx) => {
-      const item = await tx.studyPlanItem.update({
+      const item = await tx.studyPlanItem.findUnique({
         where: { id: itemId },
-        data: { completed: true },
         include: { plan: true }
       });
 
+      if (!item) throw new Error('NotFound');
       if (item.plan.userId !== userId) throw new Error('Unauthorized');
+
+      // Idempotency: if already completed, don't double-increment user/progress stats
+      if (item.completed) return;
+
+      await tx.studyPlanItem.update({
+        where: { id: itemId },
+        data: { completed: true }
+      });
 
       await tx.user.update({
         where: { id: userId },
@@ -630,6 +638,13 @@ export class StudentService {
     const { answers, score, duration } = payload;
 
     return await prisma.$transaction(async (tx) => {
+      const exam = await tx.exam.findUnique({
+        where: { id: examId },
+        select: { id: true, userId: true }
+      });
+      if (!exam) throw new Error('NotFound');
+      if (exam.userId !== userId) throw new Error('Unauthorized');
+
       const attempt = await tx.examAttempt.create({
         data: { examId, answers, score, duration }
       });

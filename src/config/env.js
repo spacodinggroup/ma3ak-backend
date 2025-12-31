@@ -11,7 +11,8 @@ export const ENV = {
     PORT: process.env.PORT || "5000",
     JWT_SECRET: required("JWT_SECRET"),
     DATABASE_URL: required("DATABASE_URL"),
-    OPENAI_KEY: required("OPENAI_KEY"),
-    GROK_KEY: required("GROK_KEY"),
+    OPENAI_KEY: process.env.OPENAI_KEY,
+    GROK_KEY: process.env.GROK_KEY,
+    CORS_ORIGIN: process.env.CORS_ORIGIN,
 };
 //# sourceMappingURL=env.js.map

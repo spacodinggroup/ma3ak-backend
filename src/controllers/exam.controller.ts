@@ -106,7 +106,9 @@ export const submitExam = async (req: Request, res: Response): Promise<Response>
         if (!examId || !answers) return res.status(400).json({ success: false, message: "Exam ID and answers are required" });
 
         const exam = await prisma.exam.findUnique({ where: { id: examId } });
-        if (!exam) return res.status(404).json({ success: false, message: "Exam not found" });
+        if (!exam || exam.userId !== userId) {
+            return res.status(404).json({ success: false, message: "Exam not found" });
+        }
 
         // 1. Call AI to Grade Pedagogically
         const prompt = `
