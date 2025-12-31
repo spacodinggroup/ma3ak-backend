@@ -78,24 +78,22 @@ export const login = async (req: Request, res: Response) => {
         const { email, password } = req.body;
 
         // Validate request payload
-        if (!email || typeof email !== "string") {
-            return errorResponse(res, "Email is required", 400);
-        }
-        if (!password || typeof password !== "string") {
-            return errorResponse(res, "Password is required", 400);
+        if (!email || !password || typeof email !== "string" || typeof password !== "string") {
+            return errorResponse(res, "Email and password required", 400);
         }
 
         // Find user by email
         const user = await prisma.user.findUnique({
             where: { email: email.toLowerCase() },
         });
-        if (!user) {
+
+        if (!user || !user.password) {
             return errorResponse(res, "Invalid credentials", 401);
         }
 
         // Compare password using bcrypt
-        const valid = await bcrypt.compare(password, user.password);
-        if (!valid) {
+        const isValid = await bcrypt.compare(password, user.password);
+        if (!isValid) {
             return errorResponse(res, "Invalid credentials", 401);
         }
 
@@ -103,7 +101,7 @@ export const login = async (req: Request, res: Response) => {
         const token = signToken({ id: user.id });
 
         // Return success response with user data and token
-        successResponse(res, {
+        return successResponse(res, {
             user: {
                 id: user.id,
                 name: user.name,
@@ -122,7 +120,7 @@ export const login = async (req: Request, res: Response) => {
                 500
             );
         }
-        console.error("Login error:", err);
-        errorResponse(res, "Login failed", 500);
+        console.error("[LOGIN ERROR]", err);
+        return errorResponse(res, "Login failed", 500);
     }
 };
