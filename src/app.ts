@@ -26,7 +26,7 @@ app.use(
 
 // Preflight support
 app.options(
-  "*",
+  /.*/,
   cors({
     origin: ["https://ma3ak.vercel.app"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],

@@ -19,7 +19,7 @@ app.use(cors({
     optionsSuccessStatus: 200,
 }));
 // Preflight support
-app.options("*", cors({
+app.options(/.*/, cors({
     origin: ["https://ma3ak.vercel.app"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
