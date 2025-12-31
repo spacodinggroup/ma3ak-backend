@@ -156,7 +156,7 @@ export class StudentService {
     static async sendMessage(userId, message) {
         let session = await prisma.chatSession.findFirst({
             where: { userId },
-            orderBy: { updatedAt: 'desc' }
+            orderBy: { createdAt: 'desc' }
         });
         if (!session) {
             session = await prisma.chatSession.create({

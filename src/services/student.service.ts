@@ -379,7 +379,7 @@ export class StudentService {
   static async sendMessage(userId: string, message: string): Promise<MessageResponse> {
     let session = await prisma.chatSession.findFirst({
       where: { userId },
-      orderBy: { updatedAt: 'desc' }
+      orderBy: { createdAt: 'desc' }
     });
 
     if (!session) {
