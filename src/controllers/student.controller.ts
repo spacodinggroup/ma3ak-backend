@@ -18,12 +18,14 @@ const ensurePdfRuntime = async () => {
 export const getStudentDashboard = async (req: Request, res: Response): Promise<Response> => {
     try {
         const userId = (req as AuthenticatedRequest).user?.id;
+        console.log("[Dashboard] userId:", userId);
         if (!userId) {
             return errorResponse(res, "Unauthorized", 401);
         }
         const data = await StudentService.getDashboard(userId);
         return successResponse(res, data);
     } catch (error) {
+        console.error("[Dashboard] error:", (error as any)?.message || error);
         return errorResponse(res, "Failed to get student dashboard");
     }
 };

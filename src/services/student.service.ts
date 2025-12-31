@@ -206,13 +206,20 @@ export class StudentService {
       prisma.user.findUnique({ where: { id: userId } })
     ]);
 
-    const studyPlan: StudyPlanItem[] = plan ? plan.items.map((item: any) => ({
-      date: item.date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }),
+    const studyPlan: StudyPlanItem[] = plan ? plan.items.map((item: any) => {
+      const itemTime: unknown = item?.time ?? item?.date;
+      const dateObj = itemTime instanceof Date ? itemTime : new Date(itemTime as any);
+
+      return {
+      date: Number.isFinite(dateObj.getTime())
+        ? dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })
+        : today.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }),
       subject: item.subject,
       topic: item.topic,
       content: item.content,
       duration: item.duration
-    })) : [];
+      };
+    }) : [];
 
 
     const upcomingExam = subjects.map((subj: any) => ({

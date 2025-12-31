@@ -16,23 +16,25 @@ import { errorHandler } from "./middlewares/error.middleware.js";
 const app = express();
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowlist = (ENV.CORS_ORIGIN || "http://localhost:3000,https://your-frontend-domain.com")
-        .split(",")
-        .map((o) => o.trim())
-        .filter(Boolean);
-
-      // allow non-browser clients (no Origin header)
-      if (!origin) return callback(null, true);
-
-      if (allowlist.includes(origin)) return callback(null, true);
-
-      return callback(new Error("Not allowed by CORS"), false);
-    },
+    origin: ["https://ma3ak.vercel.app"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
+    optionsSuccessStatus: 200,
   })
 );
 
+// Preflight support
+app.options(
+  "*",
+  cors({
+    origin: ["https://ma3ak.vercel.app"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+    optionsSuccessStatus: 200,
+  })
+);
 
 app.use(express.json());
 

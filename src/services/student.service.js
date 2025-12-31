@@ -12,13 +12,19 @@ export class StudentService {
             prisma.subject.findMany({ where: { userId } }),
             prisma.user.findUnique({ where: { id: userId } })
         ]);
-        const studyPlan = plan ? plan.items.map((item) => ({
-            date: item.date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }),
-            subject: item.subject,
-            topic: item.topic,
-            content: item.content,
-            duration: item.duration
-        })) : [];
+        const studyPlan = plan ? plan.items.map((item) => {
+            const itemTime = item?.time ?? item?.date;
+            const dateObj = itemTime instanceof Date ? itemTime : new Date(itemTime);
+            return {
+                date: Number.isFinite(dateObj.getTime())
+                    ? dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })
+                    : today.toLocaleDateString('en-US', { day: 'numeric', month: 'short' }),
+                subject: item.subject,
+                topic: item.topic,
+                content: item.content,
+                duration: item.duration
+            };
+        }) : [];
         const upcomingExam = subjects.map((subj) => ({
             subject: subj.name,
             daysLeft: Math.ceil((subj.examDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)),
