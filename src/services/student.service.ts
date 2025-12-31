@@ -248,12 +248,31 @@ export class StudentService {
     };
   }
 
-  static async getSubjects(userId: string): Promise<SubjectData[]> {
-    return await prisma.subject.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' }
+  static async getPastPerformance(
+    userId: string
+  ): Promise<{ averageScore: number; totalAttempts: number }> {
+
+    const attempts = await prisma.examAttempt.findMany({
+      where: {
+        exam: { userId }
+      }
     });
+
+    if (attempts.length === 0) {
+      return {
+        averageScore: 0,
+        totalAttempts: 0
+      };
+    }
+
+    const totalScore = attempts.reduce((sum, a) => sum + a.score, 0);
+
+    return {
+      averageScore: Math.round(totalScore / attempts.length),
+      totalAttempts: attempts.length
+    };
   }
+
 
   static async saveSubjects(userId: string, payload: SaveSubjectsPayload): Promise<SaveSubjectsResponse> {
     const { subjects } = payload;

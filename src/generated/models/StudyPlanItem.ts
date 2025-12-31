@@ -38,6 +38,7 @@ export type StudyPlanItemMinAggregateOutputType = {
   id: string | null
   subject: string | null
   topic: string | null
+  content: string | null
   time: Date | null
   duration: number | null
   completed: boolean | null
@@ -50,6 +51,7 @@ export type StudyPlanItemMaxAggregateOutputType = {
   id: string | null
   subject: string | null
   topic: string | null
+  content: string | null
   time: Date | null
   duration: number | null
   completed: boolean | null
@@ -62,6 +64,7 @@ export type StudyPlanItemCountAggregateOutputType = {
   id: number
   subject: number
   topic: number
+  content: number
   time: number
   duration: number
   completed: number
@@ -84,6 +87,7 @@ export type StudyPlanItemMinAggregateInputType = {
   id?: true
   subject?: true
   topic?: true
+  content?: true
   time?: true
   duration?: true
   completed?: true
@@ -96,6 +100,7 @@ export type StudyPlanItemMaxAggregateInputType = {
   id?: true
   subject?: true
   topic?: true
+  content?: true
   time?: true
   duration?: true
   completed?: true
@@ -108,6 +113,7 @@ export type StudyPlanItemCountAggregateInputType = {
   id?: true
   subject?: true
   topic?: true
+  content?: true
   time?: true
   duration?: true
   completed?: true
@@ -207,6 +213,7 @@ export type StudyPlanItemGroupByOutputType = {
   id: string
   subject: string
   topic: string
+  content: string | null
   time: Date
   duration: number
   completed: boolean
@@ -242,6 +249,7 @@ export type StudyPlanItemWhereInput = {
   id?: Prisma.StringFilter<"StudyPlanItem"> | string
   subject?: Prisma.StringFilter<"StudyPlanItem"> | string
   topic?: Prisma.StringFilter<"StudyPlanItem"> | string
+  content?: Prisma.StringNullableFilter<"StudyPlanItem"> | string | null
   time?: Prisma.DateTimeFilter<"StudyPlanItem"> | Date | string
   duration?: Prisma.IntFilter<"StudyPlanItem"> | number
   completed?: Prisma.BoolFilter<"StudyPlanItem"> | boolean
@@ -255,6 +263,7 @@ export type StudyPlanItemOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  content?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   completed?: Prisma.SortOrder
@@ -271,6 +280,7 @@ export type StudyPlanItemWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.StudyPlanItemWhereInput | Prisma.StudyPlanItemWhereInput[]
   subject?: Prisma.StringFilter<"StudyPlanItem"> | string
   topic?: Prisma.StringFilter<"StudyPlanItem"> | string
+  content?: Prisma.StringNullableFilter<"StudyPlanItem"> | string | null
   time?: Prisma.DateTimeFilter<"StudyPlanItem"> | Date | string
   duration?: Prisma.IntFilter<"StudyPlanItem"> | number
   completed?: Prisma.BoolFilter<"StudyPlanItem"> | boolean
@@ -284,6 +294,7 @@ export type StudyPlanItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  content?: Prisma.SortOrderInput | Prisma.SortOrder
   time?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   completed?: Prisma.SortOrder
@@ -304,6 +315,7 @@ export type StudyPlanItemScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"StudyPlanItem"> | string
   subject?: Prisma.StringWithAggregatesFilter<"StudyPlanItem"> | string
   topic?: Prisma.StringWithAggregatesFilter<"StudyPlanItem"> | string
+  content?: Prisma.StringNullableWithAggregatesFilter<"StudyPlanItem"> | string | null
   time?: Prisma.DateTimeWithAggregatesFilter<"StudyPlanItem"> | Date | string
   duration?: Prisma.IntWithAggregatesFilter<"StudyPlanItem"> | number
   completed?: Prisma.BoolWithAggregatesFilter<"StudyPlanItem"> | boolean
@@ -316,6 +328,7 @@ export type StudyPlanItemCreateInput = {
   id?: string
   subject: string
   topic: string
+  content?: string | null
   time: Date | string
   duration: number
   completed?: boolean
@@ -328,6 +341,7 @@ export type StudyPlanItemUncheckedCreateInput = {
   id?: string
   subject: string
   topic: string
+  content?: string | null
   time: Date | string
   duration: number
   completed?: boolean
@@ -340,6 +354,7 @@ export type StudyPlanItemUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -352,6 +367,7 @@ export type StudyPlanItemUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -364,6 +380,7 @@ export type StudyPlanItemCreateManyInput = {
   id?: string
   subject: string
   topic: string
+  content?: string | null
   time: Date | string
   duration: number
   completed?: boolean
@@ -376,6 +393,7 @@ export type StudyPlanItemUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -387,6 +405,7 @@ export type StudyPlanItemUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -409,6 +428,7 @@ export type StudyPlanItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   time?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   completed?: Prisma.SortOrder
@@ -425,6 +445,7 @@ export type StudyPlanItemMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   time?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   completed?: Prisma.SortOrder
@@ -437,6 +458,7 @@ export type StudyPlanItemMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   subject?: Prisma.SortOrder
   topic?: Prisma.SortOrder
+  content?: Prisma.SortOrder
   time?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   completed?: Prisma.SortOrder
@@ -495,6 +517,7 @@ export type StudyPlanItemCreateWithoutPlanInput = {
   id?: string
   subject: string
   topic: string
+  content?: string | null
   time: Date | string
   duration: number
   completed?: boolean
@@ -506,6 +529,7 @@ export type StudyPlanItemUncheckedCreateWithoutPlanInput = {
   id?: string
   subject: string
   topic: string
+  content?: string | null
   time: Date | string
   duration: number
   completed?: boolean
@@ -546,6 +570,7 @@ export type StudyPlanItemScalarWhereInput = {
   id?: Prisma.StringFilter<"StudyPlanItem"> | string
   subject?: Prisma.StringFilter<"StudyPlanItem"> | string
   topic?: Prisma.StringFilter<"StudyPlanItem"> | string
+  content?: Prisma.StringNullableFilter<"StudyPlanItem"> | string | null
   time?: Prisma.DateTimeFilter<"StudyPlanItem"> | Date | string
   duration?: Prisma.IntFilter<"StudyPlanItem"> | number
   completed?: Prisma.BoolFilter<"StudyPlanItem"> | boolean
@@ -558,6 +583,7 @@ export type StudyPlanItemCreateManyPlanInput = {
   id?: string
   subject: string
   topic: string
+  content?: string | null
   time: Date | string
   duration: number
   completed?: boolean
@@ -569,6 +595,7 @@ export type StudyPlanItemUpdateWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -580,6 +607,7 @@ export type StudyPlanItemUncheckedUpdateWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -591,6 +619,7 @@ export type StudyPlanItemUncheckedUpdateManyWithoutPlanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   topic?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   time?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   completed?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -604,6 +633,7 @@ export type StudyPlanItemSelect<ExtArgs extends runtime.Types.Extensions.Interna
   id?: boolean
   subject?: boolean
   topic?: boolean
+  content?: boolean
   time?: boolean
   duration?: boolean
   completed?: boolean
@@ -617,6 +647,7 @@ export type StudyPlanItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   id?: boolean
   subject?: boolean
   topic?: boolean
+  content?: boolean
   time?: boolean
   duration?: boolean
   completed?: boolean
@@ -630,6 +661,7 @@ export type StudyPlanItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   id?: boolean
   subject?: boolean
   topic?: boolean
+  content?: boolean
   time?: boolean
   duration?: boolean
   completed?: boolean
@@ -643,6 +675,7 @@ export type StudyPlanItemSelectScalar = {
   id?: boolean
   subject?: boolean
   topic?: boolean
+  content?: boolean
   time?: boolean
   duration?: boolean
   completed?: boolean
@@ -651,7 +684,7 @@ export type StudyPlanItemSelectScalar = {
   updatedAt?: boolean
 }
 
-export type StudyPlanItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subject" | "topic" | "time" | "duration" | "completed" | "planId" | "createdAt" | "updatedAt", ExtArgs["result"]["studyPlanItem"]>
+export type StudyPlanItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "subject" | "topic" | "content" | "time" | "duration" | "completed" | "planId" | "createdAt" | "updatedAt", ExtArgs["result"]["studyPlanItem"]>
 export type StudyPlanItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   plan?: boolean | Prisma.StudyPlanDefaultArgs<ExtArgs>
 }
@@ -671,6 +704,7 @@ export type $StudyPlanItemPayload<ExtArgs extends runtime.Types.Extensions.Inter
     id: string
     subject: string
     topic: string
+    content: string | null
     time: Date
     duration: number
     completed: boolean
@@ -1104,6 +1138,7 @@ export interface StudyPlanItemFieldRefs {
   readonly id: Prisma.FieldRef<"StudyPlanItem", 'String'>
   readonly subject: Prisma.FieldRef<"StudyPlanItem", 'String'>
   readonly topic: Prisma.FieldRef<"StudyPlanItem", 'String'>
+  readonly content: Prisma.FieldRef<"StudyPlanItem", 'String'>
   readonly time: Prisma.FieldRef<"StudyPlanItem", 'DateTime'>
   readonly duration: Prisma.FieldRef<"StudyPlanItem", 'Int'>
   readonly completed: Prisma.FieldRef<"StudyPlanItem", 'Boolean'>

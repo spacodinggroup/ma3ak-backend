@@ -148,6 +148,7 @@ export const StudyPlanItemScalarFieldEnum = {
   id: 'id',
   subject: 'subject',
   topic: 'topic',
+  content: 'content',
   time: 'time',
   duration: 'duration',
   completed: 'completed',

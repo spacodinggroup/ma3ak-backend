@@ -19,4 +19,5 @@ export const ENV = {
 
     OPENAI_KEY: required("OPENAI_KEY"),
     GROK_KEY: required("GROK_KEY"),
+    ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN || "http://localhost:5173",
 }
