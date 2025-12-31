@@ -36,8 +36,4 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
   },
-  "exclude": [
-    "node_modules",
-    "Ma3ak Pilot Twist"
-  ]
 }

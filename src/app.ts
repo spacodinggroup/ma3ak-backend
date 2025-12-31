@@ -9,13 +9,12 @@ import founderRoutes from "./routes/founder.routes.js";
 import businessRoutes from "./routes/business.routes.js";
 import studentRoutes from "./routes/student.routes.js";
 import examRoutes from "./routes/exam.routes.js";
-import { ENV } from "./config/env.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 
 const app = express();
 app.use(
   cors({
-    origin: [ENV.ALLOWED_ORIGIN, "https://ma3ak.vercel.app"],
+    origin: "https://ma3ak.vercel.app",
     credentials: true,
   })
 );
